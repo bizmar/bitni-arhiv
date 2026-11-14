@@ -103,9 +103,14 @@ img { max-width: 100%; }
 /* Glava podstrani */
 .glava-mala { background: linear-gradient(180deg, #12CCFF 0%, #0E8EF0 100%); padding: 14px 24px; }
 .glava-mala .ovoj { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: 12px 28px; }
-.glava-mala .ime { font-family: var(--naslovi); font-weight: 800; font-size: 22px; color: #FFFFFF; text-decoration: none; }
+.glava-mala .ime { position: relative; display: inline-flex; align-items: baseline; gap: 0.28em; font-family: var(--naslovi); font-weight: 800; font-size: 28px; line-height: 1.2; color: #FFFFFF; text-decoration: none; }
 .glava-mala .ime span { font-weight: 500; }
-.glava-mala .gumb { background: var(--ozadje); color: var(--besedilo); }
+.glava-mala .ime .puscica { font-family: var(--telo); font-weight: 600; margin-right: 0.2em; transition: transform 0.15s; }
+.glava-mala .ime:hover .puscica { transform: translateX(-4px); }
+/* Na širokih zaslonih puščica visi levo, da je ime poravnano z vsebino */
+@media (min-width: 1200px) {
+	.glava-mala .ime .puscica { position: absolute; right: 100%; margin-right: 0.45em; }
+}
 
 /* Vsebina */
 main { padding: 32px 24px 48px; }

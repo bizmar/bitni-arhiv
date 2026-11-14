@@ -124,11 +124,10 @@ def glava_html(naslov, opis, pot, n):
 """
 
 
-def glava_mala():
-    return """<header class="glava-mala">
+def glava_mala(nazaj="/", opis="Nazaj na vstopno stran"):
+    return f"""<header class="glava-mala">
 <div class="ovoj">
-<a class="ime" href="/">bitni <span>pogovori</span></a>
-<a class="gumb" href="/epizode">Vse epizode</a>
+<a class="ime" href="{nazaj}" aria-label="{opis}"><span class="puscica" aria-hidden="true">←</span>bitni <span>pogovori</span></a>
 </div>
 </header>
 """
@@ -321,7 +320,7 @@ def stran_epizode(n, e, prejsnja, naslednja):
     opis = e["podnaslov"] or golo_besedilo(e["opombe"])[:160] or OPIS
     stevilka = f'<span class="stevilka">{escape(e["stevilka"])}</span>' if e["stevilka"] else ""
 
-    return glava_html(f"{e['naslov']} · Bitni pogovori", opis, "/" + e["oznaka"], n) + glava_mala() + f"""<main class="ovoj">
+    return glava_html(f"{e['naslov']} · Bitni pogovori", opis, "/" + e["oznaka"], n) + glava_mala("/epizode", "Nazaj na vse epizode") + f"""<main class="ovoj">
 <div class="epizoda">
 <article>
 <div class="naslov-epizode">
