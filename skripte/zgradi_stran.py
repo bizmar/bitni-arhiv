@@ -17,6 +17,7 @@ import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 from html import escape
 
+import prepisi_stran
 import zgradi_feede
 from skupno import FEED, KOREN
 
@@ -24,6 +25,7 @@ ITUNES = "{http://www.itunes.com/dtds/podcast-1.0.dtd}"
 CONTENT = "{http://purl.org/rss/1.0/modules/content/}"
 PODCAST = "{https://podcastindex.org/namespace/1.0}"
 SPLET = os.path.join(KOREN, "splet")
+PREPISI = False  # prepisi na strani samo z --prepisi (dokler objava ni odobrena)
 OPIS = "Podcast o Applu, tehnologijah, gadgetih, produktivnosti in sploh vsem."
 
 
@@ -338,7 +340,7 @@ def stran_epizode(n, e, prejsnja, naslednja):
 <div class="opombe">
 {e['opombe']}
 </div>
-{poglavja}
+{poglavja}{(chr(10) + prepisi_stran.razdelek(e["oznaka"])) if PREPISI else ""}
 <nav class="sosednje" aria-label="Sosednji epizodi">
 {sosednje}
 </nav>
@@ -380,6 +382,17 @@ def zapisi(pot, vsebina):
 
 
 def main():
+    import argparse
+    global SPLET, PREPISI
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--prepisi", action="store_true", help="dodaj prepise iz prepisi/")
+    ap.add_argument("--izhod", help="mapa za predogled namesto splet/")
+    a = ap.parse_args()
+    PREPISI = a.prepisi
+    if a.izhod:
+        SPLET = os.path.abspath(a.izhod)
+    elif PREPISI:
+        raise SystemExit("Prepisi še niso odobreni za objavo: uporabi --izhod za predogled.")
     with open(os.path.join(KOREN, "nastavitve.json"), encoding="utf-8") as f:
         n = json.load(f)
     epizode = preberi_epizode()
@@ -436,8 +449,11 @@ def main():
            + "".join(f"User-agent: {p}\n" for p in pajki) + "Disallow: /\n\nUser-agent: *\nAllow: /\n")
     zapisi(".nojekyll", "")
 
-    zgradi_feede.zgradi_vse()
-    print(f"splet/: {len(epizode)} strani epizod, vstopna stran, seznam, feedi")
+    if PREPISI:
+        print("prepisi: %d epizod, %d besed v kazalu, %d kosov" % prepisi_stran.zgradi(SPLET, epizode))
+    if SPLET == os.path.join(KOREN, "splet"):
+        zgradi_feede.zgradi_vse()
+    print(f"{SPLET}: {len(epizode)} strani epizod, vstopna stran, seznam, feedi")
 
 
 if __name__ == "__main__":

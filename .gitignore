@@ -2,3 +2,5 @@ zvok/
 __pycache__/
 .DS_Store
 prepisi-preizkus/
+# Prepisi gredo v javni repozitorij šele, ko je objava odobrena (soglasje gostov).
+prepisi/

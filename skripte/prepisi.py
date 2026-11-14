@@ -793,6 +793,33 @@ def gostje(meja_podobnosti=0.6):
         print(f"{stevci[ime]:4d}  {ime}")
 
 
+def izvozi():
+    """Končni prepisi v prepisi/<oznaka>.json: z imeni, brez izmišljenih stavkov,
+    zaporedni odstavki iste osebe združeni. Iz teh datotek se gradi stran."""
+    import datetime
+    cilj = os.path.join(KOREN, "prepisi")
+    os.makedirs(cilj, exist_ok=True)
+    st = 0
+    for oznaka in sorted(os.listdir(DELO)):
+        pot = os.path.join(DELO, oznaka, "whisper.json")
+        if not os.path.exists(pot):
+            continue
+        e = podatki_epizode(oznaka)
+        p = beri_json(pot)
+        gl = beri_json(os.path.join(DELO, oznaka, "glasovi.json"))
+        odstavki = z_imeni(brez_izmisljenega(p["odstavki"], e), imena(oznaka, e, gl))
+        for o in odstavki:
+            o.pop("g", None)
+            if o.get("j") == "sl":
+                del o["j"]
+        pisi_json(os.path.join(cilj, f"{oznaka}.json"), {
+            "oznaka": oznaka, "model": "whisper-large-v3 (MLX), ločevanje govorcev ECAPA",
+            "nastalo": datetime.date.fromtimestamp(os.path.getmtime(pot)).isoformat(),
+            "odstavki": odstavki})
+        st += 1
+    print(f"prepisi/: {st} epizod")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("oznake", nargs="*")
@@ -803,6 +830,7 @@ def main():
     ap.add_argument("--vse", action="store_true", help="vse epizode (nočni način)")
     ap.add_argument("--glasovi", action="store_true", help="samo ločevanje govorcev za vse epizode")
     ap.add_argument("--gostje", action="store_true", help="razširi glasovne vzorce na goste")
+    ap.add_argument("--izvozi", action="store_true", help="končni prepisi v prepisi/")
     ap.add_argument("--meja", type=float, default=70.0, help="ciljna temperatura v °C")
     a = ap.parse_args()
     if a.imena:
@@ -812,6 +840,8 @@ def main():
             shrani_vzorce(o)
     elif a.primerjava:
         primerjava()
+    elif a.izvozi:
+        izvozi()
     elif a.gostje:
         gostje()
     elif a.glasovi:

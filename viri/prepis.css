@@ -1,0 +1,26 @@
+/* Prepisi: razdelek na strani epizode in zadetki na seznamu epizod. */
+
+.prepis-ovoj summary { cursor: pointer; list-style-position: outside; }
+.prepis-ovoj summary::marker { color: var(--oranzna); }
+.prepis-orodja { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin: 8px 0 12px; }
+.prepis-iskanje {
+	flex: 1 1 220px; min-width: 0; padding: 8px 10px; font: 15px var(--telo);
+	color: var(--besedilo); background: var(--ozadje-temno); border: 1px solid var(--rob); border-radius: 8px;
+}
+.prepis { max-height: 70vh; overflow-y: auto; padding-right: 6px; border-top: 1px solid var(--crta); }
+.prepis p { margin: 0; padding: 8px 10px; border-radius: 8px; line-height: 1.55; }
+.prepis p.zdaj { background: var(--kartica); box-shadow: inset 3px 0 0 var(--oranzna); }
+.prepis .cas { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--tiho); text-decoration: none; margin-right: 4px; }
+.prepis .cas:hover { color: var(--lebdenje); }
+.prepis b { color: var(--sinja); font-weight: 600; margin-right: 2px; }
+.prepis p.dvom .t { color: var(--tiho); }
+.prepis mark, .prepisi-zadetki mark { background: var(--lebdenje); color: var(--ozadje); border-radius: 2px; }
+
+.prepisi-zadetki { margin: 0 0 24px; }
+.prepisi-zadetki h2 { font-size: 22px; margin-bottom: 4px; }
+.prepisi-zadetki > ol { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 14px; }
+.prepisi-zadetki .naslov { font-weight: 600; }
+.prepisi-zadetki ul { list-style: none; padding: 0 0 0 12px; margin: 4px 0 0; border-left: 2px solid var(--crta); }
+.prepisi-zadetki ul li { margin: 4px 0; font-size: 15px; }
+.prepisi-zadetki ul a { color: var(--besedilo); text-decoration: none; }
+.prepisi-zadetki ul a:hover { color: var(--lebdenje); }
