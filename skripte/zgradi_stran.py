@@ -226,6 +226,7 @@ def vstopna(n, epizode):
 {gumbi}</div>
 </div>
 </div>
+<img class="teme" src="/slike/teme.webp" alt="" width="1200" height="179">
 </header>
 <main class="ovoj">
 <section class="razdelek">
