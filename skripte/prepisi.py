@@ -326,7 +326,7 @@ def prepis_whisper(oznaka, e, gl, varuh=None):
         for seg in r["segments"]:
             for b in seg.get("words", []):
                 t0, t1 = z + b["start"], z + b["end"]
-                besede.append({"z": t0, "k": t1, "t": b["word"], "j": jezik,
+                besede.append({"z": t0, "k": t1, "t": b["word"], "j": jezik, "p": b.get("probability", 1.0),
                                "g": govorec_ob(gl["odseki"], (t0 + t1) / 2)})
         if varuh:
             varuh.pocakaj()
@@ -355,12 +355,13 @@ class Varuh:
             time.sleep(5)
 
     def pocakaj(self):
-        if self.temp <= self.meja:
-            return
-        zacetek = time.time()
-        while self.temp > self.meja - self.histereza and time.time() - zacetek < 120:
-            time.sleep(1)
-        self.cakanje += time.time() - zacetek
+        """Sorazmeren premor: 3 s za vsako stopinjo nad mejo, največ 20 s.
+        Temperatura se tako ustali okoli meje, grafika pa dela večino časa."""
+        cez = self.temp - self.meja
+        if cez > 0:
+            premor = min(20.0, 3.0 * cez)
+            time.sleep(premor)
+            self.cakanje += premor
 
 
 def kosi_odsekov(zvok, odseki, najvec=20.0):
@@ -509,11 +510,16 @@ def v_odstavke(besede, najdaljsi=60.0):
                 and not (konec_stavka and b["z"] - zadnji["z"] > najdaljsi):
             zadnji["t"] += b["t"]
             zadnji["k"] = b["k"]
+            zadnji["_p"].append(b.get("p", 1.0))
         else:
-            odstavki.append({"z": b["z"], "k": b["k"], "g": b["g"], "j": b.get("j", "sl"), "t": b["t"]})
+            odstavki.append({"z": b["z"], "k": b["k"], "g": b["g"], "j": b.get("j", "sl"), "t": b["t"],
+                             "_p": [b.get("p", 1.0)]})
     for o in odstavki:
         o["t"] = o["t"].strip()
         o["z"], o["k"] = round(o["z"], 2), round(o["k"], 2)
+        # Zanesljivost: povprečna verjetnost besed (0–1); nizka pomeni dvomljiv del.
+        o["p"] = round(sum(o["_p"]) / len(o["_p"]), 2)
+        del o["_p"]
     return [o for o in odstavki if o["t"]]
 
 
@@ -583,13 +589,13 @@ body{font:16px/1.5 -apple-system,system-ui,sans-serif;margin:0;background:#0f1b2
 header{position:sticky;top:0;background:#0f1b2d;padding:12px 16px;border-bottom:1px solid #2a3b55;z-index:1}
 h1{font-size:18px;margin:0 0 8px} audio{width:100%} input{width:100%;padding:6px;margin-top:8px;font:inherit;
 background:#182a44;color:inherit;border:1px solid #2a3b55;border-radius:4px}
-main{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px}
+main{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;padding:16px}
 @media(max-width:800px){main{grid-template-columns:1fr}}
 h2{font-size:15px;color:#8fb3dd;margin:0 0 8px}
 p{margin:0 0 10px;padding:6px 8px;border-radius:4px;cursor:pointer}
 p:hover{background:#182a44} p.zdaj{background:#21406b}
 .g{font-weight:600;color:#ff8a24;margin-right:6px} .c{color:#7d93b0;font-size:13px;margin-right:6px}
-mark{background:#ffd54a;color:#000} .skrij{display:none} a{color:#8fb3dd}
+mark{background:#ffd54a;color:#000} p.dvom .t{color:#b9a27a;border-bottom:1px dotted #b9a27a} .skrij{display:none} a{color:#8fb3dd}
 """
 
 SKRIPTA = """
@@ -608,13 +614,16 @@ const h=location.hash.match(/t=(\\d+)/);if(h)a.currentTime=+h[1];
 """
 
 
+DVOM = ' class="dvom" title="nizka zanesljivost"'
+
+
 def primerjava():
     oznake = sorted(d for d in os.listdir(DELO) if os.path.isdir(os.path.join(DELO, d)))
     vrstice = []
     for oznaka in oznake:
         e = podatki_epizode(oznaka)
         stolpci = []
-        for model in ("whisper", "rsdo"):
+        for model in ("whisper", "rsdo", "whisper-kosi"):
             pot = os.path.join(DELO, oznaka, f"{model}.json")
             if not os.path.exists(pot):
                 continue
@@ -624,7 +633,8 @@ def primerjava():
             im = imena(oznaka, e, gl)
             hitrost = p["sekund_zvoka"] / max(1, p["sekund_obdelave"])
             odst = "\n".join(
-                f'<p data-z="{o["z"]}" data-k="{o["k"]}"{" lang=en" if o.get("j") == "en" else ""}>'
+                f'<p data-z="{o["z"]}" data-k="{o["k"]}"{" lang=en" if o.get("j") == "en" else ""}'
+                f'{DVOM if o.get("p", 1) < 0.6 else ""}>'
                 f'<span class="c">{cas(o["z"])}{" · EN" if o.get("j") == "en" else ""}</span>'
                 f'<span class="g">{escape(im.get(o["g"], o["g"]))}</span><span class="t">{escape(o["t"])}</span></p>'
                 for o in p["odstavki"])
@@ -666,6 +676,90 @@ def vse(model, meja, prednost):
     print("KONEC")
 
 
+def vsi_glasovi(meja):
+    """Ločevanje govorcev za vse epizode vnaprej (procesor, nizka prednost)."""
+    import traceback
+    import zgradi_stran
+    os.nice(15)
+    varuh = Varuh(meja)
+    for e in reversed(zgradi_stran.preberi_epizode()):
+        oznaka = e["oznaka"]
+        if os.path.exists(os.path.join(DELO, oznaka, "glasovi.json")) or \
+                not os.path.exists(os.path.join(ZVOK, f"{oznaka}.mp3")):
+            continue
+        varuh.pocakaj()
+        try:
+            glasovi(oznaka, max(2, len(e["osebe"])))
+            print(f"{oznaka}: glasovi")
+        except Exception:
+            print(f"NAPAKA {oznaka}:\n{traceback.format_exc()}")
+        sys.stdout.flush()
+    print("KONEC")
+
+
+def gostje(meja_podobnosti=0.6):
+    """Glasovne vzorce razširi na goste. Začne z ročno potrjenimi (imena.json);
+    nato v krogih: kjer v epizodi ostane ena neznana gruča in ena oseba brez
+    vzorca, je to ta oseba. Vsak novi vzorec pomaga v naslednjem krogu.
+    Rezultat so vzorci v ~/.cache/bitni-prepisi/glasovi/ (samo lokalno)."""
+    import numpy as np
+    import zgradi_stran
+    epizode = {e["oznaka"]: e for e in zgradi_stran.preberi_epizode()}
+    gl_vse = {}
+    for oznaka in epizode:
+        pot = os.path.join(DELO, oznaka, "glasovi.json")
+        if os.path.exists(pot):
+            gl = beri_json(pot)
+            glavna = zdruzene(gl)
+            gl_vse[oznaka] = {g: np.array(c) / np.linalg.norm(c) for g, c in gl["sredisca"].items()
+                              if glavna[g] == g and gl["delezi"][g] >= 0.03}
+    vsote, stevci, viri = {}, {}, {}
+
+    def dodaj(ime, vektor, oznaka):
+        vsote[ime] = vsote.get(ime, 0) + vektor
+        stevci[ime] = stevci.get(ime, 0) + 1
+        viri.setdefault(ime, []).append(oznaka)
+
+    for oznaka in gl_vse:
+        rocno = os.path.join(DELO, oznaka, "imena.json")
+        if os.path.exists(rocno):
+            for g, ime in beri_json(rocno).items():
+                if g in gl_vse[oznaka] and not ime.startswith("Govorec"):
+                    dodaj(ime, gl_vse[oznaka][g], oznaka)
+    dodeljeno = {o: {} for o in gl_vse}
+    for krog in range(10):
+        novi = 0
+        vzorci = {i: v / np.linalg.norm(v) for i, v in vsote.items()}
+        for oznaka, gruce in gl_vse.items():
+            osebe = [o["ime"] for o in epizode[oznaka]["osebe"]]
+            znani = [i for i in osebe if i in vzorci]
+            # Najboljša dodelitev znanih oseb gručam.
+            from scipy.optimize import linear_sum_assignment
+            imena_gruc = list(gruce)
+            zasedene, preslikava = set(), {}
+            if znani and imena_gruc:
+                S = np.array([[float(gruce[g] @ vzorci[i]) for i in znani] for g in imena_gruc])
+                for a, b in zip(*linear_sum_assignment(-S)):
+                    if S[a, b] > meja_podobnosti:
+                        preslikava[imena_gruc[a]] = znani[b]
+            prosti_g = [g for g in imena_gruc if g not in preslikava]
+            prosti_o = [i for i in osebe if i not in preslikava.values() and i not in vzorci]
+            if len(prosti_g) == 1 and len(prosti_o) == 1 and prosti_o[0] not in dodeljeno[oznaka].values():
+                ime = prosti_o[0]
+                dodaj(ime, gruce[prosti_g[0]], oznaka)
+                dodeljeno[oznaka][prosti_g[0]] = ime
+                novi += 1
+        print(f"krog {krog + 1}: {novi} novih dodelitev")
+        if not novi:
+            break
+    os.makedirs(VZORCI, exist_ok=True)
+    for ime, v in vsote.items():
+        np.save(os.path.join(VZORCI, ime + ".npy"), v / stevci[ime])
+    pisi_json(os.path.join(VZORCI, "viri.json"), viri)
+    for ime in sorted(stevci, key=lambda i: -stevci[i]):
+        print(f"{stevci[ime]:4d}  {ime}")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("oznake", nargs="*")
@@ -674,6 +768,8 @@ def main():
     ap.add_argument("--vzorci", action="store_true")
     ap.add_argument("--primerjava", action="store_true")
     ap.add_argument("--vse", action="store_true", help="vse epizode (nočni način)")
+    ap.add_argument("--glasovi", action="store_true", help="samo ločevanje govorcev za vse epizode")
+    ap.add_argument("--gostje", action="store_true", help="razširi glasovne vzorce na goste")
     ap.add_argument("--meja", type=float, default=70.0, help="ciljna temperatura v °C")
     a = ap.parse_args()
     if a.imena:
@@ -683,6 +779,10 @@ def main():
             shrani_vzorce(o)
     elif a.primerjava:
         primerjava()
+    elif a.gostje:
+        gostje()
+    elif a.glasovi:
+        vsi_glasovi(a.meja)
     elif a.vse:
         vse(a.model or "whisper", a.meja, a.oznake)
     else:
