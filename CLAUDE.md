@@ -38,8 +38,11 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 2. **Oblikovanje:** osnutek potrjen na prvi pogled. Temno modra tema.
 3. **Gradnja:** narejeno. `skripte/zgradi_stran.py` zgradi `splet/` (stran in
    feedi). Preizkušeno v brskalniku na namizni in telefonski širini.
-4. **Nalaganje zvoka:** ni začeto. Čaka na račune (Cloudflare, Internet
-   Archive) in na odločitev o licenci za Internet Archive.
+4. **Nalaganje zvoka:** skripti sta pripravljeni (`skripte/nalozi_zvok.py`
+   za R2, Internet Archive in GitHub; `skripte/preveri_kopije.py`). Podpis
+   za R2 je preverjen z uradnim primerom AWS, pravo nalaganje še ni bilo
+   preizkušeno. Čaka na lokalno kopijo zvoka, račune (Cloudflare, Internet
+   Archive) in odločitev o licenci za Internet Archive.
 5.–9. Objava, preizkus, preklop domene, preusmeritev feeda, odpoved Fireside:
    ni začeto.
 

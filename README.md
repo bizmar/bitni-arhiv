@@ -17,6 +17,8 @@ isti. Zvok bo na treh neodvisnih mestih.
   - [x] stran (`skripte/zgradi_stran.py`, rezultat v `splet/`)
   - [ ] prava leta obdobij in retro logotipi
 - [ ] 4. Nalaganje zvoka: Cloudflare R2, Internet Archive, GitHub Releases, torrent
+  - [x] skripti za nalaganje in preverjanje (`skripte/nalozi_zvok.py`, `skripte/preveri_kopije.py`)
+  - [ ] računi in nalaganje
 - [ ] 5. Objava na začasnem naslovu
 - [ ] 6. Preizkus
 - [ ] 7. Preklop domene
@@ -56,6 +58,31 @@ Za zelo počasen prenos čez cel vikend (ena epizoda na 12 minut):
 
 ```bash
 python3 skripte/prenesi_zvok.py --premor 720
+```
+
+## Nalaganje zvoka na kopije
+
+Ko je zvok v mapi `zvok/`, gre na vsako kopijo z enim ukazom. Nalaganje se
+lahko prekine in nadaljuje. Z `--poskus` skripta samo izpiše, kaj bi naredila.
+
+```bash
+python3 skripte/nalozi_zvok.py ia
+```
+
+```bash
+python3 skripte/nalozi_zvok.py r2
+```
+
+```bash
+python3 skripte/nalozi_zvok.py github
+```
+
+Ključi se nastavijo kot spremenljivke okolja (imena so na vrhu skripte) in ne
+gredo v repozitorij. Torrent naredi Internet Archive sam. Potem se v
+`nastavitve.json` vpišejo pravi naslovi kopij in preveri:
+
+```bash
+python3 skripte/preveri_kopije.py
 ```
 
 ## Gradnja strani in feedov
