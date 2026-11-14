@@ -40,7 +40,7 @@ body {
 	background: var(--ozadje);
 	color: var(--besedilo);
 	font-family: var(--telo);
-	font-size: 17px;
+	font-size: 16px;
 	line-height: 1.45;
 }
 a { color: var(--povezava); }
@@ -49,30 +49,40 @@ h1, h2, h3, h4 { font-family: var(--naslovi); font-weight: 800; margin: 0; }
 img { max-width: 100%; }
 :focus-visible { outline: 3px solid var(--lebdenje); outline-offset: 2px; }
 .ovoj { max-width: 1040px; margin: 0 auto; }
-.tiho { color: var(--tiho); font-size: 15px; }
+.tiho { color: var(--tiho); font-size: 14px; }
 .stevilke { font-variant-numeric: tabular-nums; }
 
 /* Glava vstopne strani */
 .glava-velika {
-	background:
-		linear-gradient(180deg, rgba(18, 204, 255, 0.94) 0%, rgba(14, 134, 242, 0.96) 100%),
-		url("/slike/pasica.webp") center top / cover no-repeat;
-	padding: 56px 24px 48px;
+	position: relative;
+	background: linear-gradient(180deg, #12CCFF 0%, #0E8EF0 100%);
+	padding: 40px 24px 36px;
+	overflow: hidden;
 }
-.glava-velika .ovoj { display: flex; flex-wrap: wrap; gap: 40px; align-items: center; }
-.glava-velika .logotip { width: 300px; max-width: 70%; height: auto; flex: 0 0 auto; }
+/* Mreža pik (»biti«), ki proti levi in dnu zbledi */
+.glava-velika::before {
+	content: "";
+	position: absolute; inset: 0;
+	background: radial-gradient(circle, rgba(255, 255, 255, 0.55) 2.5px, transparent 3px) 0 0 / 24px 24px;
+	-webkit-mask-image: linear-gradient(240deg, #000 0%, transparent 62%);
+	mask-image: linear-gradient(240deg, #000 0%, transparent 62%);
+	pointer-events: none;
+}
+.glava-velika .ovoj { position: relative; }
+.glava-velika .ovoj { display: flex; flex-wrap: wrap; gap: 32px; align-items: center; }
+.glava-velika .logotip { width: 240px; max-width: 70%; height: auto; flex: 0 0 auto; }
 .klepet { flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
 
 /* Govorni oblački */
 .oblacek {
 	margin: 0;
-	padding: 12px 20px;
-	border-radius: 22px 22px 22px 6px;
+	padding: 10px 16px;
+	border-radius: 20px 20px 20px 6px;
 	background: var(--kartica);
 	color: var(--besedilo);
 	max-width: 560px;
 }
-.oblacek.oranzen { background: var(--oranzna); color: var(--ozadje); font-family: var(--naslovi); font-weight: 600; font-size: 22px; line-height: 1.3; padding: 16px 22px; border-radius: 24px 24px 24px 6px; }
+.oblacek.oranzen { background: var(--oranzna); color: var(--ozadje); font-family: var(--naslovi); font-weight: 600; font-size: 19px; line-height: 1.3; padding: 13px 18px; border-radius: 24px 24px 24px 6px; }
 .oblacek.bel { background: #FFFFFF; color: var(--ozadje); font-weight: 600; }
 .oblacek.temen { background: var(--ozadje); }
 
@@ -80,39 +90,39 @@ img { max-width: 100%; }
 .gumbi { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
 .gumb {
 	display: inline-flex; align-items: center; justify-content: center;
-	min-height: 44px; padding: 0 20px; border-radius: 22px; border: 0;
+	min-height: 40px; padding: 0 16px; border-radius: 20px; border: 0;
 	background: #FFFFFF; color: var(--ozadje);
-	font: 600 17px var(--telo); text-decoration: none; cursor: pointer;
+	font: 600 15px var(--telo); text-decoration: none; cursor: pointer;
 }
 .gumb:hover { color: var(--ozadje); filter: brightness(0.92); }
 .gumb.oranzen { background: var(--oranzna); font-weight: 700; }
 .gumb.moder { background: var(--modra); font-weight: 700; }
-.gumb.obroba { background: none; border: 2px solid var(--rob); color: var(--besedilo); border-radius: 12px; min-width: 48px; padding: 0 12px; font-size: 15px; font-weight: 700; }
+.gumb.obroba { background: none; border: 2px solid var(--rob); color: var(--besedilo); border-radius: 12px; min-width: 44px; padding: 0 12px; font-size: 14px; font-weight: 700; }
 .gumb.obroba:hover { color: var(--lebdenje); filter: none; }
 .gumb.obroba[aria-pressed="true"] { background: var(--oranzna); border-color: var(--oranzna); color: var(--ozadje); }
 
 /* Glava podstrani */
 .glava-mala { background: linear-gradient(180deg, #12CCFF 0%, #0E8EF0 100%); padding: 14px 24px; }
-.glava-mala .ovoj { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-.glava-mala .ime { font-family: var(--naslovi); font-weight: 800; font-size: 22px; color: var(--ozadje); text-decoration: none; }
+.glava-mala .ovoj { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: 12px 28px; }
+.glava-mala .ime { font-family: var(--naslovi); font-weight: 800; font-size: 22px; color: #FFFFFF; text-decoration: none; }
 .glava-mala .ime span { font-weight: 500; }
 .glava-mala .gumb { background: var(--ozadje); color: var(--besedilo); }
 
 /* Vsebina */
-main { padding: 40px 24px 56px; }
+main { padding: 32px 24px 48px; }
 main.ovoj { max-width: 1088px; }
-main.ovoj, main .ovoj { display: flex; flex-direction: column; gap: 48px; }
+main.ovoj, main .ovoj { display: flex; flex-direction: column; gap: 40px; }
 .razdelek { display: flex; flex-direction: column; gap: 14px; }
-.razdelek > h2, .naslov-razdelka { font-size: 34px; letter-spacing: -0.5px; }
-.kartica { background: var(--kartica); border-radius: 20px; padding: 24px; }
+.razdelek > h2, .naslov-razdelka { font-size: 28px; letter-spacing: -0.4px; }
+.kartica { background: var(--kartica); border-radius: 18px; padding: 20px; }
 .kartica.senca { box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35); }
 
 /* Zadnja epizoda in stran epizode */
 .stevilka { font-family: var(--naslovi); font-weight: 800; color: var(--oranzna); line-height: 1; }
 .zadnja { display: flex; flex-direction: column; gap: 12px; }
 .zadnja .vrh { display: flex; flex-wrap: wrap; align-items: baseline; gap: 14px; }
-.zadnja .stevilka { font-size: 48px; }
-.zadnja .naslov { font-family: var(--naslovi); font-weight: 600; font-size: 28px; line-height: 1.2; color: var(--besedilo); text-decoration: none; }
+.zadnja .stevilka { font-size: 40px; }
+.zadnja .naslov { font-family: var(--naslovi); font-weight: 600; font-size: 24px; line-height: 1.2; color: var(--besedilo); text-decoration: none; }
 .zadnja .naslov:hover { color: var(--lebdenje); }
 
 /* Predvajalnik: vgrajeni predvajalnik brskalnika, gumbi so dodatek */
@@ -123,14 +133,14 @@ main.ovoj, main .ovoj { display: flex; flex-direction: column; gap: 48px; }
 /* Obdobja in vrstice epizod */
 .leto { display: flex; align-items: baseline; gap: 14px; color: var(--oranzna); }
 .leto .tiho { font: 400 16px var(--telo); }
-.vrstica .ikona { width: 40px; height: 40px; border-radius: 9px; flex: 0 0 auto; display: block; }
+.vrstica .ikona { width: 36px; height: 36px; border-radius: 8px; flex: 0 0 auto; display: block; }
 
 .seznam { background: var(--kartica); border-radius: 20px; padding: 4px 20px; margin: 0; list-style: none; }
-.vrstica { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; padding: 14px 0; border-bottom: 1px solid var(--crta); }
+.vrstica { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; padding: 11px 0; border-bottom: 1px solid var(--crta); }
 .seznam > :last-child { border-bottom: 0; }
-.vrstica .st { font-family: var(--naslovi); font-weight: 800; font-size: 24px; color: var(--oranzna); width: 56px; flex: 0 0 auto; }
+.vrstica .st { font-family: var(--naslovi); font-weight: 800; font-size: 21px; color: var(--oranzna); width: 50px; flex: 0 0 auto; }
 .vrstica .opis { flex: 999 1 320px; min-width: 0; display: flex; flex-direction: column; }
-.vrstica .opis a { color: var(--besedilo); font-weight: 600; font-size: 18px; text-decoration: none; }
+.vrstica .opis a { color: var(--besedilo); font-weight: 600; font-size: 16px; text-decoration: none; }
 .vrstica .opis a:hover { color: var(--lebdenje); }
 .vec { display: block; padding: 14px 0; font-weight: 600; }
 [hidden] { display: none !important; }
@@ -149,9 +159,9 @@ main.ovoj, main .ovoj { display: flex; flex-direction: column; gap: 48px; }
 .epizoda { display: flex; flex-wrap: wrap; gap: 40px; }
 .epizoda article { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 22px; }
 .epizoda aside { flex: 1 1 260px; display: flex; flex-direction: column; gap: 20px; }
-.epizoda .stevilka { font-size: 88px; line-height: 0.95; }
-.epizoda h1 { font-size: 44px; line-height: 1.1; letter-spacing: -0.5px; }
-.epizoda aside .naslovnica { width: 100%; max-width: 280px; border-radius: 40px; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35); }
+.epizoda .stevilka { font-size: 68px; line-height: 0.95; }
+.epizoda h1 { font-size: 36px; line-height: 1.1; letter-spacing: -0.5px; }
+.epizoda aside .naslovnica { width: 100%; max-width: 220px; border-radius: 32px; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35); }
 .epizoda aside .kartica { padding: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 15px; }
 .epizoda aside h2 { font-size: 18px; }
 .opombe { overflow-wrap: anywhere; }
@@ -172,8 +182,8 @@ main.ovoj, main .ovoj { display: flex; flex-direction: column; gap: 48px; }
 .noga .izjava { margin: 32px 0 0; padding-top: 20px; border-top: 1px solid var(--crta); color: var(--tiho); font-size: 14px; }
 
 @media (max-width: 560px) {
-	.epizoda .stevilka { font-size: 64px; }
-	.epizoda h1 { font-size: 32px; }
+	.epizoda .stevilka { font-size: 52px; }
+	.epizoda h1 { font-size: 28px; }
 	.razdelek > h2, .naslov-razdelka { font-size: 28px; }
 	.vrstica .st { width: 100%; }
 }
