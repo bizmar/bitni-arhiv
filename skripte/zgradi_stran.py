@@ -430,7 +430,9 @@ def main():
         # Vir zvoka se zamenja tukaj: ena vrstica, ki kaže na eno od kopij.
         preusmeritve.append("/audio/:datoteka " + n["kopije"]["r2"]["zvok"].replace("{oznaka}.mp3", ":datoteka") + " 302")
     zapisi("_redirects", "\n".join(preusmeritve) + "\n")
-    zapisi("_headers", "/rss\n  Content-Type: application/rss+xml; charset=utf-8\n\n/*\n  tdm-reservation: 1\n")
+    zapisi("_headers", "/rss\n  Content-Type: application/rss+xml; charset=utf-8\n\n/*\n  tdm-reservation: 1\n\n"
+           # Začasni naslov naj ne pride v iskalnike; prava domena lahko.
+           "https://:projekt.pages.dev/*\n  X-Robots-Tag: noindex\n")
     # Pajki za učenje modelov niso dobrodošli; iskalniki in podcast aplikacije so.
     pajki = ["GPTBot", "ChatGPT-User", "OAI-SearchBot", "ClaudeBot", "anthropic-ai", "Google-Extended",
              "CCBot", "Bytespider", "meta-externalagent", "FacebookBot", "Applebot-Extended", "PerplexityBot",
