@@ -105,6 +105,7 @@ img { max-width: 100%; }
 .glava-mala .ovoj { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: 12px 28px; }
 .glava-mala .ime { position: relative; display: inline-flex; align-items: baseline; gap: 0.28em; font-family: var(--naslovi); font-weight: 800; font-size: 28px; line-height: 1.2; color: #FFFFFF; text-decoration: none; }
 .glava-mala .ime span { font-weight: 500; }
+.glava-mala .gumb { background: var(--ozadje); color: var(--besedilo); }
 .glava-mala .ime .puscica { font-family: var(--telo); font-weight: 600; margin-right: 0.2em; transition: transform 0.15s; }
 .glava-mala .ime:hover .puscica { transform: translateX(-4px); }
 /* Na širokih zaslonih puščica visi levo, da je ime poravnano z vsebino */
@@ -215,4 +216,12 @@ main.ovoj, main .ovoj { display: flex; flex-direction: column; gap: 40px; }
 	.vrstica .ikona { grid-row: 1 / span 3; margin-top: 4px; }
 	.vrstica .st { width: auto; font-size: 20px; }
 	.vrstica .st:empty { display: none; }
+}
+
+/* Telefon: ime in gumb v glavi ostaneta v eni vrsti */
+@media (max-width: 480px) {
+	.glava-mala { padding: 12px 24px; }
+	.glava-mala .ovoj { gap: 8px 12px; justify-content: space-between; }
+	.glava-mala .ime { font-size: 22px; white-space: nowrap; }
+	.glava-mala .gumb { white-space: nowrap; padding-left: 14px; padding-right: 14px; }
 }
