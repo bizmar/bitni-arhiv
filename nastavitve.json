@@ -68,5 +68,6 @@
       "slika": "znacka-1.0.webp"
     }
   ],
-  "opomba_obdobja": "Meje obdobij so določene po datumih izvornih datotek logotipov. 'od' je datum prve epizode obdobja ali malo pred njo; obdobje traja do začetka naslednjega."
+  "opomba_obdobja": "Meje obdobij so določene po datumih izvornih datotek logotipov. 'od' je datum prve epizode obdobja ali malo pred njo; obdobje traja do začetka naslednjega.",
+  "zacasni_naslov": "https://bitni-arhiv.bizmar.workers.dev"
 }

@@ -1,0 +1,9 @@
+// Nastavitve objave na Cloudflare. Stran je statična; objavi se mapa splet/.
+{
+  "name": "bitni-arhiv",
+  "compatibility_date": "2026-11-13",
+  "assets": {
+    "directory": "splet",
+    "not_found_handling": "404-page"
+  }
+}

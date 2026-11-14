@@ -43,9 +43,10 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
    za R2 je preverjen z uradnim primerom AWS, pravo nalaganje še ni bilo
    preizkušeno. Čaka na lokalno kopijo zvoka, račune (Cloudflare, Internet
    Archive).
-5. **Objava na začasnem naslovu:** odobrena. Lastnik v Cloudflare poveže
-   repozitorij (Pages, veja `main`, izhodna mapa `splet`, brez ukaza za
-   gradnjo). Naslov `*.pages.dev` ima glavo `noindex`.
+5. **Objava na začasnem naslovu:** narejeno. Cloudflare Workers (statične
+   datoteke) na `https://bitni-arhiv.bizmar.workers.dev`, povezano z
+   repozitorijem: vsak push na `main` se objavi sam. Nastavitve so v
+   `wrangler.jsonc`. Začasni naslov ima glavo `noindex`.
 6.–9. Preizkus, preklop domene, preusmeritev feeda, odpoved Fireside: ni
    začeto; koraki 7 do 9 čakajo na Nejca (december 2026).
 

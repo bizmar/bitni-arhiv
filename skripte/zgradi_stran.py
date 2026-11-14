@@ -432,7 +432,7 @@ def main():
     zapisi("_redirects", "\n".join(preusmeritve) + "\n")
     zapisi("_headers", "/rss\n  Content-Type: application/rss+xml; charset=utf-8\n\n/*\n  tdm-reservation: 1\n\n"
            # Začasni naslov naj ne pride v iskalnike; prava domena lahko.
-           "https://:projekt.pages.dev/*\n  X-Robots-Tag: noindex\n")
+           + (f"{n['zacasni_naslov']}/*\n  X-Robots-Tag: noindex\n" if n.get("zacasni_naslov") else ""))
     # Pajki za učenje modelov niso dobrodošli; iskalniki in podcast aplikacije so.
     pajki = ["GPTBot", "ChatGPT-User", "OAI-SearchBot", "ClaudeBot", "anthropic-ai", "Google-Extended",
              "CCBot", "Bytespider", "meta-externalagent", "FacebookBot", "Applebot-Extended", "PerplexityBot",
