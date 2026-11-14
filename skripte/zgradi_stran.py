@@ -344,6 +344,7 @@ def stran_epizode(n, e, prejsnja, naslednja):
 </nav>
 </article>
 <aside>
+<img class="naslovnica" src="/slike/naslovnica-600.webp" alt="" width="280" height="280">
 <div class="kartica">
 <h2 style="color: var(--sinja)">Epizoda</h2>
 {ljudje}
