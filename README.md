@@ -4,25 +4,34 @@ Selitev arhiva podcasta Bitni pogovori (215 epizod, 2012–2019) s Fireside na
 brezplačno statično gostovanje. Feed, domena in povezave do epizod ostanejo
 isti. Zvok bo na treh neodvisnih mestih.
 
-## Stanje
+## Stanje (14. 11. 2026)
+
+Stran je objavljena na začasnem naslovu
+<https://bitni-arhiv.bizmar.workers.dev>. Na domeni in na Fireside se še ni
+nič spremenilo.
 
 - [ ] 1. Varnostna kopija vsega s Fireside
   - [x] feed, slike, poglavja, nekaj strani (mapa `izvor/`)
   - [x] preverjene povezave do vseh MP3 (`epizode.csv`): vseh 215 se odziva, velikosti se ujemajo s feedom
-  - [ ] lokalna kopija zvoka (`skripte/prenesi_zvok.py`)
+  - [ ] lokalna kopija zvoka (`skripte/prenesi_zvok.py`), prenos teče
   - [ ] statistika poslušanja (potrebuje API ključ lastnika računa, ni nujno)
-- [ ] 2. Oblikovanje strani
-- [ ] 3. Gradnja strani in feedov
-  - [x] skripta za feede (`skripte/zgradi_feede.py`), naslovi kopij še niso določeni
+- [x] 2. Oblikovanje strani
+- [x] 3. Gradnja strani in feedov
+  - [x] skripta za feede (`skripte/zgradi_feede.py`)
   - [x] stran (`skripte/zgradi_stran.py`, rezultat v `splet/`)
-  - [x] štiri obdobja logotipov po datumih izvornih datotek
+  - [x] seznam epizod po letih, z iskanjem in filtrom po voditeljih in gostih
+  - [x] logotipi štirih obdobij kot ikone ob epizodah
+  - [x] licenca CC BY-NC-SA 4.0 in izjava o glasovih v nogi, `robots.txt`
 - [ ] 4. Nalaganje zvoka: Cloudflare R2, Internet Archive, GitHub Releases, torrent
   - [x] skripti za nalaganje in preverjanje (`skripte/nalozi_zvok.py`, `skripte/preveri_kopije.py`)
-  - [ ] računi in nalaganje
-- [ ] 5. Objava na začasnem naslovu
+  - [x] prostor na Cloudflare R2 in račun na Internet Archive
+  - [ ] nalaganje (čaka na lokalno kopijo zvoka)
+- [x] 5. Objava na začasnem naslovu (Cloudflare Workers, samodejno ob vsaki spremembi na `main`)
 - [ ] 6. Preizkus
-- [ ] 7. Preklop domene
-- [ ] 8. Preusmeritev feeda v Fireside, Apple Podcasts in Spotify
+  - [x] strani, preusmeritve starih naslovov, stran 404, telefon in namizje
+  - [ ] feed v validatorju in v podcast aplikacijah, zvok s kopij
+- [ ] 7. Preklop domene (december 2026)
+- [ ] 8. Preusmeritev feeda v Fireside, Apple Podcasts in Spotify (december 2026)
 - [ ] 9. Odpoved Fireside po 3 mesecih
 
 ## Kaj je kje
@@ -34,7 +43,8 @@ isti. Zvok bo na treh neodvisnih mestih.
 | `izvor/poglavja/` | Poglavja štirih epizod, ki jih imajo |
 | `izvor/stran/` | Nekaj strani obstoječega spletišča, za primerjavo |
 | `epizode.csv` | Seznam epizod z velikostmi datotek in rezultatom preverjanja |
-| `nastavitve.json` | Domena in naslovi treh kopij zvoka |
+| `nastavitve.json` | Domena, naslovi treh kopij zvoka, obdobja logotipov |
+| `wrangler.jsonc` | Nastavitve objave na Cloudflare |
 | `logotipi/` | Izvirne naslovnice po različicah (1.0, iOS 7, 1.5, 1.6, notch) |
 | `viri/` | Slog, JavaScript, slike in pisava strani |
 | `splet/` | Zgrajena stran, pripravljena za objavo. Ne urejaj ročno, zgradi jo skripta. |
@@ -110,6 +120,10 @@ Javno, v repozitoriju:
 - originalni feed, slike, poglavja, opisi epizod,
 - koda strani in skripte,
 - načrt in stanje selitve.
+
+Epizode so na voljo pod licenco CC BY-NC-SA 4.0. Uporaba posnetkov za učenje
+sinteze govora ali posnemanje glasov ni dovoljena brez pisnega soglasja
+govorcev.
 
 Nikoli v repozitoriju:
 
