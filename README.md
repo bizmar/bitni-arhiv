@@ -147,3 +147,13 @@ dostop imata oba.
   `podcast:transcript`. Odprto: kakovost prepisa slovenščine, pregled pred
   objavo in soglasje gostov, ker postane njihov govor iskljiv po imenu.
 - **Poglavja** za epizode, ki jih še nimajo; lahko nastanejo iz prepisov.
+- **Opozorilo, če kopija zvoka odpove.** Tedensko samodejno preverjanje
+  (`skripte/preveri_kopije.py`), ki ob napaki pošlje e-pošto. Možnosti:
+  GitHub Actions v tem repozitoriju ali zunanji brezplačni nadzornik
+  dosegljivosti. Preklop vira ostane ročen.
+- **Vse tri kopije vidne na strani.** Ko je zvok naložen, stran epizode in
+  noga že izpišeta povezave do vseh treh kopij in feedov zanje. Dodati še
+  torrent in kratko stran »Kako oživiti arhiv«.
+- **Rezervna kopija strani na GitHub Pages.** Deluje samo z domeno (stran
+  uporablja naslove od korena), zato se postavi ob preklopu domene ali ko bi
+  Cloudflare odpovedal.

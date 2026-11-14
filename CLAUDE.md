@@ -142,9 +142,29 @@ repozitorij in se ne objavlja.
 
 ## Ideje za naprej
 
-Opisane so v `README.md`: bogatejši opisi epizod, strojni prepisi, poglavja.
+Opisane so v `README.md`: bogatejši opisi epizod, strojni prepisi, poglavja,
+opozorilo ob odpovedi kopije (lastnik je vprašal, kako bo čez leta izvedel,
+da R2 ne deluje; še ni odločeno, katera možnost), vse tri kopije vidne na
+strani, GitHub Pages kot rezerva. Lastnik: najprej MP3, to je za pozneje.
 Pri prepisih so odprti kakovost slovenščine, pregled pred objavo in soglasje
 gostov.
+
+## Naslednji koraki (stanje ob koncu seje 14. 11. 2026)
+
+1. Lastnik na Macu prenaša zvok (`caffeinate -is python3
+   skripte/prenesi_zvok.py --premor 720` ali `--premor 60`). Mac je vmes
+   zaspal; prenesenih je bilo le nekaj epizod. Repozitorij ima na Macu v
+   mapi Documents (ime mape ima tipkarsko napako, ne preimenovati med
+   prenosom). Pred nalaganjem naj požene `git pull`.
+2. Ko je zvok prenesen: ključ R2 (Object Read & Write, samo to vedro) in
+   ključa Internet Archive nastavi kot spremenljivke okolja na Macu (nikoli
+   v klepet ali repozitorij), nato `skripte/nalozi_zvok.py ia`, `r2`,
+   `github`. Za GitHub potrebuje nameščen in prijavljen `gh`.
+3. V `nastavitve.json` vpisati oznako Internet Archive, pognati
+   `skripte/preveri_kopije.py`, nato `zvok_nalozen: true` in zgraditi stran.
+4. Preizkus feeda: na začasnem naslovu ga ne dodajati v aplikacije, ker
+   `itunes:new-feed-url` kaže na domeno. Pripraviti ločen način preizkusa.
+5. Lastnik želi vprašanja eno po eno, ne več naenkrat.
 
 ## Dokumenta zunaj repozitorija
 
