@@ -74,8 +74,10 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   2013 (31–43), oblaček 1.5 od novembra 2013 (44–161), 1.6 od marca 2017
   (162–210; »notch« pri 177, 1.5p od 178). Ni potrjeno, ali je bil logotip
   iOS 7 res naslovnica v feedu. Obdobja so v `nastavitve.json` po datumu.
-- Na čigav e-naslov se odprejo računi; kdo ima dostop do registrarja domene,
-  Apple Podcasts Connect in Spotify for Creators.
+- Računi: po selitvi je za gostovanje odgovoren lastnik repozitorija (do
+  zdaj Nejc). Račun Cloudflare že ima. Odprto: račun na Internet Archive;
+  kdo ima dostop do registrarja domene, Apple Podcasts Connect in Spotify
+  for Creators; rezervni dostop za drugega voditelja.
 - Ali preusmeritev na Fireside lahko ostane po odpovedi ali na cenejšem paketu
   (vprašati njihovo podporo).
 - Povabilo v Slack je še v zgodovini gita (prva dva commita). Brisanje bi
