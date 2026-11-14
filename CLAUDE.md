@@ -58,6 +58,8 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 - Pisava naslovov: Futura (sistemska na Applovih napravah), rezerva Jost
   (priložena, licenca OFL). Logotip je po oblikah črk najverjetneje Futura;
   imena pisave v datoteki AI ni, ker je besedilo v krivuljah.
+- Modra je uradna `#0e8ef0`. Oranžna ostane `#FF8A24`, ker se ujema s
+  prelivom v logotipu (uradna `#ff5b24` iz starih zapiskov je bolj rdeča).
 - E-naslova v novem feedu ni.
 - Repozitorij je javen kot del arhiva. Pravila, kaj sme vanj, so v `README.md`.
 
@@ -68,8 +70,6 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   2013 (31–43), oblaček 1.5 od novembra 2013 (44–161), 1.6 od marca 2017
   (162–210; »notch« pri 177, 1.5p od 178). Ni potrjeno, ali je bil logotip
   iOS 7 res naslovnica v feedu. Obdobja so v `nastavitve.json` po datumu.
-- Uradni barvi iz starih zapiskov: modra `#0e8ef0`, oranžna `#ff5b24`. Stran
-  uporablja podobni; uskladiti, če lastnik želi.
 - Licenca arhiva na Internet Archive.
 - Na čigav e-naslov se odprejo računi; kdo ima dostop do registrarja domene,
   Apple Podcasts Connect in Spotify for Creators.

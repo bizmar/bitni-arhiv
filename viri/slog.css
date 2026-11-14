@@ -26,7 +26,7 @@
 	--povezava: #6CC6FF;
 	--lebdenje: #FFD36B;
 	--oranzna: #FF8A24;
-	--modra: #1EA7FF;
+	--modra: #0E8EF0;
 	--sinja: #4FD8FF;
 	--svetlo-modra: #6CC6FF;
 	--naslovi: Futura, "Jost", "Century Gothic", sans-serif;
@@ -92,7 +92,7 @@ img { max-width: 100%; }
 .gumb.obroba[aria-pressed="true"] { background: var(--oranzna); border-color: var(--oranzna); color: var(--ozadje); }
 
 /* Glava podstrani */
-.glava-mala { background: linear-gradient(180deg, #12CCFF 0%, #0E86F2 100%); padding: 14px 24px; }
+.glava-mala { background: linear-gradient(180deg, #12CCFF 0%, #0E8EF0 100%); padding: 14px 24px; }
 .glava-mala .ovoj { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
 .glava-mala .ime { font-family: var(--naslovi); font-weight: 800; font-size: 22px; color: var(--ozadje); text-decoration: none; }
 .glava-mala .ime span { font-weight: 500; }
