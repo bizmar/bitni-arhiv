@@ -76,8 +76,9 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   iOS 7 res naslovnica v feedu. Obdobja so v `nastavitve.json` po datumu.
 - Računi: po selitvi je za gostovanje odgovoren lastnik repozitorija (do
   zdaj Nejc). Računa Cloudflare in Internet Archive ima. Dostop do
-  registrarja domene ima Nejc; preklop domene pride čisto na koncu. Odprto:
-  kdo ima dostop do Apple Podcasts Connect in Spotify for Creators;
+  registrarja domene, Apple Podcasts Connect in Spotify for Creators ima
+  Nejc (deli prijavo ali zamenja sam). Nejc ima čas šele decembra 2026:
+  koraki 7 do 9 čakajo do takrat, vmes se vse pripravi in spolira. Odprto:
   rezervni dostop za drugega voditelja.
 - Ali preusmeritev na Fireside lahko ostane po odpovedi ali na cenejšem paketu
   (vprašati njihovo podporo).
