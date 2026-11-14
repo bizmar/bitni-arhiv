@@ -160,7 +160,9 @@ main.ovoj, main .ovoj { display: flex; flex-direction: column; gap: 40px; }
 .epizoda aside { flex: 1 1 260px; display: flex; flex-direction: column; gap: 20px; }
 .epizoda .stevilka { font-size: 68px; line-height: 0.95; }
 .epizoda h1 { font-size: 36px; line-height: 1.1; letter-spacing: -0.5px; }
-.epizoda aside .naslovnica { width: 100%; max-width: 220px; border-radius: 32px; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35); }
+.naslov-epizode { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+.naslov-epizode .razdelek { min-width: 0; }
+.naslov-epizode .naslovnica { flex: none; width: 150px; height: 150px; border-radius: 22%; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35); }
 .epizoda aside .kartica { padding: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 15px; }
 .epizoda aside h2 { font-size: 18px; }
 .opombe { overflow-wrap: anywhere; }
@@ -183,6 +185,7 @@ main.ovoj, main .ovoj { display: flex; flex-direction: column; gap: 40px; }
 @media (max-width: 560px) {
 	.epizoda .stevilka { font-size: 52px; }
 	.epizoda h1 { font-size: 28px; }
+	.naslov-epizode .naslovnica { width: 92px; height: 92px; }
 	.razdelek > h2, .naslov-razdelka { font-size: 28px; }
 	.vrstica .st { width: 100%; }
 }

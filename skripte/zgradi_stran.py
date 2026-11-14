@@ -324,10 +324,13 @@ def stran_epizode(n, e, prejsnja, naslednja):
     return glava_html(f"{e['naslov']} · Bitni pogovori", opis, "/" + e["oznaka"], n) + glava_mala() + f"""<main class="ovoj">
 <div class="epizoda">
 <article>
+<div class="naslov-epizode">
 <div class="razdelek" style="gap: 6px">
 {stevilka}
 <h1>{escape(e['naslov'])}</h1>
 <span class="tiho"><time datetime="{e['datum_iso']}">{e['datum']}</time> · {e['trajanje']}</span>
+</div>
+<img class="naslovnica" src="/slike/naslovnica-600.webp" alt="" width="280" height="280">
 </div>
 <div class="kartica senca">
 {predvajalnik(n, e)}
@@ -341,7 +344,6 @@ def stran_epizode(n, e, prejsnja, naslednja):
 </nav>
 </article>
 <aside>
-<img class="naslovnica" src="/slike/naslovnica-600.webp" alt="" width="280" height="280" loading="lazy">
 <div class="kartica">
 <h2 style="color: var(--sinja)">Epizoda</h2>
 {ljudje}
