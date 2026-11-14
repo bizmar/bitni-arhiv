@@ -162,6 +162,7 @@ def noga(n):
 </div>
 <p class="izjava">Stran in arhiv sta nastala s pomočjo umetne inteligence <a href="https://claude.com">Claude</a>. Vsebina epizod je delo voditeljev.</p>
 <p class="izjava">Epizode so na voljo pod licenco <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.sl">CC BY-NC-SA 4.0</a>: deljenje in predelava z navedbo avtorjev, nekomercialno, pod enakimi pogoji.</p>
+<p class="izjava">Uporaba posnetkov za učenje sinteze govora ali posnemanje glasov ni dovoljena brez pisnega soglasja govorcev. Pravice do besedilnega in podatkovnega rudarjenja so pridržane.</p>
 </div>
 </footer>
 <script src="/stran.js" defer></script>
@@ -429,7 +430,14 @@ def main():
         # Vir zvoka se zamenja tukaj: ena vrstica, ki kaže na eno od kopij.
         preusmeritve.append("/audio/:datoteka " + n["kopije"]["r2"]["zvok"].replace("{oznaka}.mp3", ":datoteka") + " 302")
     zapisi("_redirects", "\n".join(preusmeritve) + "\n")
-    zapisi("_headers", "/rss\n  Content-Type: application/rss+xml; charset=utf-8\n")
+    zapisi("_headers", "/rss\n  Content-Type: application/rss+xml; charset=utf-8\n\n/*\n  tdm-reservation: 1\n")
+    # Pajki za učenje modelov niso dobrodošli; iskalniki in podcast aplikacije so.
+    pajki = ["GPTBot", "ChatGPT-User", "OAI-SearchBot", "ClaudeBot", "anthropic-ai", "Google-Extended",
+             "CCBot", "Bytespider", "meta-externalagent", "FacebookBot", "Applebot-Extended", "PerplexityBot",
+             "Amazonbot", "cohere-ai", "Diffbot", "ImagesiftBot", "Omgilibot", "AI2Bot", "Timpibot"]
+    zapisi("robots.txt", "# Uporaba posnetkov za učenje sinteze govora ali posnemanje glasov ni dovoljena\n"
+           "# brez pisnega soglasja govorcev. Pravice do besedilnega in podatkovnega rudarjenja so pridržane.\n\n"
+           + "".join(f"User-agent: {p}\n" for p in pajki) + "Disallow: /\n\nUser-agent: *\nAllow: /\n")
     zapisi(".nojekyll", "")
 
     zgradi_feede.zgradi_vse()

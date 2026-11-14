@@ -164,7 +164,9 @@ def ia(datoteke, poskus):
         "x-archive-meta-subject": meta("podcast;tehnologija;slovenščina"),
         "x-archive-meta-description": meta(
             "Celoten arhiv slovenskega tehnološkega podcasta Bitni pogovori, 215 epizod. "
-            "Stran in feed: https://www.bitnipogovori.si"
+            "Stran in feed: https://www.bitnipogovori.si. "
+            "Uporaba posnetkov za učenje sinteze govora ali posnemanje glasov ni dovoljena brez "
+            "pisnega soglasja govorcev. Pravice do besedilnega in podatkovnega rudarjenja so pridržane."
         ),
     }
     opis["x-archive-meta-licenseurl"] = os.environ.get("IA_LICENCA") or LICENCA

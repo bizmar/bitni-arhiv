@@ -1,0 +1,26 @@
+# Uporaba posnetkov za učenje sinteze govora ali posnemanje glasov ni dovoljena
+# brez pisnega soglasja govorcev. Pravice do besedilnega in podatkovnega rudarjenja so pridržane.
+
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: OAI-SearchBot
+User-agent: ClaudeBot
+User-agent: anthropic-ai
+User-agent: Google-Extended
+User-agent: CCBot
+User-agent: Bytespider
+User-agent: meta-externalagent
+User-agent: FacebookBot
+User-agent: Applebot-Extended
+User-agent: PerplexityBot
+User-agent: Amazonbot
+User-agent: cohere-ai
+User-agent: Diffbot
+User-agent: ImagesiftBot
+User-agent: Omgilibot
+User-agent: AI2Bot
+User-agent: Timpibot
+Disallow: /
+
+User-agent: *
+Allow: /
