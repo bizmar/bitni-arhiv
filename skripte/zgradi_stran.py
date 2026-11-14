@@ -206,7 +206,7 @@ def glava_obdobja(obdobje, stevilo):
 {znacka(obdobje)}
 <div>
 <h3>{obdobje['leta']}</h3>
-<span class="tiho">{escape(obdobje['ime'])} · {stevilo} epizod</span>
+<span class="tiho">{stevilo} epizod</span>
 </div>
 </div>"""
 
