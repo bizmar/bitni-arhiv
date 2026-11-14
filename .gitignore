@@ -1,5 +1,3 @@
 zvok/
 __pycache__/
 .DS_Store
-# Preverjanje se tece; datoteka se doda, ko je popolna.
-epizode.csv

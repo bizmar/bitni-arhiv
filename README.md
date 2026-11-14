@@ -8,7 +8,7 @@ isti. Zvok bo na treh neodvisnih mestih.
 
 - [ ] 1. Varnostna kopija vsega s Fireside
   - [x] feed, slike, poglavja, nekaj strani (mapa `izvor/`)
-  - [ ] preverjene povezave do vseh MP3 (`epizode.csv`, preverjanje teče počasi)
+  - [x] preverjene povezave do vseh MP3 (`epizode.csv`): vseh 215 se odziva, velikosti se ujemajo s feedom
   - [ ] lokalna kopija zvoka (`skripte/prenesi_zvok.py`)
   - [ ] statistika poslušanja (potrebuje API ključ lastnika računa, ni nujno)
 - [ ] 2. Oblikovanje strani
