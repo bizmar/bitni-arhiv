@@ -33,6 +33,7 @@ isti. Zvok bo na treh neodvisnih mestih.
 | `izvor/stran/` | Nekaj strani obstoječega spletišča, za primerjavo |
 | `epizode.csv` | Seznam epizod z velikostmi datotek in rezultatom preverjanja |
 | `nastavitve.json` | Domena in naslovi treh kopij zvoka |
+| `logotipi/` | Izvirne naslovnice po različicah (1.0, 1.5, 1.6) |
 | `viri/` | Slog, JavaScript, slike in pisava strani |
 | `splet/` | Zgrajena stran, pripravljena za objavo. Ne urejaj ročno, zgradi jo skripta. |
 | `skripte/` | Skripte za preverjanje, prenos in gradnjo |

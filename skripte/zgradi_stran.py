@@ -184,7 +184,7 @@ def znacka(obdobje):
     if obdobje["znacka"] == "tanka":
         return '<div class="znacka tanka" aria-hidden="true"><div class="krog"><b>bitni</b><i>pogovori</i></div></div>'
     if obdobje["znacka"] == "plasticna":
-        return '<div class="znacka plasticna" aria-hidden="true"><b>bitni.</b><i>pogovori</i></div>'
+        return '<div class="znacka" aria-hidden="true"><img src="/slike/znacka-1.0.webp" alt="" width="72" height="72"></div>'
     return '<div class="znacka" aria-hidden="true"><img src="/slike/naslovnica-600.webp" alt="" width="72" height="72"></div>'
 
 
