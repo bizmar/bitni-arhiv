@@ -1,0 +1,19 @@
+{
+  "domena": "https://www.bitnipogovori.si",
+  "glavni_feed": "https://www.bitnipogovori.si/rss",
+  "zvok_glavni": "https://www.bitnipogovori.si/audio/{oznaka}.mp3",
+  "kopije": {
+    "r2": {
+      "ime": "Cloudflare R2",
+      "zvok": "https://R2-NASLOV-SE-NI-DOLOCEN.example/{oznaka}.mp3"
+    },
+    "ia": {
+      "ime": "Internet Archive",
+      "zvok": "https://archive.org/download/IA-OZNAKA-SE-NI-DOLOCENA/{oznaka}.mp3"
+    },
+    "github": {
+      "ime": "GitHub",
+      "zvok": "https://github.com/bizmar/bitni-arhiv/releases/download/zvok/{oznaka}.mp3"
+    }
+  }
+}
