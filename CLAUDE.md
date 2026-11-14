@@ -57,6 +57,9 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 - Glavni feed ostane na `https://www.bitnipogovori.si/rss`. Fireside po
   preklopu ostane vklopljen še 3 mesece zaradi preusmeritve.
 - Namesto strani voditeljev in gostov je iskanje s filtrom po osebah.
+- Seznam epizod je ena lista, razdeljena po letih. Logotipi obdobij niso
+  kategorije, ampak majhna ikona ob vsaki epizodi (logotip, ki je veljal ob
+  izidu).
 - Povezave na Slack ni nikjer na strani.
 - V nogi je izjava, da sta stran in arhiv nastala s pomočjo Clauda.
 - Pisava naslovov: Futura (sistemska na Applovih napravah), rezerva Jost

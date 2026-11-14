@@ -182,35 +182,28 @@ def predvajalnik(n, e):
 </div>"""
 
 
-def znacka(obdobje):
-    return f'<div class="znacka" aria-hidden="true"><img src="/slike/{obdobje["slika"]}" alt="" width="72" height="72"></div>'
+def obdobje_za(e, obdobja):
+    """Obdobje logotipa, v katerem je epizoda izšla (obdobja so od najnovejšega)."""
+    for o in sorted(obdobja, key=lambda o: o["od"], reverse=True):
+        if e["datum_iso"] >= o["od"]:
+            return o
+    return obdobja[-1]
 
 
-def vrstica(e):
+def vrstica(e, n):
     podnaslov = f'<span class="tiho">{escape(e["podnaslov"])}</span>' if e["podnaslov"] else ""
     osebe = " ".join(o["oznaka"] for o in e["osebe"])
+    slika = obdobje_za(e, n["obdobja"])["slika"]
     return f"""<li class="vrstica" data-oznaka="{escape(e['oznaka'])}" data-osebe="{escape(osebe)}">
+<img class="ikona" src="/slike/{slika}" alt="" width="40" height="40" loading="lazy">
 <span class="st">{escape(e['stevilka'])}</span>
 <div class="opis"><a href="/{escape(e['oznaka'])}">{escape(e['naslov'])}</a>{podnaslov}</div>
 <span class="tiho stevilke">{e['datum']} · {e['trajanje']}</span>
 </li>"""
 
 
-def obdobje_epizod(obdobje, epizode, obdobja):
-    """Epizode od začetka tega obdobja do začetka naslednjega."""
-    poznejsa = [o["od"] for o in obdobja if o["od"] > obdobje["od"]]
-    do = min(poznejsa) if poznejsa else "9999"
-    return [e for e in epizode if obdobje["od"] <= e["datum_iso"] < do]
-
-
-def glava_obdobja(obdobje, stevilo):
-    return f"""<div class="obdobje-glava">
-{znacka(obdobje)}
-<div>
-<h3>{obdobje['leta']}</h3>
-<span class="tiho">{stevilo} epizod</span>
-</div>
-</div>"""
+def leta(epizode):
+    return sorted({e["leto"] for e in epizode}, reverse=True)
 
 
 # ---------- strani ----------
@@ -218,17 +211,8 @@ def glava_obdobja(obdobje, stevilo):
 def vstopna(n, epizode):
     zadnja = epizode[0]
     gumbi = "".join(f'<a class="gumb" href="{escape(g["url"])}">{escape(g["ime"])}</a>\n' for g in n["narocnina"])
-    obdobja = ""
-    for o in n["obdobja"]:
-        njene = obdobje_epizod(o, epizode, n["obdobja"])
-        obdobja += f"""<section class="razdelek" style="--barva: {o['barva']}">
-{glava_obdobja(o, len(njene))}
-<ul class="seznam">
-{chr(10).join(vrstica(e) for e in njene[:3])}
-<li><a class="vec" href="/epizode#obdobje-{o['znacka']}">Vseh {len(njene)} epizod iz tega obdobja</a></li>
-</ul>
-</section>
-"""
+    po_letih = "".join(
+        f'<a class="gumb obroba" href="/epizode#leto-{l}">{l}</a>\n' for l in leta(epizode))
     oblacek = f'<p class="oblacek temen">{escape(zadnja["podnaslov"])}</p>' if zadnja["podnaslov"] else ""
     return glava_html("Bitni pogovori", OPIS, "/", n) + f"""<header class="glava-velika">
 <div class="ovoj">
@@ -254,10 +238,18 @@ def vstopna(n, epizode):
 </div>
 </section>
 <section class="razdelek">
-<h2>Vse epizode</h2>
-<div><a class="gumb moder" href="/epizode">Išči in filtriraj po voditeljih in gostih</a></div>
+<h2>Novejše epizode</h2>
+<ul class="seznam">
+{chr(10).join(vrstica(e, n) for e in epizode[1:8])}
+<li><a class="vec" href="/epizode">Vseh {len(epizode)} epizod, z iskanjem in filtrom po voditeljih in gostih</a></li>
+</ul>
 </section>
-{obdobja}</main>
+<section class="razdelek">
+<h2>Po letih</h2>
+<div class="filtri">
+{po_letih}</div>
+</section>
+</main>
 """ + noga(n)
 
 
@@ -271,12 +263,12 @@ def seznam_epizod(n, epizode):
     pogosti = "\n".join(gumb(oz, p) for oz, p in po_pogostosti[:3])
     gostje = "\n".join(gumb(oz, p) for oz, p in po_pogostosti[3:])
     obdobja = ""
-    for o in n["obdobja"]:
-        njene = obdobje_epizod(o, epizode, n["obdobja"])
-        obdobja += f"""<section class="razdelek" id="obdobje-{o['znacka']}" data-obdobje style="--barva: {o['barva']}">
-{glava_obdobja(o, len(njene))}
+    for leto in leta(epizode):
+        njene = [e for e in epizode if e["leto"] == leto]
+        obdobja += f"""<section class="razdelek" id="leto-{leto}" data-obdobje>
+<h2 class="leto">{leto} <span class="tiho">{len(njene)} epizod</span></h2>
 <ul class="seznam">
-{chr(10).join(vrstica(e) for e in njene)}
+{chr(10).join(vrstica(e, n) for e in njene)}
 </ul>
 </section>
 """

@@ -121,15 +121,14 @@ main.ovoj, main .ovoj { display: flex; flex-direction: column; gap: 48px; }
 .predvajalnik .dodatki { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* Obdobja in vrstice epizod */
-.obdobje-glava { display: flex; align-items: center; gap: 18px; }
-.obdobje-glava h3 { font-size: 26px; color: var(--barva); }
-.znacka { width: 72px; height: 72px; border-radius: 16px; flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
-.znacka img { width: 100%; height: 100%; display: block; }
+.leto { display: flex; align-items: baseline; gap: 14px; color: var(--oranzna); }
+.leto .tiho { font: 400 16px var(--telo); }
+.vrstica .ikona { width: 40px; height: 40px; border-radius: 9px; flex: 0 0 auto; display: block; }
 
 .seznam { background: var(--kartica); border-radius: 20px; padding: 4px 20px; margin: 0; list-style: none; }
 .vrstica { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; padding: 14px 0; border-bottom: 1px solid var(--crta); }
 .seznam > :last-child { border-bottom: 0; }
-.vrstica .st { font-family: var(--naslovi); font-weight: 800; font-size: 24px; color: var(--barva, var(--oranzna)); width: 64px; flex: 0 0 auto; }
+.vrstica .st { font-family: var(--naslovi); font-weight: 800; font-size: 24px; color: var(--oranzna); width: 56px; flex: 0 0 auto; }
 .vrstica .opis { flex: 999 1 320px; min-width: 0; display: flex; flex-direction: column; }
 .vrstica .opis a { color: var(--besedilo); font-weight: 600; font-size: 18px; text-decoration: none; }
 .vrstica .opis a:hover { color: var(--lebdenje); }
@@ -180,4 +179,12 @@ main.ovoj, main .ovoj { display: flex; flex-direction: column; gap: 48px; }
 }
 @media (prefers-reduced-motion: no-preference) {
 	html { scroll-behavior: smooth; }
+}
+
+/* Ozki zasloni: ikona levo, številka, naslov in datum desno od nje */
+@media (max-width: 600px) {
+	.vrstica { display: grid; grid-template-columns: 40px 1fr; gap: 2px 14px; align-items: start; }
+	.vrstica .ikona { grid-row: 1 / span 3; margin-top: 4px; }
+	.vrstica .st { width: auto; font-size: 20px; }
+	.vrstica .st:empty { display: none; }
 }
