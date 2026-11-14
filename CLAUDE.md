@@ -149,6 +149,13 @@ strani, GitHub Pages kot rezerva. Lastnik: najprej MP3, to je za pozneje.
 Pri prepisih so odprti kakovost slovenščine, pregled pred objavo in soglasje
 gostov.
 
+Easter egg »imenovalnik«: lastnik je na začetku vsake epizode izbral eno ime
+in pozdravil tega poslušalca. Seznam okoli 400 imen ima v Dropboxu (mapa
+nastavitev Alfreda, `imena.txt`). Zamisel: pozdrav z naključnim imenom na
+vstopni strani (klik izbere novo) in pravo ime iz prepisa na strani epizode.
+Točen stavek pozdrava se določi, ko bodo prepisi. Lastnik prepise dela
+lokalno na Macu v ločeni seji.
+
 ## Naslednji koraki (stanje ob koncu seje 14. 11. 2026)
 
 1. Lastnik na Macu prenaša zvok (`caffeinate -is python3
