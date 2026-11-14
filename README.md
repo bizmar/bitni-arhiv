@@ -63,3 +63,37 @@ python3 skripte/zgradi_feede.py
 Iz originalnega feeda naredi glavni feed in po enega za vsako kopijo, v mapo
 `izhod/`. Skripta sama preveri, da so `guid`, datumi, naslovi in velikosti
 enaki kot v izvirniku, sicer se ustavi.
+
+## Kaj je javno in kaj ne
+
+Repozitorij je javen, ker je del arhiva: iz njega se da stran in feede
+zgraditi na novo, tudi če naju ni zraven.
+
+Javno, v repozitoriju:
+
+- originalni feed, slike, poglavja, opisi epizod,
+- koda strani in skripte,
+- načrt in stanje selitve.
+
+Nikoli v repozitoriju:
+
+- gesla, API ključi in žetoni (Cloudflare, Internet Archive, Fireside, registrar),
+- e-naslovi in drugi osebni podatki,
+- povabila v zaprte skupine (povabilo v Slack je iz shranjenih strani odstranjeno),
+- statistika poslušanja, dokler se ne odločiva drugače,
+- zvok (je na treh kopijah, ne v gitu).
+
+Dostopi do računov so zapisani v upravitelju gesel, ne tukaj. Najpomembnejši
+je račun pri registrarju domene: dvostopenjska prijava, samodejno podaljšanje,
+dostop imata oba.
+
+## Ideje za naprej
+
+- **Opisi epizod (shownotes).** Nekatere zgodnje epizode nimajo opisa. Vsaka
+  epizoda lahko dobi datoteko `epizode/<oznaka>.md`, ki dopolni ali zamenja
+  opis iz feeda. Sprememba opisa ne vpliva na naročnine, ker `guid` ostane.
+- **Prepisi (transcripts).** 217 ur zvoka se da prepisati strojno. Prepisi bi
+  omogočili iskanje po vsebini epizod na strani, v feed pa gredo z oznako
+  `podcast:transcript`. Odprto: kakovost prepisa slovenščine, pregled pred
+  objavo in soglasje gostov, ker postane njihov govor iskljiv po imenu.
+- **Poglavja** za epizode, ki jih še nimajo; lahko nastanejo iz prepisov.
