@@ -93,13 +93,13 @@ def preberi_epizode():
 
 def naslov_zvoka(n, e):
     """Dokler kopije zvoka niso postavljene, stran predvaja z izvirnega naslova."""
-    if "SE-NI-DOLOCEN" in n["kopije"]["r2"]["zvok"]:
+    if not kopije_so_postavljene(n):
         return e["zvok_izvirnik"]
     return f"/audio/{e['oznaka']}.mp3"
 
 
 def kopije_so_postavljene(n):
-    return "SE-NI-DOLOCEN" not in json.dumps(n["kopije"])
+    return bool(n.get("zvok_nalozen")) and "SE-NI-DOLOCEN" not in json.dumps(n["kopije"])
 
 
 def glava_html(naslov, opis, pot, n):

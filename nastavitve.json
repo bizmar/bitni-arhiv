@@ -2,10 +2,12 @@
   "domena": "https://www.bitnipogovori.si",
   "glavni_feed": "https://www.bitnipogovori.si/rss",
   "zvok_glavni": "https://www.bitnipogovori.si/audio/{oznaka}.mp3",
+  "zvok_nalozen": false,
+  "opomba_zvok": "zvok_nalozen se nastavi na true, ko so vse epizode na kopijah in preverjene. Do takrat stran predvaja z izvirnega naslova.",
   "kopije": {
     "r2": {
       "ime": "Cloudflare R2",
-      "zvok": "https://R2-NASLOV-SE-NI-DOLOCEN.example/{oznaka}.mp3"
+      "zvok": "https://pub-b2c25dd3ebfc45c1881bc21b9000b3ec.r2.dev/{oznaka}.mp3"
     },
     "ia": {
       "ime": "Internet Archive",

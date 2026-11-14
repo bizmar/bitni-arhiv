@@ -114,9 +114,11 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 - Strani epizod so datoteke `splet/<oznaka>.html`; Cloudflare Pages in GitHub
   Pages jih postrežeta na `/<oznaka>`. Za lokalni predogled je
   `skripte/predogled.py`, ker navaden strežnik tega ne zna.
-- Dokler kopije zvoka niso postavljene (v `nastavitve.json` so začasni
-  naslovi z »SE-NI-DOLOCEN«), stran predvaja zvok z izvirnega naslova Fireside
-  in ne izpiše povezav do kopij. Ko so naslovi pravi, se to preklopi samo.
+- Dokler v `nastavitve.json` ni `zvok_nalozen: true` (in dokler ima katera
+  kopija začasni naslov z »SE-NI-DOLOCEN«), stran predvaja zvok z izvirnega
+  naslova Fireside in ne izpiše povezav do kopij.
+- R2: vedro `bitni-pogovori-zvok`, javni naslov `r2.dev` je v
+  `nastavitve.json`. Vedro je še prazno; ključ za nalaganje še ni ustvarjen.
 - `zgradi_feede.py` se ustavi, če se pri kateri epizodi spremeni `guid`,
   naslov, datum, povezava ali velikost.
 - `splet/` se ne ureja ročno; vedno jo zgradi skripta in se commita.
