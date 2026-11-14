@@ -54,11 +54,20 @@ img { max-width: 100%; }
 
 /* Glava vstopne strani */
 .glava-velika {
+	position: relative;
 	background: linear-gradient(180deg, #12CCFF 0%, #0E8EF0 100%);
-	padding: 40px 24px 32px;
+	padding: 40px 24px 36px;
+	overflow: hidden;
 }
-/* Ikone tem iz pasice 2014: pogovor, video, telefon, opravila, smeh */
-.glava-velika .teme { display: block; width: 100%; max-width: 440px; height: auto; margin: 32px auto 0; opacity: 0.9; }
+/* Subtilna mreža ikon tem iz pasice 2014 (pogovor, video, telefon, opravila, smeh) */
+.glava-velika::before {
+	content: "";
+	position: absolute; inset: 0;
+	background: url("/slike/teme-mreza.webp") center top / 440px 176px repeat;
+	opacity: 0.2;
+	pointer-events: none;
+}
+.glava-velika .ovoj { position: relative; }
 .glava-velika .ovoj { display: flex; flex-wrap: wrap; gap: 32px; align-items: center; }
 .glava-velika .logotip { width: 240px; max-width: 70%; height: auto; flex: 0 0 auto; }
 .klepet { flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
