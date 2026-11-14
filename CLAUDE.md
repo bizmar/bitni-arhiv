@@ -50,6 +50,29 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 6.–9. Preizkus, preklop domene, preusmeritev feeda, odpoved Fireside: ni
    začeto; koraki 7 do 9 čakajo na Nejca (december 2026).
 
+**Prepisi (dodatno, začeto 14. 11. 2026).** Lokalno na lastnikovem Macu
+(M2 Pro), brezplačno. Zvok vseh 215 epizod je v `zvok/` (ni v gitu).
+- Metoda: Whisper large-v3 (MLX) v oknih do 28 s s časi besed; govorci z
+  glasovnimi odtisi ECAPA (speechbrain) in gručenjem, število gruč = število
+  oseb v feedu, zelo podobne gruče se združijo; angleščina se zazna po oknih
+  (najprej vzorec 12 oken). Imena: glasovni vzorci voditeljev (ročno potrjeni
+  v `imena.json`), gostje po izločanju (`--gostje`). Vzorci so biometrični
+  podatki in so samo v `~/.cache/bitni-prepisi/glasovi/`, nikoli v gitu.
+- Preizkušeno tudi: slovenski model RSDO/PROTOVERB (CLARIN.SI) + model za
+  ločila. Hitrejši, a tehnične izraze in angleščino popači (»Gookle Rier«),
+  zato je izbran Whisper.
+- Okolje: `~/.cache/bitni-prepisi/.venv` (Python 3.11), modeli v
+  `~/.cache/bitni-prepisi/modeli/`. Navodila v glavi `skripte/prepisi.py`.
+- Nočno delo: `nohup sh skripte/prepisi_noc.sh 70 &` (meja 70 °C, ob
+  sesutju se znova zažene, narejeno preskoči). Pri 70 °C okoli 2× hitreje od
+  realnega časa. Dnevnik `prepisi-preizkus/nocno.log`.
+- Vmesni rezultati so v `prepisi-preizkus/delo/` (v .gitignore), končni v
+  `prepisi/` (`--izvozi`, tudi v .gitignore, dokler objava ni odobrena).
+- Na strani: `zgradi_stran.py --prepisi --izhod prepisi-preizkus/splet`
+  zgradi predogled (razdelek Prepis, sledenje predvajanju, iskanje po vseh
+  prepisih, VTT). Brez `--izhod` gradnja s prepisi zavrne delo, da prepisi
+  ne pridejo v `splet/` (ta se ob pushu sam objavi).
+
 ## Sprejete odločitve
 
 - Vir zvoka se preklaplja **ročno**: ena vrstica v `splet/_redirects`
@@ -78,6 +101,9 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 - Repozitorij je javen kot del arhiva. Pravila, kaj sme vanj, so v `README.md`.
 
 ## Odprta vprašanja
+
+- **Objava prepisov:** soglasje gostov, pregled kakovosti, ali tudi v feed
+  (`podcast:transcript`). Do odobritve ostanejo prepisi samo lokalno.
 
 - **Obdobja logotipov** so določena po datumih izvornih datotek (potrdil
   lastnik): 1.0 do junija 2013 (epizode 1–30), tanke črke iOS 7 od junija
