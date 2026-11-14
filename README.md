@@ -15,7 +15,7 @@ isti. Zvok bo na treh neodvisnih mestih.
 - [ ] 3. Gradnja strani in feedov
   - [x] skripta za feede (`skripte/zgradi_feede.py`), naslovi kopij še niso določeni
   - [x] stran (`skripte/zgradi_stran.py`, rezultat v `splet/`)
-  - [ ] prava leta obdobij in retro logotipi
+  - [x] štiri obdobja logotipov po datumih izvornih datotek
 - [ ] 4. Nalaganje zvoka: Cloudflare R2, Internet Archive, GitHub Releases, torrent
   - [x] skripti za nalaganje in preverjanje (`skripte/nalozi_zvok.py`, `skripte/preveri_kopije.py`)
   - [ ] računi in nalaganje
@@ -35,7 +35,7 @@ isti. Zvok bo na treh neodvisnih mestih.
 | `izvor/stran/` | Nekaj strani obstoječega spletišča, za primerjavo |
 | `epizode.csv` | Seznam epizod z velikostmi datotek in rezultatom preverjanja |
 | `nastavitve.json` | Domena in naslovi treh kopij zvoka |
-| `logotipi/` | Izvirne naslovnice po različicah (1.0, 1.5, 1.6) |
+| `logotipi/` | Izvirne naslovnice po različicah (1.0, iOS 7, 1.5, 1.6, notch) |
 | `viri/` | Slog, JavaScript, slike in pisava strani |
 | `splet/` | Zgrajena stran, pripravljena za objavo. Ne urejaj ročno, zgradi jo skripta. |
 | `skripte/` | Skripte za preverjanje, prenos in gradnjo |

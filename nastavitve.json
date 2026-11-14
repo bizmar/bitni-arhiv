@@ -36,26 +36,37 @@
   ],
   "obdobja": [
     {
-      "ime": "Oranžni oblaček",
-      "od": 2016,
-      "do": 2019,
+      "ime": "Oranžni oblaček 1.6",
+      "leta": "2017–2019",
+      "od": "2017-03-07",
       "barva": "#FF8A24",
-      "znacka": "oblacek"
+      "znacka": "oblacek",
+      "slika": "naslovnica-600.webp"
     },
     {
-      "ime": "Tanke črke",
-      "od": 2014,
-      "do": 2015,
+      "ime": "Oranžni oblaček 1.5",
+      "leta": "2013–2017",
+      "od": "2013-11-01",
+      "barva": "#FFB347",
+      "znacka": "oblacek-15",
+      "slika": "znacka-1.5.webp"
+    },
+    {
+      "ime": "Tanke črke (iOS 7)",
+      "leta": "2013",
+      "od": "2013-06-10",
       "barva": "#4FD8FF",
-      "znacka": "tanka"
+      "znacka": "tanka",
+      "slika": "znacka-ios7.webp"
     },
     {
-      "ime": "Plastične ikone",
-      "od": 2012,
-      "do": 2013,
+      "ime": "Plastične črke 1.0",
+      "leta": "2012–2013",
+      "od": "2012-01-01",
       "barva": "#6CC6FF",
-      "znacka": "plasticna"
+      "znacka": "plasticna",
+      "slika": "znacka-1.0.webp"
     }
   ],
-  "opomba_obdobja": "Leta obdobij so začasna, dokler ne ugotoviva, kdaj so se logotipi zamenjali."
+  "opomba_obdobja": "Meje obdobij so določene po datumih izvornih datotek logotipov. 'od' je datum prve epizode obdobja ali malo pred njo; obdobje traja do začetka naslednjega."
 }

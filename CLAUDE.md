@@ -63,11 +63,11 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 
 ## Odprta vprašanja
 
-- **Obdobja logotipov.** Po datumih datotek: različica 1.0 (modra, plastične
-  črke) 2012 do oktobra 2013; 1.5 (oranžni oblaček) od novembra 2013; 1.6
-  (rahla osvežitev) marec 2017. Tanke različice v belem krogu ni v nobeni
-  mapi; lastnik mora povedati, kam spada. `nastavitve.json` ima še začasna
-  tri obdobja (2012–2013, 2014–2015, 2016–2019).
+- **Obdobja logotipov** so določena po datumih izvornih datotek (potrdil
+  lastnik): 1.0 do junija 2013 (epizode 1–30), tanke črke iOS 7 od junija
+  2013 (31–43), oblaček 1.5 od novembra 2013 (44–161), 1.6 od marca 2017
+  (162–210; »notch« pri 177, 1.5p od 178). Ni potrjeno, ali je bil logotip
+  iOS 7 res naslovnica v feedu. Obdobja so v `nastavitve.json` po datumu.
 - Uradni barvi iz starih zapiskov: modra `#0e8ef0`, oranžna `#ff5b24`. Stran
   uporablja podobni; uskladiti, če lastnik želi.
 - Licenca arhiva na Internet Archive.

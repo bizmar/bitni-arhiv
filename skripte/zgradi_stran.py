@@ -181,11 +181,7 @@ def predvajalnik(n, e):
 
 
 def znacka(obdobje):
-    if obdobje["znacka"] == "tanka":
-        return '<div class="znacka tanka" aria-hidden="true"><div class="krog"><b>bitni</b><i>pogovori</i></div></div>'
-    if obdobje["znacka"] == "plasticna":
-        return '<div class="znacka" aria-hidden="true"><img src="/slike/znacka-1.0.webp" alt="" width="72" height="72"></div>'
-    return '<div class="znacka" aria-hidden="true"><img src="/slike/naslovnica-600.webp" alt="" width="72" height="72"></div>'
+    return f'<div class="znacka" aria-hidden="true"><img src="/slike/{obdobje["slika"]}" alt="" width="72" height="72"></div>'
 
 
 def vrstica(e):
@@ -198,15 +194,18 @@ def vrstica(e):
 </li>"""
 
 
-def obdobje_epizod(obdobje, epizode):
-    return [e for e in epizode if obdobje["od"] <= e["leto"] <= obdobje["do"]]
+def obdobje_epizod(obdobje, epizode, obdobja):
+    """Epizode od začetka tega obdobja do začetka naslednjega."""
+    poznejsa = [o["od"] for o in obdobja if o["od"] > obdobje["od"]]
+    do = min(poznejsa) if poznejsa else "9999"
+    return [e for e in epizode if obdobje["od"] <= e["datum_iso"] < do]
 
 
 def glava_obdobja(obdobje, stevilo):
     return f"""<div class="obdobje-glava">
 {znacka(obdobje)}
 <div>
-<h3>{obdobje['od']}–{obdobje['do']}</h3>
+<h3>{obdobje['leta']}</h3>
 <span class="tiho">{escape(obdobje['ime'])} · {stevilo} epizod</span>
 </div>
 </div>"""
@@ -219,12 +218,12 @@ def vstopna(n, epizode):
     gumbi = "".join(f'<a class="gumb" href="{escape(g["url"])}">{escape(g["ime"])}</a>\n' for g in n["narocnina"])
     obdobja = ""
     for o in n["obdobja"]:
-        njene = obdobje_epizod(o, epizode)
+        njene = obdobje_epizod(o, epizode, n["obdobja"])
         obdobja += f"""<section class="razdelek" style="--barva: {o['barva']}">
 {glava_obdobja(o, len(njene))}
 <ul class="seznam">
 {chr(10).join(vrstica(e) for e in njene[:3])}
-<li><a class="vec" href="/epizode#obdobje-{o['od']}">Vseh {len(njene)} epizod iz tega obdobja</a></li>
+<li><a class="vec" href="/epizode#obdobje-{o['znacka']}">Vseh {len(njene)} epizod iz tega obdobja</a></li>
 </ul>
 </section>
 """
@@ -271,8 +270,8 @@ def seznam_epizod(n, epizode):
     gostje = "\n".join(gumb(oz, p) for oz, p in po_pogostosti[3:])
     obdobja = ""
     for o in n["obdobja"]:
-        njene = obdobje_epizod(o, epizode)
-        obdobja += f"""<section class="razdelek" id="obdobje-{o['od']}" data-obdobje style="--barva: {o['barva']}">
+        njene = obdobje_epizod(o, epizode, n["obdobja"])
+        obdobja += f"""<section class="razdelek" id="obdobje-{o['znacka']}" data-obdobje style="--barva: {o['barva']}">
 {glava_obdobja(o, len(njene))}
 <ul class="seznam">
 {chr(10).join(vrstica(e) for e in njene)}
