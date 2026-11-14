@@ -81,7 +81,7 @@ img { max-width: 100%; }
 	color: var(--besedilo);
 	max-width: 560px;
 }
-.oblacek.oranzen { background: var(--oranzna); color: var(--ozadje); font-family: var(--naslovi); font-weight: 600; font-size: 19px; line-height: 1.3; padding: 13px 18px; border-radius: 24px 24px 24px 6px; }
+.oblacek.oranzen { background: var(--oranzna); color: #FFFFFF; font-family: var(--naslovi); font-weight: 600; font-size: 19px; line-height: 1.3; padding: 13px 18px; border-radius: 24px 24px 24px 6px; }
 .oblacek.bel { background: #FFFFFF; color: var(--ozadje); font-weight: 600; }
 .oblacek.temen { background: var(--ozadje); }
 
@@ -94,11 +94,11 @@ img { max-width: 100%; }
 	font: 600 15px var(--telo); text-decoration: none; cursor: pointer;
 }
 .gumb:hover { color: var(--ozadje); filter: brightness(0.92); }
-.gumb.oranzen { background: var(--oranzna); font-weight: 700; }
+.gumb.oranzen, .gumb.oranzen:hover { background: var(--oranzna); color: #FFFFFF; font-weight: 700; }
 .gumb.moder { background: var(--modra); font-weight: 700; }
 .gumb.obroba { background: none; border: 2px solid var(--rob); color: var(--besedilo); border-radius: 12px; min-width: 44px; padding: 0 12px; font-size: 14px; font-weight: 700; }
 .gumb.obroba:hover { color: var(--lebdenje); filter: none; }
-.gumb.obroba[aria-pressed="true"] { background: var(--oranzna); border-color: var(--oranzna); color: var(--ozadje); }
+.gumb.obroba[aria-pressed="true"] { background: var(--oranzna); border-color: var(--oranzna); color: #FFFFFF; }
 
 /* Glava podstrani */
 .glava-mala { background: linear-gradient(180deg, #12CCFF 0%, #0E8EF0 100%); padding: 14px 24px; }
