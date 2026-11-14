@@ -2,3 +2,5 @@ zvok/
 __pycache__/
 .DS_Store
 izhod/
+# Preverjanje se tece; datoteka se doda, ko je popolna.
+epizode.csv
