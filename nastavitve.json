@@ -15,5 +15,47 @@
       "ime": "GitHub",
       "zvok": "https://github.com/bizmar/bitni-arhiv/releases/download/zvok/{oznaka}.mp3"
     }
-  }
+  },
+  "narocnina": [
+    {
+      "ime": "Apple Podcasts",
+      "url": "https://podcasts.apple.com/podcast/bitni-pogovori/id563336653"
+    },
+    {
+      "ime": "Overcast",
+      "url": "https://overcast.fm/itunes563336653/bitni-pogovori"
+    },
+    {
+      "ime": "Pocket Casts",
+      "url": "https://pca.st/NBWC"
+    },
+    {
+      "ime": "Castro",
+      "url": "https://castro.fm/itunes/563336653"
+    }
+  ],
+  "obdobja": [
+    {
+      "ime": "Oranžni oblaček",
+      "od": 2016,
+      "do": 2019,
+      "barva": "#FF8A24",
+      "znacka": "oblacek"
+    },
+    {
+      "ime": "Tanke črke",
+      "od": 2014,
+      "do": 2015,
+      "barva": "#4FD8FF",
+      "znacka": "tanka"
+    },
+    {
+      "ime": "Plastične ikone",
+      "od": 2012,
+      "do": 2013,
+      "barva": "#6CC6FF",
+      "znacka": "plasticna"
+    }
+  ],
+  "opomba_obdobja": "Leta obdobij so začasna, dokler ne ugotoviva, kdaj so se logotipi zamenjali."
 }

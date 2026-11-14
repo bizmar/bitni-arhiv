@@ -6,7 +6,7 @@ velikost), ostane nespremenjeno. Spremenijo se samo naslovi zvoka, slik in
 poglavij ter oznake, vezane na Fireside.
 
 Uporaba:  python3 skripte/zgradi_feede.py
-Rezultat: izhod/rss, izhod/rss-r2.xml, izhod/rss-ia.xml, izhod/rss-github.xml
+Rezultat: splet/rss, splet/rss-r2.xml, splet/rss-ia.xml, splet/rss-github.xml
 """
 
 import copy
@@ -19,7 +19,7 @@ from skupno import FEED, KOREN
 ITUNES = "http://www.itunes.com/dtds/podcast-1.0.dtd"
 PODCAST = "https://podcastindex.org/namespace/1.0"
 FIRESIDE = "https://fireside.fm/modules/rss/fireside"
-IZHOD = os.path.join(KOREN, "izhod")
+IZHOD = os.path.join(KOREN, "splet")
 
 
 def preberi_z_imenskimi_prostori(pot):
@@ -123,7 +123,7 @@ def preveri(izvirnik, nov):
     assert len(set(naslovi)) == len(naslovi), "dve epizodi kažeta na isto datoteko"
 
 
-def main():
+def zgradi_vse():
     with open(os.path.join(KOREN, "nastavitve.json"), encoding="utf-8") as f:
         nastavitve = json.load(f)
     drevo = preberi_z_imenskimi_prostori(FEED)
@@ -133,8 +133,8 @@ def main():
         preveri(drevo, nov)
         ime = "rss" if kopija is None else f"rss-{kopija}.xml"
         ET.ElementTree(nov).write(os.path.join(IZHOD, ime), encoding="utf-8", xml_declaration=True)
-        print(f"izhod/{ime}: {len(nov.find('channel').findall('item'))} epizod, preverjeno")
+        print(f"splet/{ime}: {len(nov.find('channel').findall('item'))} epizod, preverjeno")
 
 
 if __name__ == "__main__":
-    main()
+    zgradi_vse()

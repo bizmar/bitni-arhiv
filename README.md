@@ -14,7 +14,8 @@ isti. Zvok bo na treh neodvisnih mestih.
 - [ ] 2. Oblikovanje strani
 - [ ] 3. Gradnja strani in feedov
   - [x] skripta za feede (`skripte/zgradi_feede.py`), naslovi kopij še niso določeni
-  - [ ] stran
+  - [x] stran (`skripte/zgradi_stran.py`, rezultat v `splet/`)
+  - [ ] prava leta obdobij in retro logotipi
 - [ ] 4. Nalaganje zvoka: Cloudflare R2, Internet Archive, GitHub Releases, torrent
 - [ ] 5. Objava na začasnem naslovu
 - [ ] 6. Preizkus
@@ -32,7 +33,9 @@ isti. Zvok bo na treh neodvisnih mestih.
 | `izvor/stran/` | Nekaj strani obstoječega spletišča, za primerjavo |
 | `epizode.csv` | Seznam epizod z velikostmi datotek in rezultatom preverjanja |
 | `nastavitve.json` | Domena in naslovi treh kopij zvoka |
-| `skripte/` | Skripte za preverjanje, prenos in gradnjo feedov |
+| `viri/` | Slog, JavaScript, slike in pisava strani |
+| `splet/` | Zgrajena stran, pripravljena za objavo. Ne urejaj ročno, zgradi jo skripta. |
+| `skripte/` | Skripte za preverjanje, prenos in gradnjo |
 
 Zvok ne gre v git. Skripta ga prenese v mapo `zvok/`, ki je git ne spremlja.
 
@@ -54,14 +57,19 @@ Za zelo počasen prenos čez cel vikend (ena epizoda na 12 minut):
 python3 skripte/prenesi_zvok.py --premor 720
 ```
 
-## Gradnja feedov
+## Gradnja strani in feedov
 
 ```bash
-python3 skripte/zgradi_feede.py
+python3 skripte/zgradi_stran.py
 ```
 
-Iz originalnega feeda naredi glavni feed in po enega za vsako kopijo, v mapo
-`izhod/`. Skripta sama preveri, da so `guid`, datumi, naslovi in velikosti
+Zgradi celotno stran in feede v mapo `splet/`. Za predogled:
+
+```bash
+python3 skripte/predogled.py
+```
+
+Feedi nastanejo iz originalnega feeda: glavni in po eden za vsako kopijo. Skripta sama preveri, da so `guid`, datumi, naslovi in velikosti
 enaki kot v izvirniku, sicer se ustavi.
 
 ## Kaj je javno in kaj ne
