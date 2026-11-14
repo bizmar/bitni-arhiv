@@ -82,8 +82,8 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   rezervni dostop za drugega voditelja.
 - Ali preusmeritev na Fireside lahko ostane po odpovedi ali na cenejšem paketu
   (vprašati njihovo podporo).
-- Povabilo v Slack je še v zgodovini gita (prva dva commita). Brisanje bi
-  zahtevalo prepis zgodovine; brez izrecne potrditve se tega ne dela.
+- Povabilo v Slack ostane v zgodovini gita (prva dva commita); lastnik je
+  odločil, da se zgodovina ne prepisuje.
 
 ## Omejitve oblačne seje
 
