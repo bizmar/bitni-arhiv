@@ -1,0 +1,131 @@
+# Zapiski za nadaljevanje dela
+
+Ta datoteka je za Claude in za vsakogar, ki delo nadaljuje. Repozitorij je
+javen: sem ne sodijo gesla, ključi, e-naslovi, povezave do zasebnih dokumentov
+ali njihova vsebina. Pregled za ljudi je v `README.md`.
+
+## Kaj je projekt
+
+Selitev arhiva podcasta Bitni pogovori (215 epizod, 2012–2019, 217 ur, 8,6 GB
+MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
+
+1. Obstoječe naročnine delujejo naprej (isti `guid`, preusmeritev feeda).
+2. Obstojnost 10 do 20 let z minimalnim vzdrževanjem. Edini stalni strošek je
+   domena `bitnipogovori.si`.
+3. Zvok na treh neodvisnih mestih: Cloudflare R2, Internet Archive, GitHub
+   Releases. Dodatno torrent in lokalni kopiji.
+4. Stran: navaden HTML in CSS, videz spleta okoli 2017, zgled lmnt.me.
+
+## Kako delamo
+
+- Odgovori v slovenščini, kratko in pregledno, brez tehničnega žargona, kjer
+  ni potreben.
+- Načrt gre korak za korakom; vsak korak lastnik odobri, preden se začne.
+- Fireside beri nežno in počasi (premori med zahtevki, en zahtevek naenkrat).
+- Po vsaki spremembi commit in push na `main`.
+- Nič se ne objavi na splet in nič se ne spremeni na Fireside ali domeni brez
+  izrecne odobritve.
+- Lastnik repozitorija je sodelavec na Fireside, ne lastnik računa. Lastnik
+  računa Fireside (in verjetno domene) je sovoditelj Nejc.
+
+## Stanje po korakih (14. 11. 2026)
+
+1. **Varnostna kopija:** feed, slike, poglavja in nekaj strani so v `izvor/`.
+   Vseh 215 povezav do MP3 je preverjenih (`epizode.csv`, vse v redu).
+   Manjka: lokalna kopija zvoka (lastnik požene `skripte/prenesi_zvok.py`
+   doma; star arhiv zvoka ima na disku, ki ni priklopljen) in neobvezna
+   statistika (potrebuje API ključ lastnika računa Fireside; odloženo).
+2. **Oblikovanje:** osnutek potrjen na prvi pogled. Temno modra tema.
+3. **Gradnja:** narejeno. `skripte/zgradi_stran.py` zgradi `splet/` (stran in
+   feedi). Preizkušeno v brskalniku na namizni in telefonski širini.
+4. **Nalaganje zvoka:** ni začeto. Čaka na račune (Cloudflare, Internet
+   Archive) in na odločitev o licenci za Internet Archive.
+5.–9. Objava, preizkus, preklop domene, preusmeritev feeda, odpoved Fireside:
+   ni začeto.
+
+## Sprejete odločitve
+
+- Vir zvoka se preklaplja **ročno**: ena vrstica v `splet/_redirects`
+  (`/audio/:datoteka` na trenutno kopijo). Brez funkcij in rednega preverjanja.
+- Glavni feed ostane na `https://www.bitnipogovori.si/rss`. Fireside po
+  preklopu ostane vklopljen še 3 mesece zaradi preusmeritve.
+- Namesto strani voditeljev in gostov je iskanje s filtrom po osebah.
+- Povezave na Slack ni nikjer na strani.
+- V nogi je izjava, da sta stran in arhiv nastala s pomočjo Clauda.
+- Pisava naslovov: Futura (sistemska na Applovih napravah), rezerva Jost
+  (priložena, licenca OFL). Logotip je po oblikah črk najverjetneje Futura;
+  imena pisave v datoteki AI ni, ker je besedilo v krivuljah.
+- E-naslova v novem feedu ni.
+- Repozitorij je javen kot del arhiva. Pravila, kaj sme vanj, so v `README.md`.
+
+## Odprta vprašanja
+
+- **Obdobja logotipov.** Po datumih datotek: različica 1.0 (modra, plastične
+  črke) 2012 do oktobra 2013; 1.5 (oranžni oblaček) od novembra 2013; 1.6
+  (rahla osvežitev) marec 2017. Tanke različice v belem krogu ni v nobeni
+  mapi; lastnik mora povedati, kam spada. `nastavitve.json` ima še začasna
+  tri obdobja (2012–2013, 2014–2015, 2016–2019).
+- Uradni barvi iz starih zapiskov: modra `#0e8ef0`, oranžna `#ff5b24`. Stran
+  uporablja podobni; uskladiti, če lastnik želi.
+- Licenca arhiva na Internet Archive.
+- Na čigav e-naslov se odprejo računi; kdo ima dostop do registrarja domene,
+  Apple Podcasts Connect in Spotify for Creators.
+- Ali preusmeritev na Fireside lahko ostane po odpovedi ali na cenejšem paketu
+  (vprašati njihovo podporo).
+- Povabilo v Slack je še v zgodovini gita (prva dva commita). Brisanje bi
+  zahtevalo prepis zgodovine; brez izrecne potrditve se tega ne dela.
+
+## Omejitve oblačne seje
+
+- Nalaganje v GitHub Releases je iz oblačne seje Claude Code blokirano (HTTP
+  403 na ustvarjanje izdaj). `git push` deluje.
+- Seja je začasna, zato 8,6 GB zvoka tu ni kam shraniti. Prenos teče na
+  lastnikovem računalniku ali neposredno v Internet Archive, ko bodo ključi.
+- Prenos pisav z GitHuba je blokiran; Jost je vzet iz paketa npm
+  `@fontsource-variable/jost`.
+
+## Tehnične posebnosti
+
+- Šest epizod ima namesto številke posebno oznako: `resnicno-preprosta`,
+  `68a`, `68b`, `cryptoparty001`, `cryptoparty002`, `204-1`. Oznaka je zadnji
+  del naslova epizode in ime datoteke zvoka (`151.mp3`).
+- Fireside v feedu piše imenski prostor Atom s poševnico na koncu
+  (`http://www.w3.org/2005/Atom/`). Skripta to upošteva.
+- Strani epizod so datoteke `splet/<oznaka>.html`; Cloudflare Pages in GitHub
+  Pages jih postrežeta na `/<oznaka>`. Za lokalni predogled je
+  `skripte/predogled.py`, ker navaden strežnik tega ne zna.
+- Dokler kopije zvoka niso postavljene (v `nastavitve.json` so začasni
+  naslovi z »SE-NI-DOLOCEN«), stran predvaja zvok z izvirnega naslova Fireside
+  in ne izpiše povezav do kopij. Ko so naslovi pravi, se to preklopi samo.
+- `zgradi_feede.py` se ustavi, če se pri kateri epizodi spremeni `guid`,
+  naslov, datum, povezava ali velikost.
+- `splet/` se ne ureja ročno; vedno jo zgradi skripta in se commita.
+
+## Zasebni viri (samo kazalo, vsebina se ne objavlja)
+
+Lastnik ima zasebne priprave na epizode. Morda bodo pozneje dodane k opisom
+epizod, a šele po izrecni odobritvi. Do takrat se njihova vsebina ne bere v
+repozitorij in se ne objavlja.
+
+- **Google Docs** (iskanje po naslovu »ep NN« ali »Bitni«): priprave za
+  epizode 69 do 111 (brez 107) in 179; predloga priprav; dokumenti za kviz;
+  prvi skupni dokument iz leta 2012.
+- **Dropbox, mapa preseljenih dokumentov Paper »Bitni Pogovori«:** priprave
+  za epizode 110 (predloga), 114 in 160 do 166.
+- **Dropbox, mapa z grafičnimi materiali:** izvorne datoteke logotipov (PSD,
+  AI, EPS), barvne različice, pasice, favicon, majice. Štiri naslovnice so že
+  v `logotipi/`.
+- **Dropbox, mapa podcasta:** zvočni učinki, uvodna glasba, nastavitve
+  snemanja. Epizod tam ni.
+
+## Ideje za naprej
+
+Opisane so v `README.md`: bogatejši opisi epizod, strojni prepisi, poglavja.
+Pri prepisih so odprti kakovost slovenščine, pregled pred objavo in soglasje
+gostov.
+
+## Dokumenta zunaj repozitorija
+
+Načrt selitve in osnutek oblikovanja sta zasebna artefakta na claude.ai v
+lastnikovem računu (»Bitni pogovori: načrt selitve arhiva« in »Bitni pogovori:
+osnutek strani«). Odpreta se s seznama artefaktov.
