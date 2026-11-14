@@ -205,8 +205,7 @@ def _imena(e, gl):
         for a, b in zip(*linear_sum_assignment(-S)):
             if S[a, b] > 0.5:
                 preslikava[gruce[a]] = znani[b]
-            else:
-                prosti.append(znani[b])
+            # Oseba z znanim glasom, ki se ne ujema z nobeno gručo, v epizodi ne govori.
     neznane = [g for g in gl["sredisca"] if g not in preslikava]
     if len(neznane) == 1 and len(prosti) == 1:
         preslikava[neznane[0]] = prosti[0]
@@ -300,13 +299,31 @@ def prepis_whisper(oznaka, e, gl, varuh=None):
     skupine = okna(kosi_odsekov(zvok, gl["odseki"], najvec=28.0))
     glavna = zdruzene(gl)
 
-    # 1. krog: jezik vsakega daljšega okna.
-    p_en = []
-    for sk in skupine:
+    # 1. krog: jezik. Najprej 12 vzorčnih oken (najdaljša, razpršena po govorcih);
+    # če nikjer ni angleščine, je vsa epizoda slovenska in nadaljnja zaznava odpade.
+    def p_okna(sk):
         z, k = sk[0][0], sk[-1][1]
-        p_en.append(verjetnost_en(model, zvok[int(z * SR):int(k * SR)]) if k - z >= 3 else None)
-        if varuh:
-            varuh.pocakaj()
+        return verjetnost_en(model, zvok[int(z * SR):int(k * SR)]) if k - z >= 3 else None
+
+    po_govorcih = {}
+    for i, sk in enumerate(skupine):
+        po_govorcih.setdefault(glavna[prevladujoci(sk)], []).append(i)
+    vzorec = []
+    for indeksi in po_govorcih.values():
+        vzorec += sorted(indeksi, key=lambda i: skupine[i][0][0] - skupine[i][-1][1])[:4]
+    vzorec = sorted(set(vzorec), key=lambda i: skupine[i][0][0] - skupine[i][-1][1])[:12]
+    p_en = [None] * len(skupine)
+    for i in vzorec:
+        p_en[i] = p_okna(skupine[i])
+    if any(p is not None and p > 0.5 for p in p_en):
+        for i, sk in enumerate(skupine):
+            if i not in vzorec:
+                p_en[i] = p_okna(sk)
+                if varuh:
+                    varuh.pocakaj()
+    else:
+        p_en = [0.0 if p is None else p for p in p_en]
+        p_en = [p if i in vzorec else 0.0 for i, p in enumerate(p_en)]
     delez = {}
     for sk, p in zip(skupine, p_en):
         if p is not None:
@@ -327,7 +344,7 @@ def prepis_whisper(oznaka, e, gl, varuh=None):
             for b in seg.get("words", []):
                 t0, t1 = z + b["start"], z + b["end"]
                 besede.append({"z": t0, "k": t1, "t": b["word"], "j": jezik, "p": b.get("probability", 1.0),
-                               "g": govorec_ob(gl["odseki"], (t0 + t1) / 2)})
+                               "g": glavna[govorec_ob(gl["odseki"], (t0 + t1) / 2)]})
         if varuh:
             varuh.pocakaj()
     return v_odstavke(besede)
@@ -540,7 +557,7 @@ def brez_izmisljenega(odstavki, e):
             mali = s.strip().lower()
             deli = [d.strip(" .,") for d in mali.split(",") if d.strip(" .,")]
             podobna_imenom = sum(1 for d in deli if max(SequenceMatcher(None, d, i).ratio() for i in imena) > 0.7)
-            if mali in IZMISLJENO or not re.search(r"\w", mali) or (len(deli) > 1 and podobna_imenom >= len(deli) - 1):
+            if mali in IZMISLJENO or not re.search(r"\w", mali) or (len(deli) > 1 and podobna_imenom >= len(deli) - (1 if len(deli) >= 3 else 0)):
                 continue
             if "bitni pogovori, " in mali and ("podcast" in mali):
                 continue
@@ -617,6 +634,22 @@ const h=location.hash.match(/t=(\\d+)/);if(h)a.currentTime=+h[1];
 DVOM = ' class="dvom" title="nizka zanesljivost"'
 
 
+def z_imeni(odstavki, im, najvec=1200):
+    """Doda imena in združi zaporedne odstavke iste osebe v istem jeziku."""
+    izhod = []
+    for o in odstavki:
+        ime = im.get(o["g"], o["g"])
+        z = izhod[-1] if izhod else None
+        if z and z["ime"] == ime and z.get("j") == o.get("j") and o["z"] - z["k"] < 3 and len(z["t"]) < najvec:
+            n = len(z["t"]), len(o["t"])
+            z["p"] = round((z.get("p", 1) * n[0] + o.get("p", 1) * n[1]) / max(1, sum(n)), 2)
+            z["t"] += " " + o["t"]
+            z["k"] = o["k"]
+        else:
+            izhod.append({**o, "ime": ime})
+    return izhod
+
+
 def primerjava():
     oznake = sorted(d for d in os.listdir(DELO) if os.path.isdir(os.path.join(DELO, d)))
     vrstice = []
@@ -636,8 +669,8 @@ def primerjava():
                 f'<p data-z="{o["z"]}" data-k="{o["k"]}"{" lang=en" if o.get("j") == "en" else ""}'
                 f'{DVOM if o.get("p", 1) < 0.6 else ""}>'
                 f'<span class="c">{cas(o["z"])}{" · EN" if o.get("j") == "en" else ""}</span>'
-                f'<span class="g">{escape(im.get(o["g"], o["g"]))}</span><span class="t">{escape(o["t"])}</span></p>'
-                for o in p["odstavki"])
+                f'<span class="g">{escape(o["ime"])}</span><span class="t">{escape(o["t"])}</span></p>'
+                for o in z_imeni(p["odstavki"], im))
             stolpci.append(f'<section><h2>{model} · {hitrost:.1f}× realni čas · {len(p["odstavki"])} odstavkov</h2>{odst}</section>')
         stran = f"""<!doctype html><html lang="sl"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>Prepis {escape(oznaka)}</title>
