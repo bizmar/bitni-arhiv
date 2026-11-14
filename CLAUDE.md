@@ -61,7 +61,10 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   kategorije, ampak majhna ikona ob vsaki epizodi (logotip, ki je veljal ob
   izidu).
 - Povezave na Slack ni nikjer na strani.
-- V nogi je izjava, da sta stran in arhiv nastala s pomočjo Clauda.
+- V nogi (stolpec »O strani«) piše, da sta stran in arhiv zgrajena z umetno
+  inteligenco Claude. Trditve »ročno napisan« ni.
+- Glava vstopne strani: modri preliv s subtilno mrežo ikon tem v krogcih
+  (iz pasice za Twitter 2014).
 - Pisava naslovov: Futura (sistemska na Applovih napravah), rezerva Jost
   (priložena, licenca OFL). Logotip je po oblikah črk najverjetneje Futura;
   imena pisave v datoteki AI ni, ker je besedilo v krivuljah.
