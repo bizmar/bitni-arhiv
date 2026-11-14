@@ -60,7 +60,7 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   imena pisave v datoteki AI ni, ker je besedilo v krivuljah.
 - Modra je uradna `#0e8ef0`. Oranžna ostane `#FF8A24`, ker se ujema s
   prelivom v logotipu (uradna `#ff5b24` iz starih zapiskov je bolj rdeča).
-- Licenca arhiva: CC BY-NC-SA 4.0 (izbral lastnik; Nejc mora še potrditi).
+- Licenca arhiva: CC BY-NC-SA 4.0 (potrdila oba voditelja; izpisana v nogi strani).
   Licenca ne ureja kloniranja glasov; o izjavi glede glasov še ni odločeno.
 - E-naslova v novem feedu ni.
 - Repozitorij je javen kot del arhiva. Pravila, kaj sme vanj, so v `README.md`.
