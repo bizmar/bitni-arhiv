@@ -42,7 +42,7 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
    za R2, Internet Archive in GitHub; `skripte/preveri_kopije.py`). Podpis
    za R2 je preverjen z uradnim primerom AWS, pravo nalaganje še ni bilo
    preizkušeno. Čaka na lokalno kopijo zvoka, račune (Cloudflare, Internet
-   Archive) in odločitev o licenci za Internet Archive.
+   Archive).
 5.–9. Objava, preizkus, preklop domene, preusmeritev feeda, odpoved Fireside:
    ni začeto.
 
@@ -60,6 +60,8 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   imena pisave v datoteki AI ni, ker je besedilo v krivuljah.
 - Modra je uradna `#0e8ef0`. Oranžna ostane `#FF8A24`, ker se ujema s
   prelivom v logotipu (uradna `#ff5b24` iz starih zapiskov je bolj rdeča).
+- Licenca arhiva: CC BY-NC-SA 4.0 (izbral lastnik; Nejc mora še potrditi).
+  Licenca ne ureja kloniranja glasov; o izjavi glede glasov še ni odločeno.
 - E-naslova v novem feedu ni.
 - Repozitorij je javen kot del arhiva. Pravila, kaj sme vanj, so v `README.md`.
 
@@ -70,7 +72,6 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   2013 (31–43), oblaček 1.5 od novembra 2013 (44–161), 1.6 od marca 2017
   (162–210; »notch« pri 177, 1.5p od 178). Ni potrjeno, ali je bil logotip
   iOS 7 res naslovnica v feedu. Obdobja so v `nastavitve.json` po datumu.
-- Licenca arhiva na Internet Archive.
 - Na čigav e-naslov se odprejo računi; kdo ima dostop do registrarja domene,
   Apple Podcasts Connect in Spotify for Creators.
 - Ali preusmeritev na Fireside lahko ostane po odpovedi ali na cenejšem paketu

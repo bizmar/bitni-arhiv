@@ -13,7 +13,7 @@ Ključi se berejo iz okolja in se NIKOLI ne zapišejo v repozitorij:
 
   r2:      R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET
   ia:      IA_ACCESS_KEY, IA_SECRET_KEY, IA_OZNAKA   (ključi: archive.org/account/s3.php)
-           neobvezno IA_LICENCA (naslov licence, npr. Creative Commons)
+           neobvezno IA_LICENCA (privzeto CC BY-NC-SA 4.0)
   github:  brez ključev, potrebuje nameščen in prijavljen ukaz `gh`
 
 Potrebuje samo Python 3, brez dodatnih paketov.
@@ -37,6 +37,7 @@ from skupno import KOREN, ODJEMALEC, epizode
 PRAZNO = hashlib.sha256(b"").hexdigest()
 REPO = "bizmar/bitni-arhiv"
 IZDAJA = "zvok"
+LICENCA = "https://creativecommons.org/licenses/by-nc-sa/4.0/"
 
 
 def okolje(*imena):
@@ -166,8 +167,7 @@ def ia(datoteke, poskus):
             "Stran in feed: https://www.bitnipogovori.si"
         ),
     }
-    if os.environ.get("IA_LICENCA"):
-        opis["x-archive-meta-licenseurl"] = os.environ["IA_LICENCA"]
+    opis["x-archive-meta-licenseurl"] = os.environ.get("IA_LICENCA") or LICENCA
 
     def nalozi(ime, pot):
         glave = dict(opis)
