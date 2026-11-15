@@ -195,6 +195,12 @@ vstopni strani (klik izbere novo) in pravo ime iz prepisa na strani epizode.
 Točen stavek pozdrava se določi, ko bodo prepisi. Lastnik prepise dela
 lokalno na Macu v ločeni seji.
 
+YouTube (lastnik želi v načrtu, 15. 11. 2026): vseh 215 epizod kot podcast
+na YouTubu s preneseno vsebino opisov, poglavij (časi v opisu) in prepisov
+(podnapisi) ter urejenim SEO. Načrt in odprta vprašanja so v `README.md`.
+Dejstva o uvozu iz RSS in omejitvah API-ja pred izvedbo preveriti v
+YouTubovi dokumentaciji; niso bila preverjena.
+
 ## Naslednji koraki (stanje ob koncu seje 14. 11. 2026)
 
 1. Lastnik na Macu prenaša zvok (`caffeinate -is python3

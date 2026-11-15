@@ -157,3 +157,25 @@ dostop imata oba.
 - **Rezervna kopija strani na GitHub Pages.** Deluje samo z domeno (stran
   uporablja naslove od korena), zato se postavi ob preklopu domene ali ko bi
   Cloudflare odpovedal.
+- **YouTube.** Vseh 215 epizod kot podcast na YouTubu. Načrt:
+  - *Nalaganje.* Najmanj dela je uvoz iz feeda RSS v YouTube Studiu (YouTube
+    sam naredi videe z naslovnico in zvokom); preveriti, ali je na voljo za
+    naš kanal, in narediti šele po preklopu domene, da bere novi feed. Rezerva:
+    videe naredimo sami (`ffmpeg`, naslovnica obdobja in zvok) in naložimo
+    prek API-ja; omejitev je okoli 6 videov na dan, projekt brez Googlovega
+    pregleda pa lahko nalaga samo zasebne videe.
+  - *Opisi.* Opis epizode iz feeda, na vrhu en stavek povzetka in povezava
+    na stran epizode, spodaj licenca in izjava o glasovih.
+  - *Poglavja.* YouTube jih prebere iz opisa: seznam časov, prvi `0:00`,
+    vsaj tri poglavja, vsako vsaj 10 sekund. Naredi jih skripta iz
+    `izvor/poglavja/`; za epizode brez poglavij lahko nastanejo iz prepisov.
+  - *Prepisi.* Naložijo se kot podnapisi (VTT, jezik slovenščina) namesto
+    samodejnih. Velja isti pogoj kot za stran: pregled in soglasje gostov.
+  - *Iskanje (SEO).* Naslov »Naslov epizode | Bitni pogovori 151«, prvi dve
+    vrstici opisa s ključnimi besedami, jezik videa slovenščina, kategorija
+    Znanost in tehnologija, seznam predvajanja označen kot podcast, seznami
+    po letih, sličica s številko epizode in logotipom obdobja, podnapisi,
+    urejen opis kanala s povezavo na stran.
+  - *Odprto.* Čigav bo kanal; licenca (YouTube pozna samo standardno in
+    CC BY, zato standardna, CC BY-NC-SA pa v opisu); izvirni datum izida gre
+    v opis, ker YouTube pokaže datum nalaganja; komentarji in oglasi.
