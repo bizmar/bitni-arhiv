@@ -178,6 +178,13 @@ def imena(oznaka, e, gl):
     """Poveže gruče z imeni. Ročna izbira (imena.json) ima prednost."""
     rocno = os.path.join(mapa(oznaka), "imena.json")
     glavna = zdruzene(gl)
+    izboljsano = os.path.join(mapa(oznaka), "imena-izboljsano.json")
+    if not os.path.exists(rocno) and os.path.exists(izboljsano):
+        # Izboljšave (prepisi_izboljsave.py --imena) dopolnijo samodejna imena.
+        im = {g: v["ime"] for g, v in beri_json(izboljsano).items()}
+        gl2 = {**gl, "sredisca": {g: c for g, c in gl["sredisca"].items() if glavna[g] == g}}
+        osnovno = _imena(e, gl2)
+        return {g: im.get(g, osnovno.get(glavna[g], g)) for g in gl["sredisca"]}
     if os.path.exists(rocno):
         im = beri_json(rocno)
         return {g: im.get(glavna[g], im.get(g, g)) for g in gl["sredisca"]}
@@ -250,8 +257,9 @@ def govorec_ob(odseki, t):
 # ---------- 4. prepis ----------
 
 def namig(e):
-    ljudje = ", ".join(o["ime"] for o in e["osebe"])
-    return f"Bitni pogovori, slovenski podcast o tehnologiji in Applu. Pogovarjajo se {ljudje}."
+    # Brez seznama imen: Whisper ga je na nejasnih mestih ponovil namesto
+    # pravega govora (preizkus 15. 11. 2026: okoli 4 % zvoka izgubljenega).
+    return "Bitni pogovori, slovenski podcast o tehnologiji in Applu."
 
 
 SLOVANSKI = ("sl", "hr", "bs", "sr")  # Whisper slovenščino rad zamenja s sosednjimi jeziki.
@@ -337,9 +345,20 @@ def prepis_whisper(oznaka, e, gl, varuh=None):
         g = glavna[prevladujoci(sk)]
         en = (p is not None and p > 0.9) or (g in angleski and (p is None or p > 0.3))
         jezik = "en" if en else "sl"
-        r = mlx_whisper.transcribe(zvok[int(z * SR):int(k * SR)], path_or_hf_repo=WHISPER, language=jezik,
+        kos = zvok[int(z * SR):int(k * SR)]
+        r = mlx_whisper.transcribe(kos, path_or_hf_repo=WHISPER, language=jezik,
                                    initial_prompt=namigi[jezik], condition_on_previous_text=False,
                                    word_timestamps=True, temperature=(0.0, 0.2, 0.4))
+        # Varovalka: za toliko govora sumljivo malo besedila -> še enkrat brez namiga,
+        # obdrži daljšo različico (izgubljen govor je hujša napaka kot odvečna beseda).
+        govor = sum(b - a for a, b, _ in sk)
+        dolzina = len("".join(s_["text"] for s_ in r["segments"]).strip())
+        if govor >= 4 and dolzina / govor < 4:
+            r2 = mlx_whisper.transcribe(kos, path_or_hf_repo=WHISPER, language=jezik, initial_prompt=None,
+                                        condition_on_previous_text=False, word_timestamps=True,
+                                        temperature=(0.0, 0.2, 0.4))
+            if len("".join(s_["text"] for s_ in r2["segments"]).strip()) > dolzina * 1.5:
+                r = r2
         for seg in r["segments"]:
             for b in seg.get("words", []):
                 t0, t1 = z + b["start"], z + b["end"]
@@ -540,7 +559,8 @@ def v_odstavke(besede, najdaljsi=60.0):
     return [o for o in odstavki if o["t"]]
 
 
-IZMISLJENO = {"thank you.", "thanks for watching!", "thanks for watching.", "thank you for watching.", "hvala.", "hvala za ogled.", "hvala lepa."}
+IZMISLJENO = {"thank you.", "thanks for watching!", "thanks for watching.", "thank you for watching.", "hvala.", "hvala za ogled.", "hvala lepa.",
+              "hvala, da ste pripravljeni.", "hvala, da ste", "thank you for joining us."}
 
 
 def brez_izmisljenega(odstavki, e):
@@ -560,6 +580,11 @@ def brez_izmisljenega(odstavki, e):
             if mali in IZMISLJENO or not re.search(r"\w", mali) or (len(deli) > 1 and podobna_imenom >= len(deli) - (1 if len(deli) >= 3 else 0)):
                 continue
             if "bitni pogovori, " in mali and ("podcast" in mali):
+                continue
+            if mali.startswith(("pogovarjajo se", "speakers:")):
+                continue
+            if len(deli) == 1 and len(mali) < 40 and \
+                    max((SequenceMatcher(None, deli[0], i).ratio() for i in imena), default=0) > 0.85:
                 continue
             ostanek.append(s)
         t = " ".join(ostanek).strip()
@@ -807,7 +832,16 @@ def izvozi():
         e = podatki_epizode(oznaka)
         p = beri_json(pot)
         gl = beri_json(os.path.join(DELO, oznaka, "glasovi.json"))
-        odstavki = z_imeni(brez_izmisljenega(p["odstavki"], e), imena(oznaka, e, gl))
+        surovi = p["odstavki"]
+        # Izboljšave dvomljivih delov (prepisi_izboljsave.py --dvomljivi), pred filtrom.
+        izb = os.path.join(DELO, oznaka, "izboljsave.json")
+        if os.path.exists(izb):
+            nova = {x["z"]: x for x in beri_json(izb) if x["izbrana"] != "izvirnik"}
+            surovi = [{**o, "t": nova[o["z"]]["novo"], "p": max(h["p"] for h in nova[o["z"]]["hipoteze"]
+                                                              if h["t"] == nova[o["z"]]["novo"]), "izb": 1}
+                      if o["z"] in nova else o for o in surovi]
+            surovi = [o for o in surovi if o["t"].strip()]
+        odstavki = z_imeni(brez_izmisljenega(surovi, e), imena(oznaka, e, gl))
         for o in odstavki:
             o.pop("g", None)
             if o.get("j") == "sl":

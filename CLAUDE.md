@@ -68,6 +68,15 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   realnega časa. Dnevnik `prepisi-preizkus/nocno.log`.
 - Vmesni rezultati so v `prepisi-preizkus/delo/` (v .gitignore), končni v
   `prepisi/` (`--izvozi`, tudi v .gitignore, dokler objava ni odobrena).
+- Izboljšave (`skripte/prepisi_izboljsave.py`): `--imena` doda manjkajoča
+  imena z glasovanjem (samopredstavitev, predstavitev v uvodu, nagovor, glas;
+  najde tudi goste, ki jih feed ne navaja), `--dvomljivi` dvomljive in
+  sumljivo kratke odstavke prepiše na 5 načinov in izbere različico z
+  najmanjšim pričakovanim odstopanjem (MBR). Teče samodejno po glavnem
+  prepisu (`prepisi-preizkus/zakljucek.log`).
+- Namig modelu je brez imen: s seznamom imen je Whisper na nejasnih mestih
+  ponovil imena namesto govora (okoli 4 % zvoka v prvih 54 epizodah; to
+  popravi `--dvomljivi`).
 - Na strani: `zgradi_stran.py --prepisi --izhod prepisi-preizkus/splet`
   zgradi predogled (razdelek Prepis, sledenje predvajanju, iskanje po vseh
   prepisih, VTT). Brez `--izhod` gradnja s prepisi zavrne delo, da prepisi
