@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prepisovanje · Bitni pogovori</title>
+<style>
+:root {
+	--ozadje: #0A1A2F; --temno: #071326; --kartica: #12294A; --crta: #1E3B63; --rob: #3A5F8F;
+	--besedilo: #EAF4FF; --tiho: #9DB8D6; --oranzna: #FF8A24; --modra: #0E8EF0; --sinja: #4FD8FF;
+	--zelena: #5BD68A; --rdeca: #FF6B6B;
+	--naslovi: Futura, "Jost", "Century Gothic", sans-serif;
+	--telo: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ozadje); color: var(--besedilo); font: 16px/1.45 var(--telo); }
+a { color: var(--sinja); }
+.ovoj { max-width: 1100px; margin: 0 auto; padding: 20px 16px 48px; }
+header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; margin-bottom: 18px; }
+h1 { font: 800 28px var(--naslovi); margin: 0; }
+h1 span { color: var(--oranzna); }
+h2 { font: 700 18px var(--naslovi); margin: 0 0 10px; color: var(--sinja); }
+.faza { padding: 3px 10px; border-radius: 999px; font-size: 13px; font-weight: 600; background: var(--kartica); }
+.faza.tece { background: var(--oranzna); color: var(--temno); }
+.faza.koncano { background: var(--zelena); color: var(--temno); }
+.faza.ustavljeno { background: var(--rdeca); color: var(--temno); }
+.tiho { color: var(--tiho); font-size: 14px; }
+.stevilke { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.stevilka { background: var(--kartica); border-radius: 12px; padding: 12px 14px; }
+.stevilka b { display: block; font: 700 26px/1.2 var(--naslovi); font-variant-numeric: tabular-nums; }
+.stevilka span { color: var(--tiho); font-size: 13px; }
+.trak { height: 10px; background: var(--temno); border-radius: 999px; overflow: hidden; margin: 4px 0 18px; }
+.trak i { display: block; height: 100%; background: linear-gradient(90deg, var(--modra), var(--sinja)); transition: width .6s; }
+.mreza2 { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 14px; }
+@media (max-width: 760px) { .mreza2 { grid-template-columns: 1fr; } }
+.kartica { background: var(--kartica); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; }
+.zdaj b { font-size: 18px; }
+.zdaj .trak { margin: 10px 0 4px; }
+.zdaj .trak i { background: var(--oranzna); }
+.leto { display: grid; grid-template-columns: 44px 1fr; gap: 8px; align-items: start; margin: 4px 0; }
+.leto > span { color: var(--tiho); font-size: 13px; padding-top: 1px; font-variant-numeric: tabular-nums; }
+.kocke { display: flex; flex-wrap: wrap; gap: 4px; }
+.kocka { width: 18px; height: 18px; border-radius: 4px; background: var(--temno); border: 1px solid var(--crta); display: block; }
+.kocka.da { background: var(--modra); border-color: var(--modra); }
+.kocka.da.dvom { background: #6A8CB8; border-color: #6A8CB8; }
+.kocka.da.en { box-shadow: inset 0 -4px 0 var(--zelena); }
+.kocka.zdaj { background: var(--oranzna); border-color: var(--oranzna); animation: utrip 1.4s ease-in-out infinite; }
+@keyframes utrip { 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .kocka.zdaj { animation: none; } }
+.legenda { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 10px; font-size: 13px; color: var(--tiho); }
+.legenda i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 5px; }
+ol { list-style: none; padding: 0; margin: 0; }
+ol li { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding: 7px 0; border-top: 1px solid var(--crta); }
+ol li:first-child { border-top: 0; }
+ol li a { text-decoration: none; color: var(--besedilo); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+ol li a:hover { color: var(--sinja); }
+.dogodki { font: 12px/1.5 ui-monospace, Menlo, monospace; color: var(--tiho); white-space: pre-wrap; margin: 0; }
+.vroce { color: var(--oranzna); } .zelo-vroce { color: var(--rdeca); }
+</style>
+</head>
+<body>
+<div class="ovoj">
+<header>
+<h1>bitni <span>prepisi</span></h1>
+<span class="faza" id="faza">…</span>
+<span class="tiho" id="osvezeno"></span>
+</header>
+
+<div class="stevilke">
+<div class="stevilka"><b id="st-epizod">–</b><span>epizod prepisanih</span></div>
+<div class="stevilka"><b id="st-ur">–</b><span>ur zvoka</span></div>
+<div class="stevilka"><b id="st-hitrost">–</b><span>hitreje od realnega časa</span></div>
+<div class="stevilka"><b id="st-konec">–</b><span id="st-konec-opis">ocena konca</span></div>
+<div class="stevilka"><b id="st-temp">–</b><span id="st-temp-opis">grafika · procesor</span></div>
+</div>
+<div class="trak" aria-hidden="true"><i id="trak" style="width:0"></i></div>
+
+<div class="mreza2">
+<div>
+<div class="kartica zdaj" id="zdaj"></div>
+<div class="kartica">
+<h2>Vse epizode</h2>
+<div id="mreza"></div>
+<div class="legenda">
+<span><i style="background:var(--modra)"></i>prepisano</span>
+<span><i style="background:#6A8CB8"></i>več kot 3 % dvomljivo</span>
+<span><i style="background:var(--modra);box-shadow:inset 0 -4px 0 var(--zelena)"></i>z angleščino</span>
+<span><i style="background:var(--oranzna)"></i>zdaj</span>
+<span><i style="background:var(--temno);border:1px solid var(--crta)"></i>čaka</span>
+</div>
+</div>
+</div>
+<div>
+<div class="kartica">
+<h2>Zadnje končane</h2>
+<ol id="zadnje"></ol>
+</div>
+<div class="kartica" id="dogodki-k" hidden>
+<h2>Dogodki</h2>
+<pre class="dogodki" id="dogodki"></pre>
+</div>
+</div>
+</div>
+<p class="tiho">Klik na epizodo odpre njen prepis v predogledu. Stran se osvežuje sama.</p>
+</div>
+
+<script>
+(function () {
+	"use strict";
+	var s = null;
+	function $(id) { return document.getElementById(id); }
+	function ubezi(n) { return String(n).replace(/[&<>"]/g, function (z) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[z]; }); }
+	function trajanje(sek) {
+		sek = Math.max(0, Math.round(sek));
+		var h = Math.floor(sek / 3600), m = Math.floor(sek / 60) % 60;
+		return h ? h + " h " + m + " min" : m + " min";
+	}
+	function ura(t) {
+		var d = new Date(t * 1000), danes = new Date();
+		var hm = d.toLocaleTimeString("sl-SI", { hour: "2-digit", minute: "2-digit" });
+		if (d.toDateString() === danes.toDateString()) return hm;
+		var jutri = new Date(danes.getTime() + 864e5);
+		return (d.toDateString() === jutri.toDateString() ? "jutri " : d.getDate() + ". " + (d.getMonth() + 1) + ". ") + hm;
+	}
+	function naslov(e) { return (e.s ? e.s + ": " : "") + e.n; }
+
+	function izris() {
+		if (!s) return;
+		var zdaj = Date.now() / 1000;
+		var narejene = s.epizode.filter(function (e) { return e.k; });
+		var tece = s.ovoj_tece && s.faza === "prepisovanje";
+		var faza = s.faza === "končano" ? ["končano", "koncano"] : s.faza === "izboljšave" ? ["izboljšave", "tece"] :
+			tece ? ["prepisovanje", "tece"] : ["ustavljeno", "ustavljeno"];
+		$("faza").textContent = faza[0];
+		$("faza").className = "faza " + faza[1];
+		$("osvezeno").textContent = "podatki pred " + Math.max(0, Math.round(zdaj - s.cas)) + " s";
+		$("st-epizod").textContent = narejene.length + " / " + s.epizode.length;
+		$("st-ur").textContent = s.ur_narejeno + " / " + s.ur_skupaj;
+		$("st-hitrost").textContent = s.hitrost ? s.hitrost + "×" : "–";
+		if (s.ostane_sekund && narejene.length < s.epizode.length) {
+			$("st-konec").textContent = ura(s.cas + s.ostane_sekund);
+			$("st-konec-opis").textContent = "konec prepisa, še " + trajanje(s.ostane_sekund);
+		} else {
+			$("st-konec").textContent = narejene.length >= s.epizode.length ? "✓" : "–";
+		}
+		if (s.temperatura) {
+			var t = s.temperatura, vroce = Math.max(t.gpu, t.cpu);
+			$("st-temp").innerHTML = '<span class="' + (vroce >= 95 ? "zelo-vroce" : vroce >= 85 ? "vroce" : "") + '">' +
+				t.gpu + "° · " + t.cpu + "°</span>";
+			$("st-temp-opis").textContent = "grafika · procesor, " + t.moc + " W";
+		}
+		$("trak").style.width = (100 * s.ur_narejeno / s.ur_skupaj).toFixed(1) + "%";
+
+		// Trenutna epizoda: napredek ocenjen iz časa in hitrosti.
+		var tr = s.epizode.filter(function (e) { return e.o === s.trenutna; })[0];
+		if (tr && s.faza === "prepisovanje") {
+			var pricakovano = s.trenutna_trajanje / (s.hitrost || 6);
+			var minilo = zdaj - s.trenutna_od;
+			var delez = Math.min(0.99, minilo / pricakovano);
+			$("zdaj").innerHTML = '<h2 style="color:var(--oranzna)">Zdaj</h2><b>' + ubezi(naslov(tr)) + "</b>" +
+				'<div class="trak"><i style="width:' + (100 * delez).toFixed(0) + '%"></i></div>' +
+				'<span class="tiho">' + trajanje(tr.d) + " zvoka · teče " + trajanje(minilo) +
+				" · ocena še " + trajanje(Math.max(0, pricakovano - minilo)) + "</span>";
+			$("zdaj").hidden = false;
+		} else {
+			$("zdaj").innerHTML = '<h2>Zdaj</h2><span class="tiho">' +
+				(s.faza === "izboljšave" ? "Glavni prepis je končan, tečejo izboljšave." :
+					s.faza === "končano" ? "Vse končano." : "Prepisovanje ne teče.") + "</span>";
+		}
+
+		// Mreža po letih.
+		var leta = {};
+		s.epizode.forEach(function (e) { (leta[e.l] = leta[e.l] || []).push(e); });
+		$("mreza").innerHTML = Object.keys(leta).sort().map(function (l) {
+			return '<div class="leto"><span>' + l + '</span><div class="kocke">' + leta[l].map(function (e) {
+				var r = "kocka" + (e.k ? " da" + (e.k.dvom > 3 ? " dvom" : "") + (e.k.en > 5 ? " en" : "") : "") +
+					(e.o === s.trenutna && s.faza === "prepisovanje" ? " zdaj" : "");
+				var opis = naslov(e) + (e.k ? " · " + (e.k.sekund / e.k.obdelava).toFixed(1) + "× · dvomljivo " + e.k.dvom + " %" : "");
+				return e.k ? '<a class="' + r + '" href="/' + ubezi(e.o) + '?t=0" title="' + ubezi(opis) + '"></a>'
+					: '<span class="' + r + '" title="' + ubezi(opis) + '"></span>';
+			}).join("") + "</div></div>";
+		}).join("");
+
+		// Zadnje končane.
+		$("zadnje").innerHTML = narejene.slice().sort(function (a, b) { return b.k.koncano - a.k.koncano; }).slice(0, 10)
+			.map(function (e) {
+				return '<li><a href="/' + ubezi(e.o) + '?t=0">' + ubezi(naslov(e)) + '</a><span class="tiho">' + ura(e.k.koncano) +
+					"</span><span class=\"tiho\">" + trajanje(e.k.sekund) + " v " + trajanje(e.k.obdelava) + " · " +
+					(e.k.sekund / e.k.obdelava).toFixed(1) + "×" + (e.k.dvom > 0 ? " · dvomljivo " + e.k.dvom + " %" : "") +
+					(e.k.en > 5 ? " · EN" : "") + "</span><span></span></li>";
+			}).join("");
+
+		var dogodki = s.dogodki.concat(s.zakljucek || []);
+		$("dogodki-k").hidden = !dogodki.length;
+		$("dogodki").textContent = dogodki.join("\n");
+	}
+
+	function nalozi() {
+		fetch("/pregled.json?" + Date.now()).then(function (o) { return o.json(); })
+			.then(function (d) { s = d; izris(); }).catch(function () { /* med gradnjo predogleda */ });
+	}
+	nalozi();
+	setInterval(nalozi, 5000);
+	setInterval(izris, 1000);
+})();
+</script>
+</body>
+</html>

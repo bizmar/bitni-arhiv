@@ -66,6 +66,10 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 - Nočno delo: `nohup sh skripte/prepisi_noc.sh 70 &` (meja 70 °C, ob
   sesutju se znova zažene, narejeno preskoči). Pri 70 °C okoli 2× hitreje od
   realnega časa. Dnevnik `prepisi-preizkus/nocno.log`.
+- Živi pregled: `nohup $PY skripte/prepisi_pregled.py &` in
+  `python3 skripte/predogled.py 8001 prepisi-preizkus/splet`, nato
+  http://localhost:8001/pregled (napredek, hitrost, ocena konca, temperatura;
+  predogled s prepisi se ob vsaki končani epizodi posodobi sam).
 - Vmesni rezultati so v `prepisi-preizkus/delo/` (v .gitignore), končni v
   `prepisi/` (`--izvozi`, tudi v .gitignore, dokler objava ni odobrena).
 - Izboljšave (`skripte/prepisi_izboljsave.py`): `--imena` doda manjkajoča
