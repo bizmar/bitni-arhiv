@@ -295,12 +295,18 @@ def seznam_epizod(n, epizode):
 
 
 def stran_epizode(n, e, prejsnja, naslednja):
-    voditelji = [o for o in e["osebe"] if o["vloga"] == "host"]
-    gostje = [o for o in e["osebe"] if o["vloga"] != "host"]
+    # Fireside nekaterih sovoditeljev ni znal voditi kot voditelje; popravek je v nastavitve.json.
+    redni = {s["ime"] for s in n.get("sovoditelji", []) if e["datum_iso"] <= s["do"]}
+    posebni_imena = {s["ime"] for s in n.get("sovoditelji", [])} - redni
+    voditelji = [o for o in e["osebe"] if o["vloga"] == "host" or o["ime"] in redni]
+    posebni = [o for o in e["osebe"] if o["vloga"] != "host" and o["ime"] in posebni_imena]
+    gostje = [o for o in e["osebe"] if o not in voditelji and o not in posebni]
     povezave = lambda osebe: ", ".join(f'<a href="/epizode?oseba={o["oznaka"]}">{escape(o["ime"])}</a>' for o in osebe)
     ljudje = ""
     if voditelji:
-        ljudje += f"<span>Vodita: {povezave(voditelji)}</span>" if len(voditelji) > 1 else f"<span>Vodi: {povezave(voditelji)}</span>"
+        ljudje += f"<span>{('Vodi', 'Vodita')[len(voditelji) - 1] if len(voditelji) < 3 else 'Vodijo'}: {povezave(voditelji)}</span>"
+    if posebni:
+        ljudje += f"<span>{'Posebni gostje' if len(posebni) > 1 else 'Posebni gost'}: {povezave(posebni)}</span>"
     if gostje:
         ljudje += f"<span>{'Gostje' if len(gostje) > 1 else 'Gost'}: {povezave(gostje)}</span>"
 

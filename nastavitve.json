@@ -36,6 +36,13 @@
       "url": "https://castro.fm/itunes/563336653"
     }
   ],
+  "sovoditelji": [
+    {
+      "ime": "Alan Rener",
+      "do": "2016-10-11",
+      "opomba": "Fireside ga v feedu vodi kot gosta. Do epizode 147 je bil reden sovoditelj, pozneje poseben gost."
+    }
+  ],
   "obdobja": [
     {
       "ime": "Oranžni oblaček 1.6",
