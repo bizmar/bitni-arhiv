@@ -5,7 +5,7 @@ Uporaba:
   python3 skripte/preveri_kopije.py              vse kopije iz nastavitve.json
   python3 skripte/preveri_kopije.py ia           samo ena
   python3 skripte/preveri_kopije.py ia --vsebina prenese vsako datoteko in jo
-                                                 primerja z zvok/SHA256SUMS (počasi)
+                                                 primerja s SHA256SUMS (počasi)
 
 Kopije, ki v nastavitve.json še nimajo pravega naslova, preskoči.
 """
@@ -37,7 +37,7 @@ def main():
         kopije = json.load(f)["kopije"]
     vsote = {}
     if args.vsebina:
-        with open(os.path.join(KOREN, "zvok", "SHA256SUMS"), encoding="utf-8") as f:
+        with open(os.path.join(KOREN, "SHA256SUMS"), encoding="utf-8") as f:
             vsote = {v.split()[1]: v.split()[0] for v in f if v.strip()}
 
     slabo = 0
