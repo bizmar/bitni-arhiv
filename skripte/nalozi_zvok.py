@@ -188,7 +188,11 @@ def ia(datoteke, poskus):
 
 def github(datoteke, poskus):
     def gh(*ukaz, preveri=True):
-        r = subprocess.run(["gh", *ukaz, "--repo", REPO], capture_output=True, text=True)
+        # Časovna omejitev, da se zataknjen prenos prekine in poskusi znova.
+        try:
+            r = subprocess.run(["gh", *ukaz, "--repo", REPO], capture_output=True, text=True, timeout=600)
+        except subprocess.TimeoutExpired:
+            raise IOError("ni odgovora v 10 minutah, prekinjeno")
         if preveri and r.returncode:
             raise IOError(r.stderr.strip())
         return r
@@ -221,6 +225,7 @@ def zanka(datoteke, velikost_na_cilju, nalozi, poskus):
             continue
         for n in range(1, 4):
             try:
+                print(f"{predpona}: nalagam …", flush=True)
                 nalozi(ime, pot)
                 print(f"{predpona}: naloženo {os.path.getsize(pot) / 1e6:.1f} MB", flush=True)
                 break
