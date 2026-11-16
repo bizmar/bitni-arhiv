@@ -111,6 +111,13 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   iz MP3); pregledati epizode z govorcem brez imena (»Govorec N«) in jih
   po potrebi potrditi ročno (`prepisi.py --imena <oznaka> G1="Ime" …`);
   lastniku pokazati predogled in odpreti vprašanje objave.
+- **Dogovorjeno za vikende (16. 11.):** popravek napačno zapisanih izrazov in
+  imen (npr. angleški izrazi, ki jih Whisper »poslovenči«) s podagenti Sonnet
+  (high) v seji Claude Code, ne prek API-ja. Vsak dobi eno epizodo in njene
+  opombe, vrne samo seznam popravkov (čas, staro, novo, razlog) v
+  `delo/<oznaka>/popravki.json`, izvoz jih uporabi. Najprej preizkus na 3–4
+  epizodah, lastnik pregleda, nato serije po 10–20. Obdelava zvoka (čiščenje
+  šuma) po oceni ne bi pomagala; lahko se preizkusi le pri slabih posnetkih.
 - Neuporabljeno, a shranjeno: arhiva modelov RSDO v
   `~/.cache/bitni-prepisi/modeli/*.tar.zst` (možen dodaten »glasovalec« pri
   `--dvomljivi`).
