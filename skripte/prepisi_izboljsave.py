@@ -208,6 +208,8 @@ def verodostojnost(t, trajanje, e):
     """Utež 0–1: ali je besedilo sploh lahko pravi govor tega odseka."""
     if not t.strip():
         return 0.3                       # tišina je mogoča, a manj verjetna
+    if P.zanka(t):
+        return 0.2                       # zanka: model se je zaciklal
     if not LATINICA.match(t):
         return 0.0                       # tuja pisava: izmišljeno
     if not P.brez_izmisljenega([{"t": t, "z": 0, "k": 1, "g": "G1"}], e):
@@ -263,11 +265,14 @@ def izboljsaj_dvomljive(oznaka, varuh=None, meja_p=0.6, najdaljsi=28.0):
     if not os.path.exists(pot):
         return None
     izhod = os.path.join(P.DELO, oznaka, "izboljsave.json")
-    if os.path.exists(izhod):
-        return P.beri_json(izhod)
-    odstavki = P.brez_izmisljenega(P.beri_json(pot)["odstavki"], e)
-    dvomljivi = [o for o in P.beri_json(pot)["odstavki"] if o["k"] - o["z"] <= najdaljsi and
-                 (o.get("p", 1) < meja_p or (o["k"] - o["z"] > 4 and len(o["t"]) / (o["k"] - o["z"]) < 4))]
+    # Dopolnjevanje: že obdelani odstavki ostanejo, dodajo se le novi (npr. zanke).
+    prej = P.beri_json(izhod) if os.path.exists(izhod) else []
+    obdelani = {x["z"] for x in prej}
+    dvomljivi = [o for o in P.beri_json(pot)["odstavki"] if o["k"] - o["z"] <= najdaljsi and o["z"] not in obdelani
+                 and (o.get("p", 1) < meja_p or P.zanka(o["t"])
+                      or (o["k"] - o["z"] > 4 and len(o["t"]) / (o["k"] - o["z"]) < 4))]
+    if not dvomljivi:
+        return prej
     zvok = P.nalozi_zvok(oznaka)
     slovar = besednjak(e)
     ljudje = ", ".join(o["ime"] for o in e["osebe"])
@@ -275,7 +280,7 @@ def izboljsaj_dvomljive(oznaka, varuh=None, meja_p=0.6, najdaljsi=28.0):
         "sl": ("Bitni pogovori, slovenski podcast o tehnologiji.", f"Bitni pogovori. {slovar}" if slovar else None),
         "en": ("A conversation on Bitni pogovori, a tech podcast.", f"Bitni pogovori. {slovar}" if slovar else None),
     }
-    zapisi = []
+    zapisi = list(prej)
     for o in dvomljivi:
         jezik = o.get("j", "sl")
         trajanje = o["k"] - o["z"]

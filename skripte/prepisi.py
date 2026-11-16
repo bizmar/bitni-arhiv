@@ -32,6 +32,7 @@ Uporaba:
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -563,6 +564,47 @@ IZMISLJENO = {"thank you.", "thanks for watching!", "thanks for watching.", "tha
               "hvala, da ste pripravljeni.", "hvala, da ste", "thank you for joining us."}
 
 
+def _zanke(t):
+    """Poišče zanke: enota 1–8 besed, ponovljena zapored (ena beseda vsaj 6-krat,
+    daljša vsaj 3-krat). Vrne seznam (začetek, n, ponovitev) v besedah."""
+    w = t.split()
+    k = [re.sub(r"[^\w]", "", x.lower()) for x in w]
+    najdene, i = [], 0
+    while i < len(w):
+        najboljsa = None
+        for n in range(1, 9):
+            if not any(k[i:i + n]):
+                continue
+            r = 1
+            while k[i + r * n:i + (r + 1) * n] == k[i:i + n]:
+                r += 1
+            if r >= (6 if n == 1 else 3) and (najboljsa is None or r * n > najboljsa[1] * najboljsa[2]):
+                najboljsa = (i, n, r)
+        if najboljsa:
+            najdene.append(najboljsa)
+            i += najboljsa[1] * najboljsa[2]
+        else:
+            i += 1
+    return najdene
+
+
+def zanka(t):
+    return bool(_zanke(t))
+
+
+def brez_zank(t):
+    """Whisper se včasih zacikla (»ne, ne, ne, …« 50-krat, isti stavek 20-krat).
+    Zanko skrajša na dve ponovitvi (eno besedo na tri), kar je še lahko pravi govor."""
+    zanke = _zanke(t)
+    if not zanke:
+        return t
+    w, izhod, i = t.split(), [], 0
+    for z, n, r in zanke:
+        izhod += w[i:z] + w[z:z + n * (3 if n == 1 else 2)]
+        i = z + n * r
+    return " ".join(izhod + w[i:])
+
+
 def brez_izmisljenega(odstavki, e):
     """Whisper na tišini ali glasbi rad ponovi namig ali napiše »Thank you.«.
     Odstrani stavke, ki so del namiga, in znane izmišljene fraze."""
@@ -576,7 +618,8 @@ def brez_izmisljenega(odstavki, e):
         for s in stavki:
             mali = s.strip().lower()
             deli = [d.strip(" .,") for d in mali.split(",") if d.strip(" .,")]
-            podobna_imenom = sum(1 for d in deli if max(SequenceMatcher(None, d, i).ratio() for i in imena) > 0.7)
+            podobna_imenom = sum(1 for d in deli
+                                 if max((SequenceMatcher(None, d, i).ratio() for i in imena), default=0) > 0.7)
             if mali in IZMISLJENO or not re.search(r"\w", mali) or (len(deli) > 1 and podobna_imenom >= len(deli) - (1 if len(deli) >= 3 else 0)):
                 continue
             if "bitni pogovori, " in mali and ("podcast" in mali):
@@ -587,7 +630,7 @@ def brez_izmisljenega(odstavki, e):
                     max((SequenceMatcher(None, deli[0], i).ratio() for i in imena), default=0) > 0.85:
                 continue
             ostanek.append(s)
-        t = " ".join(ostanek).strip()
+        t = brez_zank(" ".join(ostanek).strip())
         if t:
             ocisceni.append({**o, "t": t})
     return ocisceni
