@@ -63,13 +63,21 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   zato je izbran Whisper.
 - Okolje: `~/.cache/bitni-prepisi/.venv` (Python 3.11), modeli v
   `~/.cache/bitni-prepisi/modeli/`. Navodila v glavi `skripte/prepisi.py`.
-- Nočno delo: `nohup sh skripte/prepisi_noc.sh 70 &` (meja 70 °C, ob
-  sesutju se znova zažene, narejeno preskoči). Pri 70 °C okoli 2× hitreje od
-  realnega časa. Dnevnik `prepisi-preizkus/nocno.log`.
-- Živi pregled: `nohup $PY skripte/prepisi_pregled.py &` in
-  `python3 skripte/predogled.py 8001 prepisi-preizkus/splet`, nato
-  http://localhost:8001/pregled (napredek, hitrost, ocena konca, temperatura;
-  predogled s prepisi se ob vsaki končani epizodi posodobi sam).
+- Zagon (glavni prepis, ob sesutju se znova zažene, narejeno preskoči):
+  `sh skripte/prepisi_noc.sh <meja °C> [prednostne oznake]`. Ponoči meja
+  70 (lastnik ne želi hrupa), podnevi 100 (brez omejitve). Pri 70 °C okoli
+  2–8× hitreje od realnega časa, brez omejitve okoli 6×. Dnevnik
+  `prepisi-preizkus/nocno.log`.
+- Procese zaganjaj ločeno od aplikacije Claude, sicer se ob njenem zaprtju
+  ustavijo (zgodilo se je 16. 11.):
+  `python3 -c 'import os,sys; os.setsid(); os.execvp(sys.argv[1], sys.argv[1:])' sh skripte/prepisi_noc.sh 100 </dev/null >/dev/null 2>&1 &`
+  Enako za `prepisi_pregled.py`, `predogled.py 8001 prepisi-preizkus/splet`
+  in za čakalni »zaključek« (čaka na PID ovoja, nato zaporedoma
+  `prepisi.py --gostje`, `prepisi_izboljsave.py --imena`,
+  `prepisi_izboljsave.py --dvomljivi --meja 100`, `prepisi.py --izvozi`,
+  `zgradi_stran.py --prepisi --izhod prepisi-preizkus/splet`,
+  `prepisi.py --primerjava`; na koncu vrstica ZAKLJUCEK v
+  `prepisi-preizkus/zakljucek.log`).
 - Vmesni rezultati so v `prepisi-preizkus/delo/` (v .gitignore), končni v
   `prepisi/` (`--izvozi`, tudi v .gitignore, dokler objava ni odobrena).
 - Izboljšave (`skripte/prepisi_izboljsave.py`): `--imena` doda manjkajoča
@@ -85,6 +93,19 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   zgradi predogled (razdelek Prepis, sledenje predvajanju, iskanje po vseh
   prepisih, VTT). Brez `--izhod` gradnja s prepisi zavrne delo, da prepisi
   ne pridejo v `splet/` (ta se ob pushu sam objavi).
+- **Stanje 16. 11. 2026 dopoldne:** 184 od 215 epizod prepisanih, ostanek
+  teče (okoli 5 ur), nato samodejni zaključek. Rezultati prvih 184:
+  povprečno 1,7 % besedila dvomljivega; angleščina samo v 54 (Carrot,
+  pravilno); gostje prepoznani z doslednostjo glasu 0,85–0,97. Preizkus
+  `--dvomljivi` na epizodi 17 je vrnil cele izgubljene stavke.
+- **Po zaključku:** preveriti `zakljucek.log` in pregled; pobrisati
+  `prepisi-preizkus/delo/*/zvok.wav` (okoli 115 MB na uro, nastanejo znova
+  iz MP3); pregledati epizode z govorcem brez imena (»Govorec N«) in jih
+  po potrebi potrditi ročno (`prepisi.py --imena <oznaka> G1="Ime" …`);
+  lastniku pokazati predogled in odpreti vprašanje objave.
+- Neuporabljeno, a shranjeno: arhiva modelov RSDO v
+  `~/.cache/bitni-prepisi/modeli/*.tar.zst` (možen dodaten »glasovalec« pri
+  `--dvomljivi`).
 
 ## Sprejete odločitve
 
