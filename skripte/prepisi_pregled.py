@@ -22,6 +22,7 @@ import zgradi_stran  # noqa: E402
 
 SPLET = os.path.join(P.PREIZKUS, "splet")
 DNEVNIK = os.path.join(P.PREIZKUS, "nocno.log")
+DNEVNIKI = [DNEVNIK, os.path.join(P.PREIZKUS, "crypto.log")]
 ZAKLJUCEK = os.path.join(P.PREIZKUS, "zakljucek.log")
 VIR_STRANI = os.path.join(P.KOREN, "viri", "pregled.html")
 
@@ -35,6 +36,48 @@ def temperatura():
                 "moc": round(d["all_power"])}
     except Exception:
         return None
+
+
+_kandidati = {}
+
+
+def kandidati(oznaka):
+    """Koliko odstavkov bo izboljšav obdelal (isto merilo kot prepisi_izboljsave)
+    in koliko zank je v surovem prepisu. Predpomnjeno po času spremembe."""
+    pot = os.path.join(P.DELO, oznaka, "whisper.json")
+    kljuc = (pot, os.path.getmtime(pot))
+    if kljuc not in _kandidati:
+        odst = P.beri_json(pot)["odstavki"]
+        k = {o["z"] for o in odst if o["k"] - o["z"] <= 28.0 and (
+            o.get("p", 1) < 0.6 or P.zanka(o["t"]) or (o["k"] - o["z"] > 4 and len(o["t"]) / (o["k"] - o["z"]) < 4))}
+        _kandidati[kljuc] = (k, sum(1 for o in odst if P.zanka(o["t"])))
+    return _kandidati[kljuc]
+
+
+def izboljsave(epizode, zakljucek):
+    """Napredek izboljšav v trenutnem krogu (od zadnjega ponovnega zagona)."""
+    krog = zakljucek.split("--- ponovni zagon")[-1]
+    narejene = {m[0]: (int(m[1]), int(m[2])) for m in
+                re.findall(r"^(\S+): (\d+) dvomljivih odstavkov, (\d+) spremenjenih", krog, re.M)}
+    vse, ostane, zank = {}, 0, 0
+    for e in epizode:
+        o = e["oznaka"]
+        if not os.path.exists(os.path.join(P.DELO, o, "whisper.json")):
+            continue
+        k, z = kandidati(o)
+        izb = os.path.join(P.DELO, o, "izboljsave.json")
+        obdelani = {x["z"] for x in P.beri_json(izb)} if os.path.exists(izb) else set()
+        manjka = len(k - obdelani)
+        ostane += manjka
+        zank += z
+        vse[o] = {"kand": len(k), "manjka": manjka, "zank": z,
+                  **({"n": narejene[o][0], "spr": narejene[o][1]} if o in narejene else {})}
+    vrstni = sorted(vse)  # isti vrstni red kot prepisi_izboljsave.py
+    tece = subprocess.run(["pgrep", "-f", "prepisi_izboljsave.py --dvomljivi"], capture_output=True).returncode == 0
+    trenutna = next((o for o in vrstni if o not in narejene), None) if tece else None
+    return {"po_epizodah": vse, "narejenih": len(narejene), "vseh": len(vse), "ostane_odstavkov": ostane,
+            "zank": zank, "trenutna": trenutna, "tece": tece,
+            "zadnje": [o for o in re.findall(r"^(\S+): \d+ dvomljivih", krog, re.M)][-10:][::-1]}
 
 
 def stanje(epizode, trenutna_od):
@@ -53,7 +96,7 @@ def stanje(epizode, trenutna_od):
             "en": round(100 * sum(len(o["t"]) for o in d["odstavki"] if o.get("j") == "en") / n),
             "izboljsano": len(P.beri_json(izb)) if os.path.exists(izb) else None,
         }
-    dnevnik = open(DNEVNIK, encoding="utf-8", errors="replace").read() if os.path.exists(DNEVNIK) else ""
+    dnevnik = "".join(open(d, encoding="utf-8", errors="replace").read() for d in DNEVNIKI if os.path.exists(d))
     for vrstica in dnevnik.splitlines():
         if re.match(r"^(NAPAKA|PONOVNI ZAGON|KONEC)", vrstica):
             vrstice.append(vrstica[:200])
@@ -61,10 +104,20 @@ def stanje(epizode, trenutna_od):
     trenutna = m[-1] if m and m[-1] not in done else None
     zakljucek = open(ZAKLJUCEK, encoding="utf-8", errors="replace").read() if os.path.exists(ZAKLJUCEK) else ""
     faza = "prepisovanje"
-    if "ZAKLJUCEK" in zakljucek:
+    if "ZAKLJUCEK" in zakljucek.split("--- ponovni zagon")[-1]:
         faza = "končano"
     elif re.search(r"dvomljivih odstavkov", zakljucek) or ("krog" in zakljucek):
         faza = "izboljšave"
+    izb = izboljsave(epizode, zakljucek) if faza != "prepisovanje" else None
+    if izb:
+        zdaj = time.time()
+        _zgodovina.append((zdaj, izb["ostane_odstavkov"]))
+        while _zgodovina and zdaj - _zgodovina[0][0] > 1200:
+            _zgodovina.pop(0)
+        t0, o0 = _zgodovina[0]
+        hitrost_izb = (o0 - izb["ostane_odstavkov"]) / (zdaj - t0) if zdaj - t0 > 120 else None
+        izb["odstavkov_na_minuto"] = round(60 * hitrost_izb, 1) if hitrost_izb and hitrost_izb > 0 else None
+        izb["ostane_sekund"] = round(izb["ostane_odstavkov"] / hitrost_izb) if hitrost_izb and hitrost_izb > 0 else None
     # Hitrost: zadnjih 8 epizod (realni čas zvoka / čas obdelave).
     zadnje = sorted(done.values(), key=lambda x: x["koncano"])[-8:]
     hitrost = sum(x["sekund"] for x in zadnje) / max(1, sum(x["obdelava"] for x in zadnje)) if zadnje else None
@@ -87,8 +140,12 @@ def stanje(epizode, trenutna_od):
         "temperatura": temperatura(),
         "dogodki": vrstice[-10:],
         "zakljucek": [v for v in zakljucek.splitlines() if v.strip() and "warn" not in v.lower()][-8:],
-        "ovoj_tece": subprocess.run(["pgrep", "-f", "prepisi_noc.sh"], capture_output=True).returncode == 0,
+        "ovoj_tece": subprocess.run(["pgrep", "-f", "prepisi_noc.sh|prepisi.py --vse"], capture_output=True).returncode == 0,
+        "izboljsave": izb,
     }
+
+
+_zgodovina = []
 
 
 def trajanje(e):
