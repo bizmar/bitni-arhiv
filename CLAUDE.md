@@ -98,6 +98,14 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   povprečno 1,7 % besedila dvomljivega; angleščina samo v 54 (Carrot,
   pravilno); gostje prepoznani z doslednostjo glasu 0,85–0,97. Preizkus
   `--dvomljivi` na epizodi 17 je vrnil cele izgubljene stavke.
+- **16. 11. popoldne:** glavni prepis končan (213 + cryptoparty001/002, ki sta
+  padli zaradi napake pri epizodah brez oseb in tečeta znova). Lastnik je
+  opazil zanke (Whisper isto besedo ali stavek ponovi do 50-krat, okoli 500
+  mest) in zamik. Zanke: izvoz jih skrajša na dve ponovitvi, `--dvomljivi`
+  jih prepiše znova (zdaj dopolnjuje, že narejeno ostane). Zamik na vzorcu:
+  začetki odstavkov se ujemajo z zvokom; odstopa tam, kjer je model izmislil
+  imena (prve epizode) ali se zaciklal, kar popravijo izboljšave. MP3 so CBR
+  in enaki kot na Fireside.
 - **Po zaključku:** preveriti `zakljucek.log` in pregled; pobrisati
   `prepisi-preizkus/delo/*/zvok.wav` (okoli 115 MB na uro, nastanejo znova
   iz MP3); pregledati epizode z govorcem brez imena (»Govorec N«) in jih
