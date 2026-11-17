@@ -106,6 +106,10 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   začetki odstavkov se ujemajo z zvokom; odstopa tam, kjer je model izmislil
   imena (prve epizode) ali se zaciklal, kar popravijo izboljšave. MP3 so CBR
   in enaki kot na Fireside.
+- **17. 11.:** zaključek končan (dvomljivo 0,4 %, zank 0, začasni WAV
+  pobrisani). Govorci brez imena v 7 epizodah poimenovani ročno
+  (`delo/<oznaka>/imena.json`); pregled za lastnika na
+  `localhost:8001/govorci` (ni v gitu).
 - **Po zaključku:** preveriti `zakljucek.log` in pregled; pobrisati
   `prepisi-preizkus/delo/*/zvok.wav` (okoli 115 MB na uro, nastanejo znova
   iz MP3); pregledati epizode z govorcem brez imena (»Govorec N«) in jih
@@ -153,6 +157,11 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 
 - **Objava prepisov:** soglasje gostov, pregled kakovosti, ali tudi v feed
   (`podcast:transcript`). Do odobritve ostanejo prepisi samo lokalno.
+
+- **cryptoparty002:** posnetek se ne ujema s feedom. Feed: »Gorazd Božič:
+  Zaščitite svojo elektronsko pošto s PGP«; v posnetku je predavanje Mateja
+  Kovačiča o mobilni telefoniji (ugotovljeno iz prepisa 17. 11.). Odprto:
+  ali obstaja pravi posnetek, ali popraviti naslov.
 
 - **Obdobja logotipov** so določena po datumih izvornih datotek (potrdil
   lastnik): 1.0 do junija 2013 (epizode 1–30), tanke črke iOS 7 od junija
