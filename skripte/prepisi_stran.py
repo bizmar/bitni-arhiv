@@ -69,20 +69,26 @@ def razdelek(oznaka):
     p = nalozi(oznaka)
     if not p:
         return ""
-    vrstice = []
+    vrstice, govorci = [], {}
     for o in p["odstavki"]:
+        # Vsak govorec dobi svojo barvo oblačka, po vrstnem redu, kot se oglasi.
+        g = govorci.setdefault(o["ime"], len(govorci) % 4)
         jezik = ' lang="en"' if o.get("j") == "en" else ""
-        dvom = ' class="dvom" title="Strojni prepis tega dela je manj zanesljiv."' if o.get("p", 1) < 0.6 else ""
+        dvom = ' dvom" title="Strojni prepis tega dela je manj zanesljiv.' if o.get("p", 1) < 0.6 else ""
         vrstice.append(
-            f'<p data-z="{o["z"]}"{jezik}{dvom}><a class="cas" href="?t={int(o["z"])}" data-cas="{int(o["z"])}">'
-            f'{cas(o["z"])}</a> <b>{escape(o["ime"])}</b> <span class="t">{escape(o["t"])}</span></p>')
+            f'<p data-z="{o["z"]}"{jezik} class="g{g}{dvom}"><span class="kdo"><b>{escape(o["ime"])}</b> '
+            f'<a class="cas" href="?t={int(o["z"])}" data-cas="{int(o["z"])}">{cas(o["z"])}</a></span>'
+            f'<span class="t">{escape(o["t"])}</span></p>')
+    minut = round(p["odstavki"][-1]["k"] / 60) if p["odstavki"] else 0
     return f"""<link rel="stylesheet" href="/prepis.css">
 <details class="razdelek prepis-ovoj">
-<summary><h2 style="font-size: 26px; display: inline">Prepis</h2></summary>
+<summary><span class="oblacek oranzen">Prepis pogovora</span>
+<span class="prepis-stanje tiho">{len(govorci)} {'glas' if len(govorci) == 1 else 'glasova' if len(govorci) == 2 else 'glasovi' if len(govorci) in (3, 4) else 'glasov'} · {minut} min ·
+<span class="ko-zaprt">pokaži</span><span class="ko-odprt">skrij</span></span></summary>
 <p class="prepis-opozorilo" data-opozorilo><span><strong>Strojni prepis.</strong> Lahko vsebuje napake,
-za točen citat poslušaj posnetek.</span>
+za točen citat poslušaj.</span>
 <button type="button" hidden aria-label="Skrij opozorilo">Skrij</button></p>
-<p class="tiho">Klik na čas začne predvajanje na tem mestu; predvajalnik ostane na vrhu zaslona.
+<p class="tiho">Klik na čas začne predvajanje na tem mestu.
 Prepis kot <a href="/prepisi/{escape(oznaka)}.vtt">WebVTT</a>.</p>
 <div data-prepis>
 <div class="prepis-orodja" hidden>

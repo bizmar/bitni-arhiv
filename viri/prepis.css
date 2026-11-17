@@ -1,14 +1,40 @@
 /* Prepisi: razdelek na strani epizode in zadetki na seznamu epizod. */
 
-.prepis-ovoj summary { cursor: pointer; list-style-position: outside; }
-.prepis-ovoj summary::marker { color: var(--oranzna); }
+.prepis-ovoj summary { cursor: pointer; list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.prepis-ovoj summary::-webkit-details-marker { display: none; }
+.prepis-ovoj summary .oblacek { margin: 0; transition: transform 0.15s; }
+.prepis-ovoj summary:hover .oblacek { transform: translateY(-2px); }
+.prepis-ovoj[open] .ko-zaprt, .prepis-ovoj:not([open]) .ko-odprt { display: none; }
+.prepis-stanje .ko-zaprt, .prepis-stanje .ko-odprt { color: var(--povezava); text-decoration: underline; }
 .prepis-orodja { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin: 8px 0 12px; }
 .prepis-iskanje {
 	flex: 1 1 220px; min-width: 0; padding: 8px 10px; font: 15px var(--telo);
 	color: var(--besedilo); background: var(--ozadje-temno); border: 1px solid var(--rob); border-radius: 8px;
 }
-.prepis { border-top: 1px solid var(--crta); }
-.prepis p { scroll-margin-top: 190px; }
+/* Pogovor kot govorni oblački: vsak govorec svojo barvo, drugi glas zamaknjen. */
+.prepis { display: flex; flex-direction: column; gap: 10px; padding-top: 14px; border-top: 1px solid var(--crta); }
+.prepis p {
+	margin: 0 40px 0 0; padding: 10px 14px 12px; line-height: 1.55; scroll-margin-top: 190px;
+	background: var(--kartica); border-radius: 18px 18px 18px 5px; border: 2px solid transparent;
+}
+.prepis p[hidden] { display: none; }
+.prepis .kdo { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+.prepis b { font-family: var(--naslovi); font-weight: 600; font-size: 15px; color: var(--sinja); }
+.prepis .cas { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--tiho); text-decoration: none; }
+.prepis .cas:hover { color: var(--lebdenje); text-decoration: underline; }
+.prepis p.g1 { margin: 0 0 0 40px; border-radius: 18px 18px 5px 18px; background: rgba(255, 138, 36, 0.13); }
+.prepis p.g1 b { color: var(--oranzna); }
+.prepis p.g2 { background: rgba(79, 216, 255, 0.10); }
+.prepis p.g2 b { color: #FFFFFF; }
+.prepis p.g3 { margin: 0 0 0 40px; border-radius: 18px 18px 5px 18px; background: rgba(255, 211, 107, 0.10); }
+.prepis p.g3 b { color: var(--lebdenje); }
+.prepis p.zdaj { border-color: var(--oranzna); }
+.prepis p.dvom .t { color: var(--tiho); }
+.prepis mark, .prepisi-zadetki mark { background: var(--lebdenje); color: var(--ozadje); border-radius: 2px; }
+@media (max-width: 600px) {
+	.prepis p { margin-right: 16px; }
+	.prepis p.g1, .prepis p.g3 { margin-left: 16px; }
+}
 .prepis-opozorilo {
 	display: flex; align-items: center; justify-content: space-between; gap: 12px;
 	margin: 10px 0 6px; padding: 8px 12px; border-radius: 10px; font-size: 14px; line-height: 1.4;
@@ -21,13 +47,6 @@
 }
 .prepis-opozorilo button:hover { color: var(--lebdenje); }
 .prepis-opozorilo strong { color: var(--oranzna); }
-.prepis p { margin: 0; padding: 8px 10px; border-radius: 8px; line-height: 1.55; }
-.prepis p.zdaj { background: var(--kartica); box-shadow: inset 3px 0 0 var(--oranzna); }
-.prepis .cas { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--tiho); text-decoration: none; margin-right: 4px; }
-.prepis .cas:hover { color: var(--lebdenje); }
-.prepis b { color: var(--sinja); font-weight: 600; margin-right: 2px; }
-.prepis p.dvom .t { color: var(--tiho); }
-.prepis mark, .prepisi-zadetki mark { background: var(--lebdenje); color: var(--ozadje); border-radius: 2px; }
 
 .prepisi-zadetki { margin: 0 0 24px; }
 .prepisi-zadetki h2 { font-size: 22px; margin-bottom: 4px; }
