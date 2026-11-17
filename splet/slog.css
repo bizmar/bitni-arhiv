@@ -146,7 +146,13 @@ main.ovoj, main .ovoj { display: flex; flex-direction: column; gap: 40px; }
 .vrstica .st { font-family: var(--naslovi); font-weight: 800; font-size: 21px; color: var(--oranzna); width: 50px; flex: 0 0 auto; text-decoration: none; }
 .vrstica .st:hover, .vrstica:has(.opis a:hover) .st { color: var(--lebdenje); }
 .vrstica:has(.st:hover) .opis a { color: var(--lebdenje); }
-.vrstica .st.brez { color: var(--rob); letter-spacing: 1px; }
+/* Epizode brez številke: tri črtice, vsaka široka kot števka in debela kot poteza črke, na višini sredine števk. */
+.vrstica .st.brez span { position: relative; color: transparent; }
+.vrstica .st.brez span::after {
+	content: ""; position: absolute; left: 0.03em; right: 0.03em; top: 52%; height: 0.16em; transform: translateY(-50%);
+	background: repeating-linear-gradient(90deg, var(--rob) 0 calc(33.333% - 0.16em), transparent calc(33.333% - 0.16em) 33.333%);
+}
+
 .vrstica .opis { flex: 999 1 320px; min-width: 0; display: flex; flex-direction: column; }
 .vrstica .opis a { color: var(--besedilo); font-weight: 600; font-size: 16px; text-decoration: none; }
 .vrstica .opis a:hover { color: var(--lebdenje); }

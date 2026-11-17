@@ -197,7 +197,7 @@ def vrstica(e, n):
     slika = obdobje_za(e, n["obdobja"])["slika"]
     return f"""<li class="vrstica" data-oznaka="{escape(e['oznaka'])}" data-osebe="{escape(osebe)}">
 <img class="ikona" src="/slike/{slika}" alt="" width="40" height="40" loading="lazy">
-<a class="st{'' if e['stevilka'] else ' brez'}" href="/{escape(e['oznaka'])}" tabindex="-1" aria-hidden="true">{escape(e['stevilka']) or '–––'}</a>
+<a class="st{'' if e['stevilka'] else ' brez'}" href="/{escape(e['oznaka'])}" tabindex="-1" aria-hidden="true">{escape(e['stevilka']) or '<span>000</span>'}</a>
 <div class="opis"><a href="/{escape(e['oznaka'])}">{escape(e['naslov'])}</a>{podnaslov}</div>
 <span class="tiho stevilke">{e['datum']} · {e['trajanje']}</span>
 </li>"""
