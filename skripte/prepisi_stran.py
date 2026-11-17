@@ -80,15 +80,11 @@ def razdelek(oznaka):
             f'<a class="cas" href="?t={int(o["z"])}" data-cas="{int(o["z"])}">{cas(o["z"])}</a>'
             f'<span><b>{escape(o["ime"])}</b> <span class="t">{escape(o["t"])}</span></span></p>')
     return f"""<link rel="stylesheet" href="/prepis.css">
-<details class="razdelek prepis-ovoj">
-<summary><span class="oblacek oranzen">Prepis pogovora</span>
-<span class="prepis-stanje tiho">
-<span class="ko-zaprt">pokaži</span><span class="ko-odprt">skrij</span></span></summary>
-<p class="prepis-opozorilo" data-opozorilo><span><strong>Strojni prepis.</strong> Lahko vsebuje napake,
-za točen citat poslušaj.</span>
-<button type="button" hidden aria-label="Skrij opozorilo">Skrij</button></p>
-<p class="tiho">Klik na čas začne predvajanje na tem mestu.
-Prepis kot <a href="/prepisi/{escape(oznaka)}.vtt">WebVTT</a>.</p>
+<details class="razdelek prepis-ovoj" open>
+<summary><span class="prepis-naslov">Strojni prepis</span>
+<span class="prepis-puscica" aria-hidden="true"></span>
+<span class="prepis-opozorilo">Lahko vsebuje napake, za točen citat poslušaj.
+Klik na čas začne predvajanje na tem mestu.</span></summary>
 <div data-prepis>
 <div class="prepis-orodja" hidden>
 <input type="search" class="prepis-iskanje" placeholder="Išči po prepisu …" aria-label="Išči po prepisu">
@@ -99,6 +95,7 @@ Prepis kot <a href="/prepisi/{escape(oznaka)}.vtt">WebVTT</a>.</p>
 {chr(10).join(vrstice)}
 </div>
 </div>
+<p class="tiho prepis-vtt">Prepis tudi kot <a href="/prepisi/{escape(oznaka)}.vtt">WebVTT</a>.</p>
 </details>
 <script src="/prepis.js" defer></script>"""
 

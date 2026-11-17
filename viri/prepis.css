@@ -1,15 +1,24 @@
 /* Prepisi: razdelek na strani epizode in zadetki na seznamu epizod. */
 
-/* Okvir okoli prepisa: glava z oblačkom, znotraj mirno besedilo. */
-.prepis-ovoj { border: 2px solid var(--crta); border-radius: 22px; padding: 14px 18px; background: var(--ozadje-temno); }
-.prepis-ovoj[open] { padding-bottom: 18px; }
-.prepis-ovoj summary { cursor: pointer; list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+/* Okvir okoli prepisa: glava (naslov, opozorilo, puščica) in mirno besedilo. */
+.prepis-ovoj { border: 2px solid var(--crta); border-radius: 22px; padding: 16px 18px; background: var(--ozadje-temno); }
+.prepis-ovoj summary {
+	cursor: pointer; list-style: none; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center;
+}
 .prepis-ovoj summary::-webkit-details-marker { display: none; }
-.prepis-ovoj summary .oblacek { margin: 0; font-size: 17px; padding: 9px 16px; transition: transform 0.15s; }
-.prepis-ovoj summary:hover .oblacek { transform: translateY(-2px); }
+.prepis-naslov { font-family: var(--naslovi); font-weight: 800; font-size: 24px; color: var(--besedilo); }
+.prepis-ovoj summary:hover .prepis-naslov { color: var(--lebdenje); }
+.prepis-puscica {
+	width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--rob);
+	display: flex; align-items: center; justify-content: center; transition: transform 0.2s;
+}
+.prepis-puscica::before { content: ""; width: 9px; height: 9px; border: solid var(--besedilo); border-width: 0 2px 2px 0; transform: translateY(-2px) rotate(45deg); }
+.prepis-ovoj[open] .prepis-puscica { transform: rotate(180deg); }
+.prepis-ovoj summary:hover .prepis-puscica { border-color: var(--lebdenje); }
+.prepis-opozorilo { grid-column: 1 / -1; font-size: 14px; line-height: 1.45; color: var(--tiho); }
+.prepis-ovoj:not([open]) .prepis-opozorilo { display: none; }
 .prepis-ovoj[open] summary { padding-bottom: 12px; margin-bottom: 4px; border-bottom: 1px solid var(--crta); }
-.prepis-ovoj[open] .ko-zaprt, .prepis-ovoj:not([open]) .ko-odprt { display: none; }
-.prepis-stanje .ko-zaprt, .prepis-stanje .ko-odprt { color: var(--povezava); text-decoration: underline; }
+.prepis-vtt { margin: 12px 0 0; }
 .prepis-orodja { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin: 8px 0 12px; }
 .prepis-iskanje {
 	flex: 1 1 220px; min-width: 0; padding: 8px 10px; font: 15px var(--telo);
@@ -35,18 +44,6 @@
 	.prepis-ovoj { padding: 12px; border-radius: 18px; }
 	.prepis p { grid-template-columns: 42px 1fr; padding-left: 2px; padding-right: 4px; }
 }
-.prepis-opozorilo {
-	display: flex; align-items: center; justify-content: space-between; gap: 12px;
-	margin: 10px 0 6px; padding: 8px 12px; border-radius: 10px; font-size: 14px; line-height: 1.4;
-	background: rgba(255, 138, 36, 0.12); color: var(--besedilo);
-}
-.prepis-opozorilo[hidden] { display: none; }
-.prepis-opozorilo button {
-	flex: none; background: none; border: 0; padding: 4px 6px; cursor: pointer;
-	font: 600 13px var(--telo); color: var(--tiho); text-decoration: underline;
-}
-.prepis-opozorilo button:hover { color: var(--lebdenje); }
-.prepis-opozorilo strong { color: var(--oranzna); }
 
 .prepisi-zadetki { margin: 0 0 24px; }
 .prepisi-zadetki h2 { font-size: 22px; margin-bottom: 4px; }
