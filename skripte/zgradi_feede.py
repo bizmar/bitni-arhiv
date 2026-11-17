@@ -81,6 +81,9 @@ def zgradi(drevo, nastavitve, kopija):
 
     for item in kanal.findall("item"):
         oznaka = oznaka_epizode(item)
+        if oznaka in nastavitve.get("izpusti", []):
+            kanal.remove(item)
+            continue
         odstrani(item, je_fireside)
         # <author> v RSS zahteva e-naslov; ime ostane v itunes:author.
         odstrani(item, lambda e: e.tag == "author")
@@ -105,11 +108,11 @@ def zgradi(drevo, nastavitve, kopija):
     return koren
 
 
-def preveri(izvirnik, nov):
+def preveri(izvirnik, nov, izpusti=()):
     """Kar aplikacije uporabljajo za prepoznavo epizod, se ne sme spremeniti."""
-    stari = izvirnik.getroot().find("channel").findall("item")
+    stari = [i for i in izvirnik.getroot().find("channel").findall("item") if oznaka_epizode(i) not in izpusti]
     novi = nov.find("channel").findall("item")
-    assert len(stari) == len(novi) == 215, (len(stari), len(novi))
+    assert len(stari) == len(novi) == 215 - len(izpusti), (len(stari), len(novi))
     for a, b in zip(stari, novi):
         for polje in ("guid", "title", "pubDate", "link"):
             assert a.findtext(polje) == b.findtext(polje), (polje, a.findtext("guid"))
@@ -130,7 +133,7 @@ def zgradi_vse():
     os.makedirs(IZHOD, exist_ok=True)
     for kopija in [None] + list(nastavitve["kopije"]):
         nov = zgradi(drevo, nastavitve, kopija)
-        preveri(drevo, nov)
+        preveri(drevo, nov, nastavitve.get("izpusti", []))
         ime = "rss" if kopija is None else f"rss-{kopija}.xml"
         ET.ElementTree(nov).write(os.path.join(IZHOD, ime), encoding="utf-8", xml_declaration=True)
         print(f"splet/{ime}: {len(nov.find('channel').findall('item'))} epizod, preverjeno")

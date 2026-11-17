@@ -225,3 +225,9 @@ main.ovoj, main .ovoj { display: flex; flex-direction: column; gap: 40px; }
 	.glava-mala .ime { font-size: 22px; white-space: nowrap; }
 	.glava-mala .gumb { white-space: nowrap; padding-left: 14px; padding-right: 14px; }
 }
+
+/* Predvajalnik ostane na vrhu zaslona, ko se stran pomika (dolgi opisi, prepis) */
+.kartica.plava { position: sticky; top: 8px; z-index: 5; }
+@media (max-width: 600px) {
+	.kartica.plava { padding: 10px 12px; top: 6px; }
+}

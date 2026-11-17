@@ -11,7 +11,7 @@
     },
     "ia": {
       "ime": "Internet Archive",
-      "zvok": "https://archive.org/download/IA-OZNAKA-SE-NI-DOLOCENA/{oznaka}.mp3"
+      "zvok": "https://archive.org/download/bitni-pogovori/{oznaka}.mp3"
     },
     "github": {
       "ime": "GitHub",
@@ -36,6 +36,8 @@
       "url": "https://castro.fm/itunes/563336653"
     }
   ],
+  "izpusti": ["cryptoparty001", "cryptoparty002"],
+  "opomba_izpusti": "Predavanji s CryptoPartyja nista del podcasta. Na strani in v feedu ju ni; zvok ostane na kopijah.",
   "sovoditelji": [
     {
       "ime": "Alan Rener",

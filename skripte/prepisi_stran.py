@@ -79,8 +79,11 @@ def razdelek(oznaka):
     return f"""<link rel="stylesheet" href="/prepis.css">
 <details class="razdelek prepis-ovoj">
 <summary><h2 style="font-size: 26px; display: inline">Prepis</h2></summary>
-<p class="tiho">Strojni prepis z modelom Whisper; lahko vsebuje napake, imena govorcev so določena samodejno.
-Klik na čas začne predvajanje na tem mestu. Prepis kot <a href="/prepisi/{escape(oznaka)}.vtt">WebVTT</a>.</p>
+<p class="prepis-opozorilo"><strong>Prepis ni natančen.</strong> Naredil ga je računalnik in ga nihče ni prebral
+v celoti: besede so pogosto napačne, posebej imena in tehnični izrazi, tudi govorci so včasih zamenjani.
+Uporabi ga za iskanje in orientacijo, za točen citat pa poslušaj posnetek.</p>
+<p class="tiho">Klik na čas začne predvajanje na tem mestu; predvajalnik ostane na vrhu zaslona.
+Prepis kot <a href="/prepisi/{escape(oznaka)}.vtt">WebVTT</a>.</p>
 <div data-prepis>
 <div class="prepis-orodja" hidden>
 <input type="search" class="prepis-iskanje" placeholder="Išči po prepisu …" aria-label="Išči po prepisu">

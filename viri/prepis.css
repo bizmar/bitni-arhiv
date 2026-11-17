@@ -7,7 +7,13 @@
 	flex: 1 1 220px; min-width: 0; padding: 8px 10px; font: 15px var(--telo);
 	color: var(--besedilo); background: var(--ozadje-temno); border: 1px solid var(--rob); border-radius: 8px;
 }
-.prepis { max-height: 70vh; overflow-y: auto; padding-right: 6px; border-top: 1px solid var(--crta); }
+.prepis { border-top: 1px solid var(--crta); }
+.prepis p { scroll-margin-top: 190px; }
+.prepis-opozorilo {
+	margin: 12px 0 8px; padding: 12px 14px; border-radius: 12px; line-height: 1.5;
+	background: rgba(255, 138, 36, 0.14); border: 1px solid var(--oranzna); color: var(--besedilo);
+}
+.prepis-opozorilo strong { color: var(--oranzna); }
 .prepis p { margin: 0; padding: 8px 10px; border-radius: 8px; line-height: 1.55; }
 .prepis p.zdaj { background: var(--kartica); box-shadow: inset 3px 0 0 var(--oranzna); }
 .prepis .cas { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--tiho); text-decoration: none; margin-right: 4px; }

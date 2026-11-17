@@ -181,6 +181,22 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 - Povabilo v Slack ostane v zgodovini gita (prva dva commita); lastnik je
   odločil, da se zgodovina ne prepisuje.
 
+## Stanje 17. 11. 2026 (seja, ki dela stran)
+
+- Zvok: GitHub Releases naložen in preverjen s SHA-256 (`SHA256SUMS` v korenu
+  repozitorija, odtisi kot jih poroča GitHub; lokalna kopija se ujema).
+  Internet Archive naložen (`archive.org/details/bitni-pogovori`, 215
+  datotek, velikosti se ujemajo). R2 še ni naložen; `zvok_nalozen` ostane
+  `false`, dokler niso vse tri kopije.
+- Predavanji `cryptoparty001` in `cryptoparty002` sta izločeni iz strani in
+  feeda (`izpusti` v `nastavitve.json`): 213 epizod. Zvok obeh ostane na
+  kopijah; skripte za zvok še vedno štejejo 215 datotek.
+- Alan Rener: sovoditelj do epizode 147, pozneje posebni gost
+  (`sovoditelji` v `nastavitve.json`); feed ostane nespremenjen.
+- Stran epizode: predvajalnik je lepljiv (`.kartica.plava`), prepis teče v
+  strani brez notranjega drsnika, na vrhu prepisa je jasno opozorilo, da ni
+  natančen. Prepisi še niso objavljeni (čaka odobritev).
+
 ## Omejitve oblačne seje
 
 - Nalaganje v GitHub Releases je iz oblačne seje Claude Code blokirano (HTTP

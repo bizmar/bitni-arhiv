@@ -340,7 +340,7 @@ def stran_epizode(n, e, prejsnja, naslednja):
 </div>
 <img class="naslovnica" src="/slike/naslovnica-600.webp" alt="" width="280" height="280">
 </div>
-<div class="kartica senca">
+<div class="kartica senca plava">
 {predvajalnik(n, e)}
 </div>
 <div class="opombe">
@@ -401,9 +401,9 @@ def main():
         raise SystemExit("Prepisi še niso odobreni za objavo: uporabi --izhod za predogled.")
     with open(os.path.join(KOREN, "nastavitve.json"), encoding="utf-8") as f:
         n = json.load(f)
-    epizode = preberi_epizode()
+    epizode = [e for e in preberi_epizode() if e["oznaka"] not in n.get("izpusti", [])]
     oznake = [e["oznaka"] for e in epizode]
-    assert len(set(oznake)) == len(oznake) == 215
+    assert len(set(oznake)) == len(oznake) == 215 - len(n.get("izpusti", []))
 
     shutil.rmtree(SPLET, ignore_errors=True)
     os.makedirs(SPLET)
