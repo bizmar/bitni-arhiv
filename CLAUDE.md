@@ -160,8 +160,10 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 
 - **cryptoparty002:** posnetek se ne ujema s feedom. Feed: »Gorazd Božič:
   Zaščitite svojo elektronsko pošto s PGP«; v posnetku je predavanje Mateja
-  Kovačiča o mobilni telefoniji (ugotovljeno iz prepisa 17. 11.). Odprto:
-  ali obstaja pravi posnetek, ali popraviti naslov.
+  Kovačiča o mobilni telefoniji (ugotovljeno iz prepisa 17. 11.). Lastnik
+  (17. 11.): obe cryptoparty sta predavanji, ne del podcasta; iz arhiva ju
+  odstrani seja, ki dela stran. Pri prepisih se z njima ne ukvarjamo
+  (izpustiti pri popravkih s podagenti).
 
 - **Obdobja logotipov** so določena po datumih izvornih datotek (potrdil
   lastnik): 1.0 do junija 2013 (epizode 1–30), tanke črke iOS 7 od junija
