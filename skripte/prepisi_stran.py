@@ -71,14 +71,14 @@ def razdelek(oznaka):
         return ""
     vrstice, govorci = [], {}
     for o in p["odstavki"]:
-        # Vsak govorec dobi svojo barvo oblačka, po vrstnem redu, kot se oglasi.
+        # Vsak govorec dobi svojo barvo imena, po vrstnem redu, kot se oglasi.
         g = govorci.setdefault(o["ime"], len(govorci) % 4)
         jezik = ' lang="en"' if o.get("j") == "en" else ""
         dvom = ' dvom" title="Strojni prepis tega dela je manj zanesljiv.' if o.get("p", 1) < 0.6 else ""
         vrstice.append(
-            f'<p data-z="{o["z"]}"{jezik} class="g{g}{dvom}"><span class="kdo"><b>{escape(o["ime"])}</b> '
-            f'<a class="cas" href="?t={int(o["z"])}" data-cas="{int(o["z"])}">{cas(o["z"])}</a></span>'
-            f'<span class="t">{escape(o["t"])}</span></p>')
+            f'<p data-z="{o["z"]}"{jezik} class="g{g}{dvom}">'
+            f'<a class="cas" href="?t={int(o["z"])}" data-cas="{int(o["z"])}">{cas(o["z"])}</a>'
+            f'<span><b>{escape(o["ime"])}</b> <span class="t">{escape(o["t"])}</span></span></p>')
     minut = round(p["odstavki"][-1]["k"] / 60) if p["odstavki"] else 0
     return f"""<link rel="stylesheet" href="/prepis.css">
 <details class="razdelek prepis-ovoj">
