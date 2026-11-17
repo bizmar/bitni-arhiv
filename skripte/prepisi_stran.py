@@ -81,10 +81,8 @@ def razdelek(oznaka):
             f'<span><b>{escape(o["ime"])}</b> <span class="t">{escape(o["t"])}</span></span></p>')
     return f"""<link rel="stylesheet" href="/prepis.css">
 <details class="razdelek prepis-ovoj" open>
-<summary><span class="prepis-naslov">Strojni prepis</span>
-<span class="prepis-puscica" aria-hidden="true"></span>
-<span class="prepis-opozorilo">Lahko vsebuje napake, za točen citat poslušaj.
-Klik na čas začne predvajanje na tem mestu.</span></summary>
+<summary><span class="gumb oranzen prepis-gumb">Strojni prepis<span class="prepis-puscica" aria-hidden="true"></span></span></summary>
+<p class="prepis-opozorilo">Lahko vsebuje napake, za točen citat poslušaj. Klik na čas začne predvajanje na tem mestu.</p>
 <div data-prepis>
 <div class="prepis-orodja" hidden>
 <input type="search" class="prepis-iskanje" placeholder="Išči po prepisu …" aria-label="Išči po prepisu">
