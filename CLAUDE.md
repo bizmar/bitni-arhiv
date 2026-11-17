@@ -109,7 +109,7 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 - **17. 11.:** zaključek končan (dvomljivo 0,4 %, zank 0, začasni WAV
   pobrisani). Govorci brez imena v 7 epizodah poimenovani ročno
   (`delo/<oznaka>/imena.json`); pregled za lastnika na
-  `localhost:8001/govorci` (ni v gitu).
+  `localhost:8001/govorci` (ni v gitu); lastnik je vsa imena potrdil.
 - **Po zaključku:** preveriti `zakljucek.log` in pregled; pobrisati
   `prepisi-preizkus/delo/*/zvok.wav` (okoli 115 MB na uro, nastanejo znova
   iz MP3); pregledati epizode z govorcem brez imena (»Govorec N«) in jih
