@@ -143,7 +143,10 @@ main.ovoj, main .ovoj { display: flex; flex-direction: column; gap: 40px; }
 .seznam { background: var(--kartica); border-radius: 20px; padding: 4px 20px; margin: 0; list-style: none; }
 .vrstica { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; padding: 11px 0; border-bottom: 1px solid var(--crta); }
 .seznam > :last-child { border-bottom: 0; }
-.vrstica .st { font-family: var(--naslovi); font-weight: 800; font-size: 21px; color: var(--oranzna); width: 50px; flex: 0 0 auto; }
+.vrstica .st { font-family: var(--naslovi); font-weight: 800; font-size: 21px; color: var(--oranzna); width: 50px; flex: 0 0 auto; text-decoration: none; }
+.vrstica .st:hover, .vrstica:has(.opis a:hover) .st { color: var(--lebdenje); }
+.vrstica:has(.st:hover) .opis a { color: var(--lebdenje); }
+.vrstica .st.brez { color: var(--rob); letter-spacing: 1px; }
 .vrstica .opis { flex: 999 1 320px; min-width: 0; display: flex; flex-direction: column; }
 .vrstica .opis a { color: var(--besedilo); font-weight: 600; font-size: 16px; text-decoration: none; }
 .vrstica .opis a:hover { color: var(--lebdenje); }
@@ -215,7 +218,6 @@ main.ovoj, main .ovoj { display: flex; flex-direction: column; gap: 40px; }
 	.vrstica { display: grid; grid-template-columns: 40px 1fr; gap: 2px 14px; align-items: start; }
 	.vrstica .ikona { grid-row: 1 / span 3; margin-top: 4px; }
 	.vrstica .st { width: auto; font-size: 20px; }
-	.vrstica .st:empty { display: none; }
 }
 
 /* Telefon: ime in gumb v glavi ostaneta v eni vrsti */
