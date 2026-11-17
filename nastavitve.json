@@ -36,8 +36,9 @@
       "url": "https://castro.fm/itunes/563336653"
     }
   ],
-  "izpusti": ["cryptoparty001", "cryptoparty002"],
-  "opomba_izpusti": "Predavanji s CryptoPartyja nista del podcasta. Na strani in v feedu ju ni; zvok ostane na kopijah.",
+  "izpusti_na_strani": ["cryptoparty001", "cryptoparty002"],
+  "izpusti_v_feedu": [],
+  "opomba_izpusti": "Predavanji s CryptoPartyja nista del podcasta. Na strani ju ni (povezavi vodita na seznam epizod). V feedu ostaneta, dokler selitev ni končana, da je novi feed enak staremu; zvok ostane na kopijah.",
   "sovoditelji": [
     {
       "ime": "Alan Rener",

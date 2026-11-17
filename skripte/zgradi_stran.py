@@ -401,9 +401,9 @@ def main():
         raise SystemExit("Prepisi še niso odobreni za objavo: uporabi --izhod za predogled.")
     with open(os.path.join(KOREN, "nastavitve.json"), encoding="utf-8") as f:
         n = json.load(f)
-    epizode = [e for e in preberi_epizode() if e["oznaka"] not in n.get("izpusti", [])]
+    epizode = [e for e in preberi_epizode() if e["oznaka"] not in n.get("izpusti_na_strani", [])]
     oznake = [e["oznaka"] for e in epizode]
-    assert len(set(oznake)) == len(oznake) == 215 - len(n.get("izpusti", []))
+    assert len(set(oznake)) == len(oznake) == 215 - len(n.get("izpusti_na_strani", []))
 
     shutil.rmtree(SPLET, ignore_errors=True)
     os.makedirs(SPLET)
@@ -442,6 +442,8 @@ def main():
     if kopije_so_postavljene(n):
         # Vir zvoka se zamenja tukaj: ena vrstica, ki kaže na eno od kopij.
         preusmeritve.append("/audio/:datoteka " + n["kopije"]["r2"]["zvok"].replace("{oznaka}.mp3", ":datoteka") + " 302")
+    # Epizode, ki jih na strani ni, a so še v feedu: povezava vodi na seznam.
+    preusmeritve += [f"/{o} /epizode 302" for o in n.get("izpusti_na_strani", [])]
     zapisi("_redirects", "\n".join(preusmeritve) + "\n")
     zapisi("_headers", "/rss\n  Content-Type: application/rss+xml; charset=utf-8\n\n/*\n  tdm-reservation: 1\n\n"
            # Začasni naslov naj ne pride v iskalnike; prava domena lahko.

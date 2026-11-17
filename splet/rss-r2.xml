@@ -6919,6 +6919,62 @@
       <podcast:person email="" href="http://www.e-izobrazevanje.si" role="host">Nejc Žorga Dulmin</podcast:person>
     </item>
     <item>
+      <title>Zaščitite svojo elektronsko pošto s PGP</title>
+      <link>https://www.bitnipogovori.si/cryptoparty002</link>
+      <guid isPermaLink="false">664859A5-7CA1-4BEF-8964-F1ECDE6AADF1</guid>
+      <pubDate>Thu, 23 Apr 2015 08:00:00 +0200</pubDate>
+      <enclosure url="https://pub-b2c25dd3ebfc45c1881bc21b9000b3ec.r2.dev/cryptoparty002.mp3" length="9770006" type="audio/mpeg" />
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>Nejc Žorga Dulmin &amp; Mark Bizilj &amp; Alan Rener</itunes:author>
+      <itunes:subtitle>Gorazd Božič: Zaščitite svojo elektronsko pošto s PGP</itunes:subtitle>
+      <itunes:duration>15:37</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:image href="https://www.bitnipogovori.si/slike/naslovnica.jpg" />
+      <description>
+        &lt;p&gt;Gorazd Božič: Zaščitite svojo elektronsko pošto s PGP&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.e-demokracija.si/cryptoparty/" rel="nofollow noopener"&gt;http://www.e-demokracija.si/cryptoparty/&lt;/a&gt;&lt;/p&gt;
+      </description>
+      <content:encoded>
+        &lt;p&gt;Gorazd Božič: Zaščitite svojo elektronsko pošto s PGP&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.e-demokracija.si/cryptoparty/" rel="nofollow noopener"&gt;http://www.e-demokracija.si/cryptoparty/&lt;/a&gt;&lt;/p&gt;
+      </content:encoded>
+      <itunes:summary>
+        &lt;p&gt;Gorazd Božič: Zaščitite svojo elektronsko pošto s PGP&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.e-demokracija.si/cryptoparty/" rel="nofollow noopener"&gt;http://www.e-demokracija.si/cryptoparty/&lt;/a&gt;&lt;/p&gt;
+      </itunes:summary>
+      </item>
+    <item>
+      <title>Kriptografija skozi čas</title>
+      <link>https://www.bitnipogovori.si/cryptoparty001</link>
+      <guid isPermaLink="false">8FE78088-8BBC-4921-B68A-EDF2E507A68F</guid>
+      <pubDate>Sat, 18 Apr 2015 21:00:00 +0200</pubDate>
+      <enclosure url="https://pub-b2c25dd3ebfc45c1881bc21b9000b3ec.r2.dev/cryptoparty001.mp3" length="10687051" type="audio/mpeg" />
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>Nejc Žorga Dulmin &amp; Mark Bizilj &amp; Alan Rener</itunes:author>
+      <itunes:subtitle>Dunja Rosina: Kriptografija skozi čas</itunes:subtitle>
+      <itunes:duration>15:09</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:image href="https://www.bitnipogovori.si/slike/naslovnica.jpg" />
+      <description>
+        &lt;p&gt;Dunja Rosina: Kriptografija skozi čas&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.e-demokracija.si/cryptoparty/" rel="nofollow noopener"&gt;http://www.e-demokracija.si/cryptoparty/&lt;/a&gt;&lt;/p&gt;
+      </description>
+      <content:encoded>
+        &lt;p&gt;Dunja Rosina: Kriptografija skozi čas&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.e-demokracija.si/cryptoparty/" rel="nofollow noopener"&gt;http://www.e-demokracija.si/cryptoparty/&lt;/a&gt;&lt;/p&gt;
+      </content:encoded>
+      <itunes:summary>
+        &lt;p&gt;Dunja Rosina: Kriptografija skozi čas&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.e-demokracija.si/cryptoparty/" rel="nofollow noopener"&gt;http://www.e-demokracija.si/cryptoparty/&lt;/a&gt;&lt;/p&gt;
+      </itunes:summary>
+      </item>
+    <item>
       <title>Episode 94: Lastnik selfie palice, preden je bilo kul</title>
       <link>https://www.bitnipogovori.si/94</link>
       <guid isPermaLink="false">34AD3C76-9427-4FBC-BFDA-87FB776D95FE</guid>

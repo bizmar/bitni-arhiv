@@ -81,7 +81,7 @@ def zgradi(drevo, nastavitve, kopija):
 
     for item in kanal.findall("item"):
         oznaka = oznaka_epizode(item)
-        if oznaka in nastavitve.get("izpusti", []):
+        if oznaka in nastavitve.get("izpusti_v_feedu", []):
             kanal.remove(item)
             continue
         odstrani(item, je_fireside)
@@ -133,7 +133,7 @@ def zgradi_vse():
     os.makedirs(IZHOD, exist_ok=True)
     for kopija in [None] + list(nastavitve["kopije"]):
         nov = zgradi(drevo, nastavitve, kopija)
-        preveri(drevo, nov, nastavitve.get("izpusti", []))
+        preveri(drevo, nov, nastavitve.get("izpusti_v_feedu", []))
         ime = "rss" if kopija is None else f"rss-{kopija}.xml"
         ET.ElementTree(nov).write(os.path.join(IZHOD, ime), encoding="utf-8", xml_declaration=True)
         print(f"splet/{ime}: {len(nov.find('channel').findall('item'))} epizod, preverjeno")

@@ -188,9 +188,11 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   Internet Archive naložen (`archive.org/details/bitni-pogovori`, 215
   datotek, velikosti se ujemajo). R2 še ni naložen; `zvok_nalozen` ostane
   `false`, dokler niso vse tri kopije.
-- Predavanji `cryptoparty001` in `cryptoparty002` sta izločeni iz strani in
-  feeda (`izpusti` v `nastavitve.json`): 213 epizod. Zvok obeh ostane na
-  kopijah; skripte za zvok še vedno štejejo 215 datotek.
+- Predavanji `cryptoparty001` in `cryptoparty002` nista na strani
+  (`izpusti_na_strani` v `nastavitve.json`, povezavi preusmerita na seznam):
+  213 strani epizod. V feedu ostaneta (215), ker je prioriteta gladka
+  predaja: novi feed naj bo enak staremu. Po končani selitvi se lahko
+  dodata v `izpusti_v_feedu`. Zvok ostane na kopijah (odločil lastnik).
 - Alan Rener: sovoditelj do epizode 147, pozneje posebni gost
   (`sovoditelji` v `nastavitve.json`); feed ostane nespremenjen.
 - Stran epizode: predvajalnik je lepljiv (`.kartica.plava`), prepis teče v
