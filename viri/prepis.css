@@ -2,17 +2,22 @@
 
 /* Okvir okoli prepisa: glava (naslov, opozorilo, puščica) in mirno besedilo. */
 .prepis-ovoj { border: 2px solid var(--crta); border-radius: 22px; padding: 16px 18px; background: var(--ozadje-temno); }
-.prepis-ovoj summary { cursor: pointer; list-style: none; display: flex; }
+.prepis-ovoj summary { cursor: pointer; list-style: none; display: flex; align-items: stretch; }
 .prepis-ovoj summary::-webkit-details-marker { display: none; }
-.prepis-gumb, .prepis-gumb:hover { gap: 10px; min-height: 42px; padding: 0 18px; color: #FFFFFF; font: 600 17px var(--naslovi); }
+.prepis-ovoj[open] summary { padding-bottom: 14px; margin-bottom: 12px; border-bottom: 1px solid var(--crta); }
+.prepis-gumb, .prepis-gumb:hover {
+	position: relative; z-index: 1; flex: none; gap: 10px; min-height: 42px; padding: 0 18px;
+	border-radius: 21px; color: #FFFFFF; font: 600 17px var(--naslovi);
+}
 .prepis-ovoj summary:hover .prepis-gumb { filter: brightness(0.92); }
 .prepis-puscica { width: 8px; height: 8px; border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-2px) rotate(45deg); transition: transform 0.2s; }
 .prepis-ovoj[open] .prepis-puscica { transform: translateY(2px) rotate(225deg); }
+/* Opozorilo izhaja iz gumba: nadaljevanje iste kapsule v svetlejši oranžni. */
 .prepis-opozorilo {
-	margin: 12px 0 6px; padding: 8px 12px; border-radius: 10px; font-size: 14px; line-height: 1.4;
-	background: rgba(255, 138, 36, 0.12); color: var(--besedilo);
+	display: flex; align-items: center; margin-left: -21px; padding: 6px 16px 6px 33px;
+	border-radius: 0 21px 21px 0; background: rgba(255, 138, 36, 0.14);
+	font-size: 14px; line-height: 1.35; color: var(--besedilo);
 }
-.prepis-vtt { margin: 12px 0 0; }
 .prepis-orodja { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin: 8px 0 12px; }
 .prepis-iskanje {
 	flex: 1 1 220px; min-width: 0; padding: 8px 10px; font: 15px var(--telo);
@@ -47,3 +52,9 @@
 .prepisi-zadetki ul li { margin: 4px 0; font-size: 15px; }
 .prepisi-zadetki ul a { color: var(--besedilo); text-decoration: none; }
 .prepisi-zadetki ul a:hover { color: var(--lebdenje); }
+.prepis-ovoj > p.tiho { margin: 0 0 10px; }
+/* Telefon: opozorilo pod gumbom, kot jeziček, ki izhaja iz njega. */
+@media (max-width: 600px) {
+	.prepis-ovoj summary { flex-direction: column; align-items: flex-start; }
+	.prepis-opozorilo { margin: -21px 0 0; padding: 27px 14px 8px; border-radius: 0 16px 16px 16px; }
+}
