@@ -79,11 +79,10 @@ def razdelek(oznaka):
             f'<p data-z="{o["z"]}"{jezik} class="g{g}{dvom}">'
             f'<a class="cas" href="?t={int(o["z"])}" data-cas="{int(o["z"])}">{cas(o["z"])}</a>'
             f'<span><b>{escape(o["ime"])}</b> <span class="t">{escape(o["t"])}</span></span></p>')
-    minut = round(p["odstavki"][-1]["k"] / 60) if p["odstavki"] else 0
     return f"""<link rel="stylesheet" href="/prepis.css">
 <details class="razdelek prepis-ovoj">
 <summary><span class="oblacek oranzen">Prepis pogovora</span>
-<span class="prepis-stanje tiho">{len(govorci)} {'glas' if len(govorci) == 1 else 'glasova' if len(govorci) == 2 else 'glasovi' if len(govorci) in (3, 4) else 'glasov'} · {minut} min ·
+<span class="prepis-stanje tiho">
 <span class="ko-zaprt">pokaži</span><span class="ko-odprt">skrij</span></span></summary>
 <p class="prepis-opozorilo" data-opozorilo><span><strong>Strojni prepis.</strong> Lahko vsebuje napake,
 za točen citat poslušaj.</span>
