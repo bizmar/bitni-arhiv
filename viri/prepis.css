@@ -1,10 +1,10 @@
 /* Prepisi: razdelek na strani epizode in zadetki na seznamu epizod. */
 
 /* Okvir okoli prepisa: glava (naslov, opozorilo, puščica) in mirno besedilo. */
-.prepis-ovoj { border: 2px solid var(--crta); border-radius: 22px; padding: 20px; background: var(--ozadje-temno); }
+.prepis-ovoj { border: 2px solid var(--crta); border-radius: 22px; padding: 16px 18px; background: var(--ozadje-temno); }
 .prepis-ovoj summary { cursor: pointer; list-style: none; display: flex; align-items: stretch; }
 .prepis-ovoj summary::-webkit-details-marker { display: none; }
-.prepis-ovoj[open] summary { padding-bottom: 20px; border-bottom: 1px solid var(--crta); }
+.prepis-ovoj[open] summary { padding-bottom: 14px; margin-bottom: 12px; border-bottom: 1px solid var(--crta); }
 .prepis-gumb, .prepis-gumb:hover {
 	position: relative; z-index: 1; flex: none; gap: 10px; min-height: 42px; padding: 0 18px;
 	border-radius: 21px; color: #FFFFFF; font: 600 17px var(--naslovi);
@@ -18,13 +18,13 @@
 	border-radius: 0 21px 21px 0; background: rgba(255, 138, 36, 0.14);
 	font-size: 14px; line-height: 1.35; color: var(--besedilo);
 }
-.prepis-orodja { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin: 0 0 16px; }
+.prepis-orodja { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin: 8px 0 12px; }
 .prepis-iskanje {
 	flex: 1 1 220px; min-width: 0; padding: 8px 10px; font: 15px var(--telo);
 	color: var(--besedilo); background: var(--ozadje-temno); border: 1px solid var(--rob); border-radius: 8px;
 }
 /* Besedilo prepisa: čas v levem stolpcu, ime govorca krepko, brez okraskov. */
-.prepis { border-top: 1px solid var(--crta); padding-top: 12px; margin: 0 0 -6px; }
+.prepis { border-top: 1px solid var(--crta); padding-top: 6px; }
 .prepis p {
 	display: grid; grid-template-columns: 50px 1fr; gap: 0 8px; margin: 0; padding: 7px 10px 7px 8px;
 	line-height: 1.6; border-radius: 8px; scroll-margin-top: 190px;
@@ -40,11 +40,7 @@
 .prepis p.dvom .t { color: var(--tiho); }
 .prepis mark, .prepisi-zadetki mark { background: var(--lebdenje); color: var(--ozadje); border-radius: 2px; }
 @media (max-width: 600px) {
-	.prepis-ovoj { padding: 14px; border-radius: 18px; }
-	.prepis-ovoj[open] summary { padding-bottom: 14px; }
-	.prepis-ovoj > p.tiho { margin: 14px 0; }
-	.prepis-orodja { margin-bottom: 14px; }
-	.prepis { margin-bottom: -4px; }
+	.prepis-ovoj { padding: 12px; border-radius: 18px; }
 	.prepis p { grid-template-columns: 42px 1fr; padding-left: 2px; padding-right: 4px; }
 }
 
@@ -56,7 +52,7 @@
 .prepisi-zadetki ul li { margin: 4px 0; font-size: 15px; }
 .prepisi-zadetki ul a { color: var(--besedilo); text-decoration: none; }
 .prepisi-zadetki ul a:hover { color: var(--lebdenje); }
-.prepis-ovoj > p.tiho { margin: 16px 0; }
+.prepis-ovoj > p.tiho { margin: 0 0 10px; }
 /* Telefon: opozorilo pod gumbom, kot jeziček, ki izhaja iz njega. */
 @media (max-width: 600px) {
 	.prepis-ovoj summary { flex-direction: column; align-items: flex-start; }
