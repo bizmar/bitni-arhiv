@@ -39,6 +39,19 @@
 	}
 
 	// ---------- stran epizode ----------
+	// Opozorilo o strojnem prepisu se da skriti; izbira si jo brskalnik zapomni.
+	var opozorilo = document.querySelector("[data-opozorilo]");
+	if (opozorilo) {
+		var skrito = false;
+		try { skrito = localStorage.getItem("prepis-opozorilo") === "skrito"; } catch (e) {}
+		if (skrito) opozorilo.hidden = true;
+		var gumbSkrij = opozorilo.querySelector("button");
+		gumbSkrij.hidden = false;
+		gumbSkrij.addEventListener("click", function () {
+			opozorilo.hidden = true;
+			try { localStorage.setItem("prepis-opozorilo", "skrito"); } catch (e) {}
+		});
+	}
 	var prepis = document.querySelector("[data-prepis]");
 	var zvok = document.querySelector(".predvajalnik audio");
 	if (prepis && zvok) {

@@ -10,9 +10,16 @@
 .prepis { border-top: 1px solid var(--crta); }
 .prepis p { scroll-margin-top: 190px; }
 .prepis-opozorilo {
-	margin: 12px 0 8px; padding: 12px 14px; border-radius: 12px; line-height: 1.5;
-	background: rgba(255, 138, 36, 0.14); border: 1px solid var(--oranzna); color: var(--besedilo);
+	display: flex; align-items: center; justify-content: space-between; gap: 12px;
+	margin: 10px 0 6px; padding: 8px 12px; border-radius: 10px; font-size: 14px; line-height: 1.4;
+	background: rgba(255, 138, 36, 0.12); color: var(--besedilo);
 }
+.prepis-opozorilo[hidden] { display: none; }
+.prepis-opozorilo button {
+	flex: none; background: none; border: 0; padding: 4px 6px; cursor: pointer;
+	font: 600 13px var(--telo); color: var(--tiho); text-decoration: underline;
+}
+.prepis-opozorilo button:hover { color: var(--lebdenje); }
 .prepis-opozorilo strong { color: var(--oranzna); }
 .prepis p { margin: 0; padding: 8px 10px; border-radius: 8px; line-height: 1.55; }
 .prepis p.zdaj { background: var(--kartica); box-shadow: inset 3px 0 0 var(--oranzna); }
