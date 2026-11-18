@@ -2,7 +2,7 @@
   "domena": "https://www.bitnipogovori.si",
   "glavni_feed": "https://www.bitnipogovori.si/rss",
   "zvok_glavni": "https://www.bitnipogovori.si/audio/{oznaka}.mp3",
-  "zvok_nalozen": false,
+  "zvok_nalozen": true,
   "opomba_zvok": "zvok_nalozen se nastavi na true, ko so vse epizode na kopijah in preverjene. Do takrat stran predvaja z izvirnega naslova.",
   "kopije": {
     "r2": {

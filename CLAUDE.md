@@ -197,8 +197,9 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 - Zvok: GitHub Releases naložen in preverjen s SHA-256 (`SHA256SUMS` v korenu
   repozitorija, odtisi kot jih poroča GitHub; lokalna kopija se ujema).
   Internet Archive naložen (`archive.org/details/bitni-pogovori`, 215
-  datotek, velikosti se ujemajo). R2 še ni naložen; `zvok_nalozen` ostane
-  `false`, dokler niso vse tri kopije.
+  datotek, vsebina preverjena s SHA-256). R2 naložen 18. 11., vsebina
+  preverjena s SHA-256 (215/215). `zvok_nalozen` je `true`: stran predvaja
+  prek `/audio/` (preusmeritev na R2) in kaže povezave do vseh treh kopij.
 - Predavanji `cryptoparty001` in `cryptoparty002` nista na strani
   (`izpusti_na_strani` v `nastavitve.json`, povezavi preusmerita na seznam):
   213 strani epizod. V feedu ostaneta (215), ker je prioriteta gladka
@@ -233,7 +234,7 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   kopija začasni naslov z »SE-NI-DOLOCEN«), stran predvaja zvok z izvirnega
   naslova Fireside in ne izpiše povezav do kopij.
 - R2: vedro `bitni-pogovori-zvok`, javni naslov `r2.dev` je v
-  `nastavitve.json`. Vedro je še prazno; ključ za nalaganje še ni ustvarjen.
+  `nastavitve.json`. Vedro je naloženo in preverjeno (18. 11. 2026).
 - `zgradi_feede.py` se ustavi, če se pri kateri epizodi spremeni `guid`,
   naslov, datum, povezava ali velikost.
 - `splet/` se ne ureja ročno; vedno jo zgradi skripta in se commita.

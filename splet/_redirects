@@ -5,5 +5,6 @@
 /subscribe /#narocnina 301
 /contact / 301
 /json /rss 301
+/audio/:datoteka https://pub-b2c25dd3ebfc45c1881bc21b9000b3ec.r2.dev/:datoteka 302
 /cryptoparty001 /epizode 302
 /cryptoparty002 /epizode 302

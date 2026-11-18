@@ -35,7 +35,7 @@
 </div>
 <div class="kartica senca plava">
 <div class="predvajalnik" data-oznaka="40">
-<audio controls preload="none" src="https://aphid.fireside.fm/d/1437767933/305b41bd-f8cb-4feb-91db-362ccfd8d17f/b6ccc3dc-34ac-401f-bb13-b087438ded2a.mp3"></audio>
+<audio controls preload="none" src="/audio/40.mp3"></audio>
 <div class="dodatki" hidden>
 <button type="button" class="gumb obroba" data-skok="-15" aria-label="Nazaj 15 sekund">−15</button>
 <button type="button" class="gumb obroba" data-skok="30" aria-label="Naprej 30 sekund">+30</button>
@@ -56,8 +56,11 @@
 <div class="kartica">
 <h2 style="color: var(--sinja)">Epizoda</h2>
 <span>Vodijo: <a href="/epizode?oseba=mark-bizilj">Mark Bizilj</a>, <a href="/epizode?oseba=nejc-zorga-dulmin">Nejc Žorga Dulmin</a>, <a href="/epizode?oseba=alan-rener">Alan Rener</a></span>
-<a class="gumb moder" href="https://aphid.fireside.fm/d/1437767933/305b41bd-f8cb-4feb-91db-362ccfd8d17f/b6ccc3dc-34ac-401f-bb13-b087438ded2a.mp3" download>Prenesi MP3 (30 MB)</a>
-
+<a class="gumb moder" href="/audio/40.mp3" download>Prenesi MP3 (30 MB)</a>
+<span class="tiho" style="margin-top: 6px">Ista datoteka, drugi viri:</span>
+<a href="https://pub-b2c25dd3ebfc45c1881bc21b9000b3ec.r2.dev/40.mp3">Cloudflare R2</a>
+<a href="https://archive.org/download/bitni-pogovori/40.mp3">Internet Archive</a>
+<a href="https://github.com/bizmar/bitni-arhiv/releases/download/zvok/40.mp3">GitHub</a>
 </div>
 <div class="kartica">
 <h2 style="color: var(--oranzna)">Naroči se</h2>
@@ -74,8 +77,16 @@
 <div class="ovoj">
 <div class="stolpci">
 <div class="stolpec">
+<h4 style="color: var(--oranzna)">Arhiv je na treh mestih</h4>
+<span>Cloudflare, Internet Archive in GitHub.</span>
+<span>Na strani vsake epizode so povezave do vseh treh kopij.</span>
+</div>
+<div class="stolpec">
 <h4 style="color: var(--sinja)">Feedi</h4>
 <a href="/rss">Glavni feed</a>
+<a href="/rss-r2.xml">Feed: Cloudflare R2</a>
+<a href="/rss-ia.xml">Feed: Internet Archive</a>
+<a href="/rss-github.xml">Feed: GitHub</a>
 </div>
 <div class="stolpec">
 <h4 style="color: var(--svetlo-modra)">O strani</h4>
