@@ -79,6 +79,9 @@ class Poravnava:
         return casi
 
 
+VARUH = None
+
+
 def poravnaj(oznaka, odstavki, zvok):
     por = Poravnava()
     izhod = []
@@ -106,8 +109,10 @@ def poravnaj(oznaka, odstavki, zvok):
             zadnji = next((c for c in reversed(casi) if c), None)
             kazalec = max(kazalec + 1.0, zadnji[1] - 0.1) if zadnji else ocena[j][1]
             i = j + 1
-        if n % 50 == 0:
+        if n % 100 == 0:
             print(f"  poravnava {n}/{len(odstavki)}", flush=True)
+        if VARUH:
+            VARUH.pocakaj()
     return izhod
 
 
@@ -210,9 +215,32 @@ td{{padding:.3rem .4rem;border-bottom:1px solid #eee;vertical-align:top}} td:fir
     return pot
 
 
-def main():
-    for oznaka in sys.argv[1:]:
+def vse(meja):
+    """Vse epizode (brez predavanj cryptoparty); narejene preskoči."""
+    import time
+    global VARUH
+    VARUH = P.Varuh(meja)
+    oznake = sorted((o for o in os.listdir(P.DELO) if not o.startswith("cryptoparty")
+                     and os.path.exists(os.path.join(P.DELO, o, "whisper.json"))),
+                    key=lambda o: (len(o), o))
+    for i, oznaka in enumerate(oznake, 1):
+        pot = os.path.join(P.DELO, oznaka, "stavki.json")
         e = P.podatki_epizode(oznaka)
+        if os.path.exists(pot) and P.beri_json(pot).get("izvor") == odtis(P.ocisceni(oznaka, e)):
+            continue
+        t0 = time.time()
+        obdelaj(oznaka, e)
+        print(f"NAREJENO {oznaka} ({i}/{len(oznake)}) v {(time.time() - t0) / 60:.1f} min,"
+              f" hlajenje {VARUH.cakanje / 60:.1f} min {time.strftime('%H:%M')}", flush=True)
+        try:
+            os.remove(P.wav(oznaka))
+        except (OSError, TypeError):
+            pass
+    print("KONEC", flush=True)
+
+
+def obdelaj(oznaka, e):
+    if True:
         odstavki = P.ocisceni(oznaka, e)
         zvok = P.nalozi_zvok(oznaka)
         print(f"{oznaka}: {len(odstavki)} odstavkov, poravnava …", flush=True)
@@ -222,6 +250,14 @@ def main():
         im = P.imena(oznaka, e, gl)
         sprem = sum(s["g"] != s["g0"] for s in stavki)
         print(f"{oznaka}: {len(stavki)} stavkov, govorec zamenjan pri {sprem}; {primerjava(oznaka, stavki, im)}")
+
+
+def main():
+    if sys.argv[1:2] == ["--vse"]:
+        vse(float(sys.argv[2]) if len(sys.argv) > 2 else 70.0)
+        return
+    for oznaka in sys.argv[1:]:
+        obdelaj(oznaka, P.podatki_epizode(oznaka))
 
 
 if __name__ == "__main__":

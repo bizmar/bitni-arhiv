@@ -142,8 +142,13 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   pri okoliškem govorcu (lastnik: ni treba vsakega). Zapiše
   `delo/<o>/stavki.json`, izvoz ga uporabi, če se odstavki niso spremenili.
   Preizkus na 100: 59 od 1667 stavkov drug govorec, odstavkov, ki se začnejo
-  sredi stavka, 247 → 5. Čaka na lastnikovo poslušanje
-  (`localhost:8001/govorci-100`).
+  sredi stavka, 247 → 5. Lastnik: »izgleda dobro«.
+- **18. 11. zvečer: govorci po stavkih za vse epizode** zagnano ločeno:
+  `sh skripte/govorci_noc.sh 70` (meja °C; ob sesutju znova, narejeno
+  preskoči). Dnevnik `prepisi-preizkus/govorci.log` (vrstice NAREJENO).
+  Okoli 5 min na epizodo + hlajenje, krajše epizode najprej; skupaj okoli
+  1–2 dni. Na koncu sam požene izvoz, gradnjo predogleda in `--preveri`;
+  zadnja vrstica ZAKLJUCEK.
 - **18. 11.: netočno preskakanje v zvoku.** 46 epizod (večinoma 55–140)
   ni pravi CBR (tišine z nižjo hitrostjo, Xing TOC), zato brskalnik pri
   skoku na čas zgreši tudi za 10–25 s; po ogledu več mest postane točno.
