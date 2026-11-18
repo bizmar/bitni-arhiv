@@ -861,6 +861,34 @@ def gostje(meja_podobnosti=0.6):
         print(f"{stevci[ime]:4d}  {ime}")
 
 
+def ocisceni(oznaka, e):
+    """Odstavki iz whisper.json z izboljšavami (--dvomljivi) in brez
+    izmišljenih stavkov, še nezdruženi, z gručo govorca »g«."""
+    surovi = beri_json(os.path.join(DELO, oznaka, "whisper.json"))["odstavki"]
+    izb = os.path.join(DELO, oznaka, "izboljsave.json")
+    if os.path.exists(izb):
+        nova = {x["z"]: x for x in beri_json(izb) if x["izbrana"] != "izvirnik"}
+        surovi = [{**o, "t": nova[o["z"]]["novo"], "p": max(h["p"] for h in nova[o["z"]]["hipoteze"]
+                                                          if h["t"] == nova[o["z"]]["novo"]), "izb": 1}
+                  if o["z"] in nova else o for o in surovi]
+        surovi = [o for o in surovi if o["t"].strip()]
+    return brez_izmisljenega(surovi, e)
+
+
+def prerazdeljeni(oznaka, odstavki):
+    """Če obstaja delo/<oznaka>/stavki.json (prepisi_govorci.py) in je narejen
+    iz istih odstavkov, vrne odstavke, razdeljene po govorcih stavkov."""
+    pot = os.path.join(DELO, oznaka, "stavki.json")
+    if not os.path.exists(pot):
+        return odstavki
+    import govorci_stavki
+    s = beri_json(pot)
+    if s.get("izvor") != govorci_stavki.odtis(odstavki):
+        print(f"{oznaka}: stavki.json je zastarel (odstavki so se spremenili), ostane stara delitev")
+        return odstavki
+    return govorci_stavki.v_odstavke(s["stavki"])
+
+
 def uporabi_popravke(oznaka, odstavki, izpis=True):
     """Popravki izrazov in imen (prepisi_popravki.py, podagenti) iz
     delo/<oznaka>/popravki.json. Vsak popravek ima čas odstavka »z«, niz
@@ -930,18 +958,8 @@ def izvozi():
         if not os.path.exists(pot):
             continue
         e = podatki_epizode(oznaka)
-        p = beri_json(pot)
         gl = beri_json(os.path.join(DELO, oznaka, "glasovi.json"))
-        surovi = p["odstavki"]
-        # Izboljšave dvomljivih delov (prepisi_izboljsave.py --dvomljivi), pred filtrom.
-        izb = os.path.join(DELO, oznaka, "izboljsave.json")
-        if os.path.exists(izb):
-            nova = {x["z"]: x for x in beri_json(izb) if x["izbrana"] != "izvirnik"}
-            surovi = [{**o, "t": nova[o["z"]]["novo"], "p": max(h["p"] for h in nova[o["z"]]["hipoteze"]
-                                                              if h["t"] == nova[o["z"]]["novo"]), "izb": 1}
-                      if o["z"] in nova else o for o in surovi]
-            surovi = [o for o in surovi if o["t"].strip()]
-        odstavki = z_imeni(brez_izmisljenega(surovi, e), imena(oznaka, e, gl))
+        odstavki = z_imeni(prerazdeljeni(oznaka, ocisceni(oznaka, e)), imena(oznaka, e, gl))
         uporabi_popravke(oznaka, odstavki)
         for o in odstavki:
             o.pop("g", None)

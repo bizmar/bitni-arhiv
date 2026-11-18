@@ -135,6 +135,15 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   popravkov je pravilnih. Datum v uvodu se lahko razlikuje od datuma v
   feedu (posneto prej kot objavljeno); to ni napaka, podagentom ne javljati.
   Nato serije po 10–20.
+- **18. 11.: govorci po stavkih** (`skripte/govorci_stavki.py <oznaka>`):
+  obstoječe besedilo se poravna z zvokom (Whisper forced alignment), stavke,
+  ki jih je stara delitev presekala, združi, vsak stavek ≥1,2 s in ≥3
+  besede dobi govorca po glasu (ECAPA, jasna razlika). Kratki »ja« ostanejo
+  pri okoliškem govorcu (lastnik: ni treba vsakega). Zapiše
+  `delo/<o>/stavki.json`, izvoz ga uporabi, če se odstavki niso spremenili.
+  Preizkus na 100: 59 od 1667 stavkov drug govorec, odstavkov, ki se začnejo
+  sredi stavka, 247 → 5. Čaka na lastnikovo poslušanje
+  (`localhost:8001/govorci-100`).
 - Neuporabljeno, a shranjeno: arhiva modelov RSDO v
   `~/.cache/bitni-prepisi/modeli/*.tar.zst` (možen dodaten »glasovalec« pri
   `--dvomljivi`).
