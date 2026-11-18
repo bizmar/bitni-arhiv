@@ -129,7 +129,12 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   (`popravki-negotovo.json`), `--preveri` naredi poročilo
   (`localhost:8001/popravki`), `prepisi.py --izvozi` jih uporabi
   (`uporabi_popravke`). Po vsaki gradnji predogleda `--preveri` znova, ker
-  gradnja stran pobriše. Čaka na lastnikov pregled, nato serije po 10–20.
+  gradnja stran pobriše. Lastnik na strani `/popravki` zavrne (✗) ali
+  drugače popravi popravke in doda svoje; strežnik `predogled.py` jih shrani v
+  `delo/<o>/popravki-lastnik.json`, izvoz jih upošteva. Lastnik: večina
+  popravkov je pravilnih. Datum v uvodu se lahko razlikuje od datuma v
+  feedu (posneto prej kot objavljeno); to ni napaka, podagentom ne javljati.
+  Nato serije po 10–20.
 - Neuporabljeno, a shranjeno: arhiva modelov RSDO v
   `~/.cache/bitni-prepisi/modeli/*.tar.zst` (možen dodaten »glasovalec« pri
   `--dvomljivi`).

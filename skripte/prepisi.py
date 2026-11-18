@@ -866,12 +866,28 @@ def uporabi_popravke(oznaka, odstavki, izpis=True):
     delo/<oznaka>/popravki.json. Vsak popravek ima čas odstavka »z«, niz
     »staro« in »novo«; zamenja se prva pojavitev v tem odstavku ali v
     bližnjem (±90 s). »povsod«: true zamenja celo besedo v vsej epizodi.
+    Odločitve lastnika (stran /popravki v predogledu) so v
+    popravki-lastnik.json: zavrnjeni ali drugače popravljeni popravki
+    podagenta, popravki negotovih mest in lastni popravki (ti se uporabijo
+    zadnji, iščejo se tudi ne glede na velike črke).
     Vrne seznam popravkov, ki jih ni bilo mogoče uporabiti."""
     pot = os.path.join(DELO, oznaka, "popravki.json")
-    if not os.path.exists(pot):
-        return []
+    pot_l = os.path.join(DELO, oznaka, "popravki-lastnik.json")
+    pot_n = os.path.join(DELO, oznaka, "popravki-negotovo.json")
+    lastnik = beri_json(pot_l) if os.path.exists(pot_l) else {}
+    seznam = []
+    for p in (beri_json(pot) if os.path.exists(pot) else []):
+        odl = lastnik.get("popravki", {}).get(f'{p["z"]}|{p["staro"]}', {})
+        if odl.get("ne"):
+            continue
+        seznam.append({**p, "novo": odl["novo"]} if odl.get("novo") else p)
+    negotovo = beri_json(pot_n) if os.path.exists(pot_n) else []
+    for i, n in lastnik.get("negotovo", {}).items():
+        if n.get("staro") and int(i) < len(negotovo):
+            seznam.append({"z": negotovo[int(i)]["z"], "staro": n["staro"], "novo": n.get("novo", ""), "lastnik": True})
+    seznam += [{**d, "lastnik": True} for d in lastnik.get("dodatni", []) if d.get("staro")]
     neuporabljeni = []
-    for p in beri_json(pot):
+    for p in seznam:
         staro, novo = p["staro"], p["novo"]
         if p.get("povsod"):
             vzorec = re.compile(r"(?<!\w)" + re.escape(staro) + r"(?!\w)")
@@ -883,14 +899,20 @@ def uporabi_popravke(oznaka, odstavki, izpis=True):
                 neuporabljeni.append(p)
             continue
         z = float(p["z"])
-        kandidati = sorted((o for o in odstavki if abs(o["z"] - z) <= 90 or o["z"] <= z <= o["k"]),
+        kandidati = sorted((o for o in odstavki if abs(o["z"] - z) <= (150 if p.get("lastnik") else 90) or o["z"] <= z <= o["k"]),
                            key=lambda o: abs(o["z"] - z))
         for o in kandidati:
             if staro in o["t"]:
                 o["t"] = o["t"].replace(staro, novo, 1)
                 break
         else:
-            neuporabljeni.append(p)
+            for o in (kandidati if p.get("lastnik") else []):
+                i = o["t"].lower().find(staro.lower())
+                if i >= 0:
+                    o["t"] = o["t"][:i] + novo + o["t"][i + len(staro):]
+                    break
+            else:
+                neuporabljeni.append(p)
     if izpis and neuporabljeni:
         print(f"{oznaka}: {len(neuporabljeni)} popravkov ni bilo mogoče uporabiti")
     return neuporabljeni
