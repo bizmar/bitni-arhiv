@@ -165,6 +165,9 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 
 - **Objava prepisov:** soglasje gostov, pregled kakovosti, ali tudi v feed
   (`podcast:transcript`). Do odobritve ostanejo prepisi samo lokalno.
+  Lastnik (18. 11.): gostov verjetno ne bodo obveščali, vpraša še Nejca.
+  Pojasnjeno: obvestilo ni nujno, je vljudnost (iskalniki najdejo besedilo,
+  strojne napake lahko gostu pripišejo napačne besede).
 
 - **cryptoparty002:** posnetek se ne ujema s feedom. Feed: »Gorazd Božič:
   Zaščitite svojo elektronsko pošto s PGP«; v posnetku je predavanje Mateja
