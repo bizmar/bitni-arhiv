@@ -861,6 +861,41 @@ def gostje(meja_podobnosti=0.6):
         print(f"{stevci[ime]:4d}  {ime}")
 
 
+def uporabi_popravke(oznaka, odstavki, izpis=True):
+    """Popravki izrazov in imen (prepisi_popravki.py, podagenti) iz
+    delo/<oznaka>/popravki.json. Vsak popravek ima čas odstavka »z«, niz
+    »staro« in »novo«; zamenja se prva pojavitev v tem odstavku ali v
+    bližnjem (±90 s). »povsod«: true zamenja celo besedo v vsej epizodi.
+    Vrne seznam popravkov, ki jih ni bilo mogoče uporabiti."""
+    pot = os.path.join(DELO, oznaka, "popravki.json")
+    if not os.path.exists(pot):
+        return []
+    neuporabljeni = []
+    for p in beri_json(pot):
+        staro, novo = p["staro"], p["novo"]
+        if p.get("povsod"):
+            vzorec = re.compile(r"(?<!\w)" + re.escape(staro) + r"(?!\w)")
+            n = 0
+            for o in odstavki:
+                o["t"], k = vzorec.subn(novo, o["t"])
+                n += k
+            if not n:
+                neuporabljeni.append(p)
+            continue
+        z = float(p["z"])
+        kandidati = sorted((o for o in odstavki if abs(o["z"] - z) <= 90 or o["z"] <= z <= o["k"]),
+                           key=lambda o: abs(o["z"] - z))
+        for o in kandidati:
+            if staro in o["t"]:
+                o["t"] = o["t"].replace(staro, novo, 1)
+                break
+        else:
+            neuporabljeni.append(p)
+    if izpis and neuporabljeni:
+        print(f"{oznaka}: {len(neuporabljeni)} popravkov ni bilo mogoče uporabiti")
+    return neuporabljeni
+
+
 def izvozi():
     """Končni prepisi v prepisi/<oznaka>.json: z imeni, brez izmišljenih stavkov,
     zaporedni odstavki iste osebe združeni. Iz teh datotek se gradi stran."""
@@ -885,6 +920,7 @@ def izvozi():
                       if o["z"] in nova else o for o in surovi]
             surovi = [o for o in surovi if o["t"].strip()]
         odstavki = z_imeni(brez_izmisljenega(surovi, e), imena(oznaka, e, gl))
+        uporabi_popravke(oznaka, odstavki)
         for o in odstavki:
             o.pop("g", None)
             if o.get("j") == "sl":

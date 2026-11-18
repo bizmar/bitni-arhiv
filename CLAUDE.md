@@ -122,6 +122,14 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   `delo/<oznaka>/popravki.json`, izvoz jih uporabi. Najprej preizkus na 3–4
   epizodah, lastnik pregleda, nato serije po 10–20. Obdelava zvoka (čiščenje
   šuma) po oceni ne bi pomagala; lahko se preizkusi le pri slabih posnetkih.
+- **18. 11.: preizkus popravkov s podagenti** na epizodah 17, 54, 100, 150,
+  205: 232 popravkov (izrazi, izdelki, imena), vsi uporabljeni. Postopek:
+  `prepisi_popravki.py --pripravi <oznake>` (vhod v `popravki-vhod/`),
+  podagent Sonnet high zapiše `delo/<o>/popravki.json` in negotova mesta
+  (`popravki-negotovo.json`), `--preveri` naredi poročilo
+  (`localhost:8001/popravki`), `prepisi.py --izvozi` jih uporabi
+  (`uporabi_popravke`). Po vsaki gradnji predogleda `--preveri` znova, ker
+  gradnja stran pobriše. Čaka na lastnikov pregled, nato serije po 10–20.
 - Neuporabljeno, a shranjeno: arhiva modelov RSDO v
   `~/.cache/bitni-prepisi/modeli/*.tar.zst` (možen dodaten »glasovalec« pri
   `--dvomljivi`).
