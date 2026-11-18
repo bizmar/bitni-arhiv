@@ -21,8 +21,33 @@ class Streznik(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=SPLET, **kwargs)
 
+    def preusmeritev(self, pot):
+        """Pravila iz _redirects (kot Cloudflare): /pot/:ime, /pot/* in točne poti."""
+        dat = os.path.join(SPLET, "_redirects")
+        if not os.path.exists(dat):
+            return None
+        for vrstica in open(dat):
+            d = vrstica.split()
+            if len(d) < 2 or d[0].startswith("#"):
+                continue
+            vzorec = "^" + re.sub(r":(\w+)", r"(?P<\1>[^/]+)", re.escape(d[0]).replace(r"\:", ":")).replace(r"\*", "(?P<splat>.*)") + "$"
+            m = re.match(vzorec, pot)
+            if m:
+                cilj = d[1]
+                for k, v in m.groupdict().items():
+                    cilj = cilj.replace(":" + k, v)
+                return cilj, int(d[2]) if len(d) > 2 else 301
+        return None
+
     def send_head(self):
         pot = self.path.split("?")[0].split("#")[0]
+        if not os.path.exists(os.path.join(SPLET, pot.lstrip("/"))):
+            p = self.preusmeritev(pot)
+            if p:
+                self.send_response(p[1])
+                self.send_header("Location", p[0])
+                self.end_headers()
+                return None
         if not os.path.exists(os.path.join(SPLET, pot.lstrip("/"))) and os.path.exists(os.path.join(SPLET, pot.lstrip("/") + ".html")):
             self.path = pot + ".html"
         return super().send_head()
