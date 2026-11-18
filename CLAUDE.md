@@ -144,6 +144,11 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   Preizkus na 100: 59 od 1667 stavkov drug govorec, odstavkov, ki se začnejo
   sredi stavka, 247 → 5. Čaka na lastnikovo poslušanje
   (`localhost:8001/govorci-100`).
+- **18. 11.: netočno preskakanje v zvoku.** 46 epizod (večinoma 55–140)
+  ni pravi CBR (tišine z nižjo hitrostjo, Xing TOC), zato brskalnik pri
+  skoku na čas zgreši tudi za 10–25 s; po ogledu več mest postane točno.
+  Prepis in predvajalnik nista kriva. Lastnik je odločil: pusti tako
+  (datoteke ostanejo enake kot na Fireside, brez prepakiranja v CBR).
 - Neuporabljeno, a shranjeno: arhiva modelov RSDO v
   `~/.cache/bitni-prepisi/modeli/*.tar.zst` (možen dodaten »glasovalec« pri
   `--dvomljivi`).
