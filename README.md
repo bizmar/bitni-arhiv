@@ -2,18 +2,18 @@
 
 Selitev arhiva podcasta Bitni pogovori (215 epizod, 2012–2019) s Fireside na
 brezplačno statično gostovanje. Feed, domena in povezave do epizod ostanejo
-isti. Zvok bo na treh neodvisnih mestih.
+isti. Zvok je na treh neodvisnih mestih.
 
-## Stanje (14. 11. 2026)
+## Stanje (19. 11. 2026)
 
 Stran je objavljena na začasnem naslovu
-<https://bitni-arhiv.bizmar.workers.dev>. Na domeni in na Fireside se še ni
-nič spremenilo.
+<https://bitni-arhiv.bizmar.workers.dev> in zvok že predvaja z nove kopije.
+Na domeni in na Fireside se še ni nič spremenilo; preklop čaka na december.
 
-- [ ] 1. Varnostna kopija vsega s Fireside
+- [x] 1. Varnostna kopija vsega s Fireside
   - [x] feed, slike, poglavja, nekaj strani (mapa `izvor/`)
   - [x] preverjene povezave do vseh MP3 (`epizode.csv`): vseh 215 se odziva, velikosti se ujemajo s feedom
-  - [ ] lokalna kopija zvoka (`skripte/prenesi_zvok.py`), prenos teče
+  - [x] lokalna kopija zvoka: vseh 215 MP3 (8,6 GB) prenesenih
   - [ ] statistika poslušanja (potrebuje API ključ lastnika računa, ni nujno)
 - [x] 2. Oblikovanje strani
 - [x] 3. Gradnja strani in feedov
@@ -22,17 +22,25 @@ nič spremenilo.
   - [x] seznam epizod po letih, z iskanjem in filtrom po voditeljih in gostih
   - [x] logotipi štirih obdobij kot ikone ob epizodah
   - [x] licenca CC BY-NC-SA 4.0 in izjava o glasovih v nogi, `robots.txt`
-- [ ] 4. Nalaganje zvoka: Cloudflare R2, Internet Archive, GitHub Releases, torrent
-  - [x] skripti za nalaganje in preverjanje (`skripte/nalozi_zvok.py`, `skripte/preveri_kopije.py`)
-  - [x] prostor na Cloudflare R2 in račun na Internet Archive
-  - [ ] nalaganje (čaka na lokalno kopijo zvoka)
+  - [x] lepljiv predvajalnik na strani epizode
+  - [x] Alan Rener kot sovoditelj do epizode 147, pozneje posebni gost
+  - [x] predavanji CryptoParty nista na strani (v feedu ostaneta zaradi gladke predaje)
+- [x] 4. Nalaganje zvoka na tri kopije, vsaka preverjena s prstnimi odtisi SHA-256 (`SHA256SUMS`)
+  - [x] GitHub Releases: 215 od 215
+  - [x] Internet Archive (<https://archive.org/details/bitni-pogovori>): 215 od 215, torrent naredi sam
+  - [x] Cloudflare R2: 215 od 215, glavni vir predvajanja
 - [x] 5. Objava na začasnem naslovu (Cloudflare Workers, samodejno ob vsaki spremembi na `main`)
 - [ ] 6. Preizkus
   - [x] strani, preusmeritve starih naslovov, stran 404, telefon in namizje
-  - [ ] feed v validatorju in v podcast aplikacijah, zvok s kopij
+  - [x] zvok s kopij (predvajanje in previjanje prek R2)
+  - [ ] feed v validatorju in v podcast aplikacijah (potreben ločen preizkusni feed)
 - [ ] 7. Preklop domene (december 2026)
 - [ ] 8. Preusmeritev feeda v Fireside, Apple Podcasts in Spotify (december 2026)
 - [ ] 9. Odpoved Fireside po 3 mesecih
+
+**Prepisi (dodatno):** strojni prepisi vseh epizod so narejeni lokalno in se
+še izboljšujejo (popravki izrazov in imen). Na stran še niso objavljeni;
+objava čaka na odločitev obeh voditeljev.
 
 ## Kaj je kje
 
@@ -61,38 +69,38 @@ nadaljuješ.
 python3 skripte/prenesi_zvok.py
 ```
 
-Skripta med prenosi počaka nekaj sekund, da ne obremenjuje Fireside, in na
-koncu zapiše `zvok/SHA256SUMS`, s katerim se pozneje preveri vsaka kopija.
-
-Za zelo počasen prenos čez cel vikend (ena epizoda na 12 minut):
+Po prenosu preveri, da so datoteke enake kot na kopijah:
 
 ```bash
-python3 skripte/prenesi_zvok.py --premor 720
+cd zvok && shasum -a 256 -c ../SHA256SUMS | grep -v ': OK$'; cd ..
 ```
 
-## Nalaganje zvoka na kopije
+Brez izpisa pomeni, da je vseh 215 v redu.
 
-Ko je zvok v mapi `zvok/`, gre na vsako kopijo z enim ukazom. Nalaganje se
-lahko prekine in nadaljuje. Z `--poskus` skripta samo izpiše, kaj bi naredila.
+## Kopije zvoka
 
-```bash
-python3 skripte/nalozi_zvok.py ia
-```
+| Kopija | Naslov datoteke |
+| --- | --- |
+| Cloudflare R2 (glavna) | `https://pub-b2c25dd3ebfc45c1881bc21b9000b3ec.r2.dev/<oznaka>.mp3` |
+| Internet Archive | `https://archive.org/download/bitni-pogovori/<oznaka>.mp3` |
+| GitHub Releases | `https://github.com/bizmar/bitni-arhiv/releases/download/zvok/<oznaka>.mp3` |
 
-```bash
-python3 skripte/nalozi_zvok.py r2
-```
+Stran in feed kažeta na `/audio/<oznaka>.mp3`, ki ga ena vrstica v
+`splet/_redirects` preusmeri na glavno kopijo. Če kopija odpove, se v
+`skripte/zgradi_stran.py` zamenja ta vrstica, stran se zgradi znova in
+objavi.
 
-```bash
-python3 skripte/nalozi_zvok.py github
-```
-
-Ključi se nastavijo kot spremenljivke okolja (imena so na vrhu skripte) in ne
-gredo v repozitorij. Torrent naredi Internet Archive sam. Potem se v
-`nastavitve.json` vpišejo pravi naslovi kopij in preveri:
+Preverjanje vseh kopij (velikost; z `--vsebina` tudi prstni odtis):
 
 ```bash
 python3 skripte/preveri_kopije.py
+```
+
+Nalaganje na kopijo, če bi bilo kdaj treba znova (ključi kot spremenljivke
+okolja, imena so na vrhu skripte; nikoli v repozitorij):
+
+```bash
+python3 skripte/nalozi_zvok.py r2
 ```
 
 ## Gradnja strani in feedov
