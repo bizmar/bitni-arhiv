@@ -940,7 +940,9 @@ def uporabi_popravke(oznaka, odstavki, izpis=True):
                     o["t"] = o["t"][:i] + novo + o["t"][i + len(staro):]
                     break
             else:
-                neuporabljeni.append(p)
+                # Že popravljeno (npr. s popravkom »povsod«) ni napaka.
+                if not (novo and any(novo in o["t"] for o in kandidati)):
+                    neuporabljeni.append(p)
     if izpis and neuporabljeni:
         print(f"{oznaka}: {len(neuporabljeni)} popravkov ni bilo mogoče uporabiti")
     return neuporabljeni

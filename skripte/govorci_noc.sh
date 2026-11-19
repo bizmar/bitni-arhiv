@@ -13,7 +13,7 @@ DNEVNIK=prepisi-preizkus/govorci.log
 
 while true; do
     caffeinate -i "$PY" -u skripte/govorci_stavki.py --vse "$MEJA" 2>&1 | grep -v Warning >> "$DNEVNIK"
-    tail -n 1 "$DNEVNIK" | grep -q "^KONEC" && break
+    tail -n 8 "$DNEVNIK" | grep -q "^KONEC" && break
     echo "--- ponovni zagon $(date '+%H:%M')" >> "$DNEVNIK"
     sleep 30
 done

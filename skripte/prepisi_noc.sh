@@ -14,7 +14,7 @@ mkdir -p prepisi-preizkus
 
 while true; do
     caffeinate -i "$PY" -u skripte/prepisi.py --vse "$@" --meja "$MEJA" >> "$DNEVNIK" 2>&1
-    tail -n 1 "$DNEVNIK" | grep -q "^KONEC" && break
+    tail -n 8 "$DNEVNIK" | grep -q "^KONEC" && break
     echo "PONOVNI ZAGON $(date '+%H:%M')" >> "$DNEVNIK"
     sleep 30
 done
