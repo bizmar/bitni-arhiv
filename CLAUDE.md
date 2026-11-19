@@ -28,27 +28,24 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 - Lastnik repozitorija je sodelavec na Fireside, ne lastnik računa. Lastnik
   računa Fireside (in verjetno domene) je sovoditelj Nejc.
 
-## Stanje po korakih (14. 11. 2026)
+## Stanje po korakih (19. 11. 2026)
 
-1. **Varnostna kopija:** feed, slike, poglavja in nekaj strani so v `izvor/`.
-   Vseh 215 povezav do MP3 je preverjenih (`epizode.csv`, vse v redu).
-   Manjka: lokalna kopija zvoka (lastnik požene `skripte/prenesi_zvok.py`
-   doma; star arhiv zvoka ima na disku, ki ni priklopljen) in neobvezna
-   statistika (potrebuje API ključ lastnika računa Fireside; odloženo).
-2. **Oblikovanje:** osnutek potrjen na prvi pogled. Temno modra tema.
-3. **Gradnja:** narejeno. `skripte/zgradi_stran.py` zgradi `splet/` (stran in
-   feedi). Preizkušeno v brskalniku na namizni in telefonski širini.
-4. **Nalaganje zvoka:** skripti sta pripravljeni (`skripte/nalozi_zvok.py`
-   za R2, Internet Archive in GitHub; `skripte/preveri_kopije.py`). Podpis
-   za R2 je preverjen z uradnim primerom AWS, pravo nalaganje še ni bilo
-   preizkušeno. Čaka na lokalno kopijo zvoka, račune (Cloudflare, Internet
-   Archive).
-5. **Objava na začasnem naslovu:** narejeno. Cloudflare Workers (statične
-   datoteke) na `https://bitni-arhiv.bizmar.workers.dev`, povezano z
-   repozitorijem: vsak push na `main` se objavi sam. Nastavitve so v
-   `wrangler.jsonc`. Začasni naslov ima glavo `noindex`.
-6.–9. Preizkus, preklop domene, preusmeritev feeda, odpoved Fireside: ni
-   začeto; koraki 7 do 9 čakajo na Nejca (december 2026).
+1. **Varnostna kopija:** narejeno. Feed, slike, poglavja, nekaj strani v
+   `izvor/`; vseh 215 MP3 je na lastnikovem Macu v `zvok/` (ni v gitu).
+   Neobvezna statistika poslušanja odložena (potrebuje Nejčev API ključ).
+2. **Oblikovanje:** narejeno in potrjeno.
+3. **Gradnja:** narejeno (`skripte/zgradi_stran.py` → `splet/`).
+4. **Nalaganje zvoka:** narejeno. GitHub Releases, Internet Archive
+   (`bitni-pogovori`) in Cloudflare R2: vsak 215/215, vsebina preverjena s
+   SHA-256 (`SHA256SUMS`). Torrent naredi Internet Archive sam.
+5. **Objava na začasnem naslovu:** narejeno. Cloudflare Workers na
+   `https://bitni-arhiv.bizmar.workers.dev`, vsak push na `main` se objavi
+   sam (`wrangler.jsonc`, glava `noindex`). Zvok predvaja prek `/audio/` → R2.
+6. **Preizkus:** strani in zvok narejeno. Odprto: feed v validatorju in v
+   aplikacijah. Feed na začasnem naslovu kaže na domeno (še pri Fireside),
+   zato ga ne dodajati v aplikacije; pripraviti ločen preizkusni feed.
+7.–9. Preklop domene, preusmeritev feeda (Fireside, Apple, Spotify),
+   odpoved Fireside po 3 mesecih: čaka na Nejca (december 2026).
 
 **Prepisi (dodatno, začeto 14. 11. 2026).** Lokalno na lastnikovem Macu
 (M2 Pro), brezplačno. Zvok vseh 215 epizod je v `zvok/` (ni v gitu).
@@ -244,8 +241,8 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 
 ## Omejitve oblačne seje
 
-- Nalaganje v GitHub Releases je iz oblačne seje Claude Code blokirano (HTTP
-  403 na ustvarjanje izdaj). `git push` deluje.
+- Nalaganje v GitHub Releases in push oznak (tag) sta iz oblačne seje
+  blokirana (HTTP 403). `git push` na veje deluje.
 - Seja je začasna, zato 8,6 GB zvoka tu ni kam shraniti. Prenos teče na
   lastnikovem računalniku ali neposredno v Internet Archive, ko bodo ključi.
 - Prenos pisav z GitHuba je blokiran; Jost je vzet iz paketa npm
@@ -325,22 +322,24 @@ na YouTubu s preneseno vsebino opisov, poglavij (časi v opisu) in prepisov
 Dejstva o uvozu iz RSS in omejitvah API-ja pred izvedbo preveriti v
 YouTubovi dokumentaciji; niso bila preverjena.
 
-## Naslednji koraki (stanje ob koncu seje 14. 11. 2026)
+## Naslednji koraki (stanje 19. 11. 2026)
 
-1. Lastnik na Macu prenaša zvok (`caffeinate -is python3
-   skripte/prenesi_zvok.py --premor 720` ali `--premor 60`). Mac je vmes
-   zaspal; prenesenih je bilo le nekaj epizod. Repozitorij ima na Macu v
-   mapi Documents (ime mape ima tipkarsko napako, ne preimenovati med
-   prenosom). Pred nalaganjem naj požene `git pull`.
-2. Ko je zvok prenesen: ključ R2 (Object Read & Write, samo to vedro) in
-   ključa Internet Archive nastavi kot spremenljivke okolja na Macu (nikoli
-   v klepet ali repozitorij), nato `skripte/nalozi_zvok.py ia`, `r2`,
-   `github`. Za GitHub potrebuje nameščen in prijavljen `gh`.
-3. V `nastavitve.json` vpisati oznako Internet Archive, pognati
-   `skripte/preveri_kopije.py`, nato `zvok_nalozen: true` in zgraditi stran.
-4. Preizkus feeda: na začasnem naslovu ga ne dodajati v aplikacije, ker
-   `itunes:new-feed-url` kaže na domeno. Pripraviti ločen način preizkusa.
-5. Lastnik želi vprašanja eno po eno, ne več naenkrat.
+1. Preizkusni feed za aplikacije (korak 6): feed, ki ga lastnik lahko
+   varno doda v aplikacijo, z zvokom prek R2 in brez `itunes:new-feed-url`
+   na domeno; preveriti tudi v validatorju.
+2. Objava prepisov na stran: čaka na lastnika in Nejca (obveščanje gostov
+   verjetno ne). Prepisi se medtem izboljšujejo v seji na Macu (popravki s
+   podagenti, govorci po stavkih). Ko bo odobreno: odstraniti zaporo v
+   `zgradi_stran.py` (`--prepisi` brez `--izhod`), prepise dodati v git.
+3. December z Nejcem: koraki 7–9 (navodila v načrtu selitve). Pred
+   preklopom domene vprašati Fireside podporo o preusmeritvi po odpovedi.
+4. Po selitvi: predavanji CryptoParty lahko v `izpusti_v_feedu`; nova
+   podpisana oznaka ob mejniku (prva: `pred-selitvijo-2026-11`, 19. 11.,
+   podpisal lastnik na Macu; iz oblačne seje push oznak ni dovoljen, 403).
+5. Za pozneje (README »Ideje za naprej«): opozorilo ob odpovedi kopije,
+   GitHub Pages kot rezerva, YouTube, imenovalnik, rezervni dostop za Nejca.
+6. Lastnik želi vprašanja eno po eno. Oblikovanje: majhni, natančni koraki;
+   ob »preveč« vrniti na prejšnjo različico in spremeniti samo omenjeno.
 
 ## Dokumenta zunaj repozitorija
 
