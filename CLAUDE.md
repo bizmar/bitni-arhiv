@@ -251,6 +251,17 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
 - Prenos pisav z GitHuba je blokiran; Jost je vzet iz paketa npm
   `@fontsource-variable/jost`.
 
+## Commiti z lastnikovega Maca
+
+- Od 19. 11. 2026 so podpisani s ključem SSH (samo za podpise, geslo v
+  Keychainu, na GitHubu dodan kot »Signing key«). Avtor je lastnik z
+  GitHubovim naslovom noreply; nastavljeno v lokalni nastavitvi gita tega
+  repozitorija. Claude je naveden kot soavtor (`Co-Authored-By`).
+- Če podpis odpove (po ponovnem zagonu ključ ni naložen):
+  `ssh-add --apple-load-keychain`. Ne commitati brez podpisa.
+- Starejši commiti s Maca ostanejo nepodpisani (zgodovine ne prepisujemo).
+  Commiti iz oblačnih sej jih podpiše GitHub.
+
 ## Tehnične posebnosti
 
 - Šest epizod ima namesto številke posebno oznako: `resnicno-preprosta`,
