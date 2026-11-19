@@ -75,6 +75,9 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   `zgradi_stran.py --prepisi --izhod prepisi-preizkus/splet`,
   `prepisi.py --primerjava`; na koncu vrstica ZAKLJUCEK v
   `prepisi-preizkus/zakljucek.log`).
+- Po `brew upgrade` (nov Python) ločeni procesi izgubijo dostop do mape
+  Documents (»Operation not permitted«, 19. 11.): ustavi ovoj in ga znova
+  zaženi iz seje Claude; narejeno preskoči.
 - Vmesni rezultati so v `prepisi-preizkus/delo/` (v .gitignore), končni v
   `prepisi/` (`--izvozi`, tudi v .gitignore, dokler objava ni odobrena).
 - Izboljšave (`skripte/prepisi_izboljsave.py`): `--imena` doda manjkajoča
