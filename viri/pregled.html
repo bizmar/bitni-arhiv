@@ -45,9 +45,11 @@ h2 { font: 700 18px var(--naslovi); margin: 0 0 10px; color: var(--sinja); }
 .kocka.da.dvom { background: #6A8CB8; border-color: #6A8CB8; }
 .kocka.da.en { box-shadow: inset 0 -4px 0 var(--zelena); }
 .kocka.da.izb { background: var(--sinja); border-color: var(--sinja); }
+.kocka.da.gov { background: var(--zelena); border-color: var(--zelena); }
 .kocka.zdaj { background: var(--oranzna); border-color: var(--oranzna); animation: utrip 1.4s ease-in-out infinite; }
 @keyframes utrip { 50% { opacity: .35; } }
-@media (prefers-reduced-motion: reduce) { .kocka.zdaj { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .kocka.da.gov { background: var(--zelena); border-color: var(--zelena); }
+.kocka.zdaj { animation: none; } }
 .legenda { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 10px; font-size: 13px; color: var(--tiho); }
 .legenda i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 5px; }
 ol { list-style: none; padding: 0; margin: 0; }
@@ -86,6 +88,7 @@ ol li a:hover { color: var(--sinja); }
 <span><i style="background:var(--modra)"></i>prepisano</span>
 <span><i style="background:#6A8CB8"></i>več kot 3 % dvomljivo</span>
 <span><i style="background:var(--modra);box-shadow:inset 0 -4px 0 var(--zelena)"></i>z angleščino</span>
+<span id="leg-gov" hidden><i style="background:var(--zelena)"></i>govorci po stavkih</span>
 <span id="leg-izb" hidden><i style="background:var(--sinja)"></i>izboljšano</span>
 <span><i style="background:var(--oranzna)"></i>zdaj</span>
 <span><i style="background:var(--temno);border:1px solid var(--crta)"></i>čaka</span>
@@ -103,7 +106,7 @@ ol li a:hover { color: var(--sinja); }
 </div>
 </div>
 </div>
-<p class="tiho">Klik na epizodo odpre njen prepis v predogledu. Stran se osvežuje sama.</p>
+<p class="tiho">Klik na epizodo odpre njen prepis v predogledu. Stran se osvežuje sama. <span id="gov-opomba" hidden>Predogled se z novimi govorci osveži največ na 10 minut.</span></p>
 </div>
 
 <script>
@@ -131,7 +134,9 @@ ol li a:hover { color: var(--sinja); }
 		var zdaj = Date.now() / 1000;
 		var narejene = s.epizode.filter(function (e) { return e.k; });
 		var tece = s.ovoj_tece && s.faza === "prepisovanje";
-		var faza = s.faza === "končano" ? ["končano", "koncano"] : s.faza === "izboljšave" ? ["izboljšave", "tece"] :
+		var g = s.govorci, gm = g && !g.koncano && (g.tece || g.narejenih < g.vseh);
+		var faza = gm ? (g.tece ? ["govorci po stavkih", "tece"] : ["govorci: ustavljeno", "ustavljeno"]) :
+			g && g.koncano ? ["končano", "koncano"] : s.faza === "končano" ? ["končano", "koncano"] : s.faza === "izboljšave" ? ["izboljšave", "tece"] :
 			tece ? ["prepisovanje", "tece"] : ["ustavljeno", "ustavljeno"];
 		$("faza").textContent = faza[0];
 		$("faza").className = "faza " + faza[1];
@@ -175,9 +180,36 @@ ol li a:hover { color: var(--sinja); }
 			$("trak").style.width = (100 * (vseKand - manjka) / Math.max(1, vseKand)).toFixed(1) + "%";
 		}
 
+		// 3. faza: govorci po stavkih.
+		$("leg-gov").hidden = !g;
+		$("gov-opomba").hidden = !gm;
+		if (g) {
+			$("st-epizod").textContent = g.narejenih + " / " + g.vseh;
+			$("st-epizod-opis").textContent = "epizod z govorci po stavkih";
+			$("st-ur").textContent = g.zamenjanih;
+			$("st-ur-opis").textContent = "stavkov z drugim govorcem (od " + g.stavkov + ")";
+			$("st-hitrost").textContent = g.hitrost ? g.hitrost.toFixed(1) + "×" : "–";
+			$("st-hitrost-opis").textContent = "hitreje od realnega časa, s hlajenjem";
+			if (g.ostane_sekund && g.tece) {
+				$("st-konec").textContent = ura(s.cas + g.ostane_sekund);
+				$("st-konec-opis").textContent = "konec, še " + trajanje(g.ostane_sekund);
+			} else {
+				$("st-konec").textContent = g.koncano ? "✓" : "–";
+				$("st-konec-opis").textContent = g.koncano ? "vse končano" : "ocena konca";
+			}
+			$("trak").style.width = (100 * g.narejenih / g.vseh).toFixed(1) + "%";
+		}
+		var tg = g && g.trenutna && s.epizode.filter(function (e) { return e.o === g.trenutna; })[0];
+		if (tg) {
+			var pric = g.trenutna_trajanje / (g.hitrost || 10), min = zdaj - (g.trenutna_od || zdaj);
+			$("zdaj").innerHTML = '<h2 style="color:var(--oranzna)">Zdaj: govorci po stavkih</h2><b>' + ubezi(naslov(tg)) + "</b>" +
+				'<div class="trak"><i style="width:' + (100 * Math.min(0.99, min / pric)).toFixed(0) + '%"></i></div>' +
+				'<span class="tiho">' + trajanje(tg.d) + " zvoka · teče " + trajanje(min) + " · ocena še " +
+				trajanje(Math.max(0, pric - min)) + " · besedilo se poravna z zvokom, vsak stavek dobi govorca po glasu</span>";
+		}
 		// Trenutna epizoda: napredek ocenjen iz časa in hitrosti.
 		var tr = s.epizode.filter(function (e) { return e.o === s.trenutna; })[0];
-		if (tr && s.faza === "prepisovanje") {
+		if (tg) { /* že izpisano zgoraj */ } else if (tr && s.faza === "prepisovanje") {
 			var pricakovano = s.trenutna_trajanje / (s.hitrost || 6);
 			var minilo = zdaj - s.trenutna_od;
 			var delez = Math.min(0.99, minilo / pricakovano);
@@ -206,17 +238,28 @@ ol li a:hover { color: var(--sinja); }
 			return '<div class="leto"><span>' + l + '</span><div class="kocke">' + leta[l].map(function (e) {
 				var r = "kocka" + (e.k ? " da" + (e.k.dvom > 3 ? " dvom" : "") + (e.k.en > 5 ? " en" : "") : "") +
 					(iz && pe[e.o] && pe[e.o].n !== undefined ? " izb" : "") +
+					(g && g.po_epizodah[e.o] ? " gov" : "") + (g && e.o === g.trenutna ? " zdaj" : "") +
 					((e.o === s.trenutna && s.faza === "prepisovanje") || (iz && e.o === iz.trenutna) ? " zdaj" : "");
 				var opis = naslov(e) + (e.k ? " · " + (e.k.sekund / e.k.obdelava).toFixed(1) + "× · dvomljivo " + e.k.dvom + " %" : "") +
-					(iz && pe[e.o] ? " · " + pe[e.o].kand + " za izboljšavo" + (pe[e.o].zank ? ", " + pe[e.o].zank + " zank" : "") : "");
+					(iz && pe[e.o] ? " · " + pe[e.o].kand + " za izboljšavo" + (pe[e.o].zank ? ", " + pe[e.o].zank + " zank" : "") : "") +
+					(g && g.po_epizodah[e.o] && g.po_epizodah[e.o].st ? " · " + g.po_epizodah[e.o].spr + " od " + g.po_epizodah[e.o].st + " stavkov drug govorec" : "");
 				return e.k ? '<a class="' + r + '" href="/' + ubezi(e.o) + '?t=0" title="' + ubezi(opis) + '"></a>'
 					: '<span class="' + r + '" title="' + ubezi(opis) + '"></span>';
 			}).join("") + "</div></div>";
 		}).join("");
 
 		// Zadnje končane.
-		$("zadnje-naslov").textContent = iz ? "Zadnje izboljšane" : "Zadnje končane";
-		if (iz) {
+		$("zadnje-naslov").textContent = g ? "Zadnje z govorci po stavkih" : iz ? "Zadnje izboljšane" : "Zadnje končane";
+		if (g) {
+			$("zadnje").innerHTML = g.zadnje.map(function (o) {
+				var e = s.epizode.filter(function (x) { return x.o === o; })[0], p = g.po_epizodah[o];
+				var vPredogledu = g.predogled_ob >= p.t;
+				return '<li><a href="/' + ubezi(o) + '?t=0">' + ubezi(naslov(e)) + '</a><span class="tiho">' + ura(p.t) +
+					'</span><span class="tiho">' + (p.st ? p.spr + " od " + p.st + " stavkov drug govorec · " : "") +
+					'<a href="/govorci-' + ubezi(o) + '" style="display:inline;color:var(--sinja)">zamenjave</a>' +
+					(vPredogledu ? "" : " · v predogledu ob naslednji osvežitvi") + "</span><span></span></li>";
+			}).join("") || '<li><span class="tiho">Še nobena.</span></li>';
+		} else if (iz) {
 			$("zadnje").innerHTML = iz.zadnje.map(function (o) {
 				var e = s.epizode.filter(function (x) { return x.o === o; })[0], p = pe[o] || {};
 				return '<li><a href="/' + ubezi(o) + '?t=0">' + ubezi(naslov(e)) + '</a><span class="tiho">' +

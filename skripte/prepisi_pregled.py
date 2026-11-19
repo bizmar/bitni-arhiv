@@ -25,6 +25,10 @@ DNEVNIK = os.path.join(P.PREIZKUS, "nocno.log")
 DNEVNIKI = [DNEVNIK, os.path.join(P.PREIZKUS, "crypto.log")]
 ZAKLJUCEK = os.path.join(P.PREIZKUS, "zakljucek.log")
 VIR_STRANI = os.path.join(P.KOREN, "viri", "pregled.html")
+GOVORCI_LOG = os.path.join(P.PREIZKUS, "govorci.log")
+# Gradnja predogleda pobriše splet/, zato strani primerjav govorcev hranimo tu.
+SHRAMBA = os.path.join(P.PREIZKUS, "govorci-strani")
+_predogled_ob = [0.0]
 
 
 def temperatura():
@@ -78,6 +82,42 @@ def izboljsave(epizode, zakljucek):
     return {"po_epizodah": vse, "narejenih": len(narejene), "vseh": len(vse), "ostane_odstavkov": ostane,
             "zank": zank, "trenutna": trenutna, "tece": tece,
             "zadnje": [o for o in re.findall(r"^(\S+): \d+ dvomljivih", krog, re.M)][-10:][::-1]}
+
+
+def govorci(epizode):
+    """Napredek govorcev po stavkih (govorci_stavki.py --vse, dnevnik govorci.log)."""
+    if not os.path.exists(GOVORCI_LOG):
+        return None
+    log = open(GOVORCI_LOG, encoding="utf-8", errors="replace").read()
+    stavki = {m[1]: (int(m[2]), int(m[3])) for m in
+              re.finditer(r"^(\S+): (\d+) stavkov, govorec zamenjan pri (\d+)", log, re.M)}
+    po, dolzine = {}, {e["oznaka"]: trajanje(e) for e in epizode}
+    for e in epizode:
+        o = e["oznaka"]
+        pot = os.path.join(P.DELO, o, "stavki.json")
+        if o.startswith("cryptoparty") or not os.path.exists(pot):
+            continue
+        po[o] = {"t": os.path.getmtime(pot), **({"st": stavki[o][0], "spr": stavki[o][1]} if o in stavki else {})}
+    vseh = sum(1 for e in epizode if not e["oznaka"].startswith("cryptoparty"))
+    tece = subprocess.run(["pgrep", "-f", "govorci_noc.sh|govorci_stavki.py --vse"],
+                          capture_output=True).returncode == 0
+    # Dnevnik gre skozi grep in zaostaja (medpomnilnik), zato trenutno epizodo
+    # določimo po istem vrstnem redu kot govorci_stavki.vse().
+    vrstni = sorted((e["oznaka"] for e in epizode if not e["oznaka"].startswith("cryptoparty")),
+                    key=lambda o: (len(o), o))
+    trenutna = next((o for o in vrstni if o not in po), None) if tece else None
+    # Hitrost: sekunde zvoka na sekundo dela, po zadnjih 10 končanih (krajše gredo prve).
+    zadnje = sorted(po.items(), key=lambda x: x[1]["t"])[-11:]
+    ostane = hitrost = None
+    if len(zadnje) >= 3 and zadnje[-1][1]["t"] - zadnje[0][1]["t"] > 0:
+        hitrost = sum(dolzine[o] for o, _ in zadnje[1:]) / (zadnje[-1][1]["t"] - zadnje[0][1]["t"])
+        ostane = round(sum(d for o, d in dolzine.items() if o not in po and not o.startswith("cryptoparty")) / hitrost)
+    return {"po_epizodah": po, "narejenih": len(po), "vseh": vseh, "tece": tece, "trenutna": trenutna,
+            "trenutna_od": max((v["t"] for v in po.values()), default=None),
+            "trenutna_trajanje": dolzine.get(trenutna, 0), "hitrost": hitrost, "ostane_sekund": ostane, "koncano": "ZAKLJUCEK" in log,
+            "zamenjanih": sum(v.get("spr", 0) for v in po.values()),
+            "stavkov": sum(v.get("st", 0) for v in po.values()), "predogled_ob": _predogled_ob[0],
+            "zadnje": [o for o, _ in sorted(po.items(), key=lambda x: -x[1]["t"])[:10]]}
 
 
 def stanje(epizode, trenutna_od):
@@ -142,6 +182,7 @@ def stanje(epizode, trenutna_od):
         "zakljucek": [v for v in zakljucek.splitlines() if v.strip() and "warn" not in v.lower()][-8:],
         "ovoj_tece": subprocess.run(["pgrep", "-f", "prepisi_noc.sh|prepisi.py --vse"], capture_output=True).returncode == 0,
         "izboljsave": izb,
+        "govorci": govorci(epizode),
     }
 
 
@@ -155,9 +196,21 @@ def trajanje(e):
 
 def posodobi_predogled():
     py = sys.executable
+    os.makedirs(SHRAMBA, exist_ok=True)
+    for ime in os.listdir(SPLET) if os.path.isdir(SPLET) else []:
+        if ime.startswith("govorci-") and ime.endswith(".html"):
+            shutil.copy(os.path.join(SPLET, ime), SHRAMBA)
     subprocess.run([py, os.path.join(P.KOREN, "skripte", "prepisi.py"), "--izvozi"], capture_output=True)
     subprocess.run([py, os.path.join(P.KOREN, "skripte", "zgradi_stran.py"), "--prepisi", "--izhod", SPLET],
                    capture_output=True)
+    for ime in os.listdir(SHRAMBA):
+        if not os.path.exists(os.path.join(SPLET, ime)):
+            shutil.copy(os.path.join(SHRAMBA, ime), SPLET)
+    popravki = sorted(o for o in os.listdir(P.DELO) if os.path.exists(os.path.join(P.DELO, o, "popravki.json")))
+    if popravki:
+        subprocess.run([py, os.path.join(P.KOREN, "skripte", "prepisi_popravki.py"), "--preveri", *popravki],
+                       capture_output=True)
+    _predogled_ob[0] = time.time()
 
 
 def pisi(stanje_):
@@ -171,14 +224,18 @@ def pisi(stanje_):
 
 def main():
     epizode = zgradi_stran.preberi_epizode()
-    zgrajenih, trenutna_od = -1, time.time()
+    zgrajenih, trenutna_od = None, time.time()
     while True:
         try:
             s = stanje(epizode, trenutna_od)
-            narejenih = sum(1 for e in s["epizode"] if "k" in e)
-            if narejenih != zgrajenih:
+            g = s["govorci"]
+            narejenih = (sum(1 for e in s["epizode"] if "k" in e), g["narejenih"] if g else 0)
+            # Ob novih govorcih največ na 10 minut (izvoz in gradnja trajata okoli minuto).
+            if narejenih != zgrajenih and (zgrajenih is None or narejenih[0] != zgrajenih[0]
+                                           or time.time() - _predogled_ob[0] > 600):
                 posodobi_predogled()
                 zgrajenih = narejenih
+                s = stanje(epizode, trenutna_od)
             pisi(s)
         except Exception as napaka:
             print(f"napaka pregleda: {napaka}", flush=True)
