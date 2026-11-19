@@ -261,6 +261,11 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   `ssh-add --apple-load-keychain`. Ne commitati brez podpisa.
 - Starejši commiti s Maca ostanejo nepodpisani (zgodovine ne prepisujemo).
   Commiti iz oblačnih sej jih podpiše GitHub.
+- Na `main` velja pravilo GitHuba (ruleset »main: samo podpisani commiti«,
+  od 19. 11. 2026, brez izjem): push z nepodpisanim commitom GitHub zavrne.
+  Takrat commit podpiši (`git commit --amend -S --no-edit` oz. pri več
+  commitih `git rebase --exec 'git commit --amend -S --no-edit' origin/main`
+  za še ne pushane commite) in pushaj znova.
 
 ## Tehnične posebnosti
 
