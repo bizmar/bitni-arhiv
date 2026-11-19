@@ -64,7 +64,7 @@ def vtt(prepis):
     return "\n".join(vrstice)
 
 
-def razdelek(oznaka):
+def razdelek(oznaka, netocno=False):
     """HTML razdelek s prepisom za stran epizode (prazen niz, če prepisa ni)."""
     p = nalozi(oznaka)
     if not p:
@@ -83,7 +83,7 @@ def razdelek(oznaka):
 <details class="razdelek prepis-ovoj" open>
 <summary><span class="gumb oranzen prepis-gumb">Strojni prepis<span class="prepis-puscica" aria-hidden="true"></span></span>
 <span class="prepis-opozorilo">Lahko vsebuje napake, za točen citat poslušaj.</span></summary>
-<p class="tiho">Klik na čas začne predvajanje na tem mestu. Prepis kot <a href="/prepisi/{escape(oznaka)}.vtt">WebVTT</a>.</p>
+<p class="tiho">Klik na čas začne predvajanje na tem mestu. Prepis kot <a href="/prepisi/{escape(oznaka)}.vtt">WebVTT</a>.{(chr(10) + "Pri tej epizodi se po skoku zvok in prepis lahko nekaj sekund ne ujemata, ker je posnetek tak.") if netocno else ""}</p>
 <div data-prepis>
 <div class="prepis-orodja" hidden>
 <input type="search" class="prepis-iskanje" placeholder="Išči po prepisu …" aria-label="Išči po prepisu">

@@ -346,7 +346,7 @@ def stran_epizode(n, e, prejsnja, naslednja):
 <div class="opombe">
 {e['opombe']}
 </div>
-{poglavja}{(chr(10) + prepisi_stran.razdelek(e["oznaka"])) if PREPISI else ""}
+{poglavja}{(chr(10) + prepisi_stran.razdelek(e["oznaka"], e["oznaka"] in n.get("netocno_preskakanje", []))) if PREPISI else ""}
 <nav class="sosednje" aria-label="Sosednji epizodi">
 {sosednje}
 </nav>

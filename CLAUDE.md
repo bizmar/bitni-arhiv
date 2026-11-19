@@ -154,7 +154,9 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   skoku na čas zgreši tudi za 10–25 s; po ogledu več mest postane točno.
   Prepis in predvajalnik nista kriva. Lastnik je odločil: pusti tako
   (datoteke ostanejo enake kot na Fireside, brez prepakiranja v CBR).
-  **Za sejo, ki dela stran:** na strani teh epizod dodati kratko opozorilo
+  **Narejeno 19. 11. (seja, ki dela stran):** seznam je v `nastavitve.json`
+  (`netocno_preskakanje`), opozorilo je v vrstici pod gumbom prepisa.
+  Prvotna naloga: na strani teh epizod dodati kratko opozorilo
   (npr. ob prepisu: pri skoku na čas se lahko prepis in zvok za nekaj
   sekund ne ujemata, ker je posnetek tak; od začetka teče usklajeno).
   Epizode: 55 57 59 63 64 66 68a 68b 70 72 74 76 78 79 81 83 85 87 88 90 93 95 97 99 100 102 104 107 109 110 112 114 115 117 119 121 123 125 127 129 131 133 135 137 139 140 (oznake datotek;
