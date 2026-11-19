@@ -135,6 +135,13 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   popravkov je pravilnih. Datum v uvodu se lahko razlikuje od datuma v
   feedu (posneto prej kot objavljeno); to ni napaka, podagentom ne javljati.
   Nato serije po 10–20.
+- **19. 11.: prva serija 10 epizod** (5 30 45 70 90 120 135 165 185 210),
+  po koncu govorcev za vse epizode. Podagent zdaj sam zapiše tudi
+  `popravki-negotovo.json`. 420 popravkov, vsi uporabljeni. Popravke
+  številk, ki popravljajo dejstvo namesto slišanega (npr. 15,3 → 12,5),
+  premakni med negotove. Poraba: okoli 100–135 tisoč žetonov na epizodo
+  (Sonnet high, povprečno 111 tisoč, po poročilu Claude Code), 1–2,5 min
+  na epizodo, 10 vzporedno v okoli 2,5 min.
 - **18. 11.: govorci po stavkih** (`skripte/govorci_stavki.py <oznaka>`):
   obstoječe besedilo se poravna z zvokom (Whisper forced alignment), stavke,
   ki jih je stara delitev presekala, združi, vsak stavek ≥1,2 s in ≥3
