@@ -148,6 +148,10 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   oznako). Povprečno 110 tisoč žetonov na epizodo (83–147 tisoč), skupaj
   2,2 milijona. Po 2. seriji 35 epizod, 1518 popravkov, vsi uporabljeni.
   Izbira naslednjih: enakomerno po še nenarejenih (brez cryptoparty).
+- **19. 11.: tretja serija 20 epizod** (2 13 25 36 47 59 71 80 93 104 113
+  124 137 146 157 169 179 190 201 204-1). Povprečno 106 tisoč žetonov
+  (69–124 tisoč), skupaj 2,1 milijona, 20 vzporedno v okoli 2,5 min.
+  Skupaj 55 epizod, 2191 popravkov, vsi uporabljeni. Še 158 epizod.
 - **18. 11.: govorci po stavkih** (`skripte/govorci_stavki.py <oznaka>`):
   obstoječe besedilo se poravna z zvokom (Whisper forced alignment), stavke,
   ki jih je stara delitev presekala, združi, vsak stavek ≥1,2 s in ≥3
