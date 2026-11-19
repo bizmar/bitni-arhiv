@@ -142,6 +142,12 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   premakni med negotove. Poraba: okoli 100–135 tisoč žetonov na epizodo
   (Sonnet high, povprečno 111 tisoč, po poročilu Claude Code), 1–2,5 min
   na epizodo, 10 vzporedno v okoli 2,5 min.
+- **19. 11.: druga serija 20 epizod** (1 12 24 35 46 58 69 81 92 103 114
+  125 136 147 158 170 180 191 202 resnicno-preprosta). Navodila za
+  podagenta so zdaj v `skripte/popravki_navodila.md` (podagent dobi le
+  oznako). Povprečno 110 tisoč žetonov na epizodo (83–147 tisoč), skupaj
+  2,2 milijona. Po 2. seriji 35 epizod, 1518 popravkov, vsi uporabljeni.
+  Izbira naslednjih: enakomerno po še nenarejenih (brez cryptoparty).
 - **18. 11.: govorci po stavkih** (`skripte/govorci_stavki.py <oznaka>`):
   obstoječe besedilo se poravna z zvokom (Whisper forced alignment), stavke,
   ki jih je stara delitev presekala, združi, vsak stavek ≥1,2 s in ≥3
