@@ -157,6 +157,14 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   (92–137 tisoč), skupaj 2,2 milijona. Popravki številk so bili vsi prave
   napake prepoznave (npr. »2.11« → »2011«), nobeden ni premaknjen.
   Skupaj 75 epizod, 3087 popravkov, vsi uporabljeni.
+- **22. 11.: peta serija 20 epizod** (4 15 23 38 49 60 67 79 94 105 112
+  123 138 148 156 167 177 192 199 68a). Povprečno 117 tisoč žetonov
+  (97–156 tisoč), skupaj 2,3 milijona. Med negotove premaknjena: 67
+  »Google One« → »Android One« (6×, morda je govorec res rekel tako) in
+  177 »940« → »240«. »Marko« → »Marco« (povsod) pri 68a je pravilno
+  (vedno Marco Arment). **Skupaj 95 epizod, 4079 popravkov, vsi
+  uporabljeni. Ostane 118 epizod** (okoli 6 serij po 20, okoli 13
+  milijonov žetonov). Lastnik nadaljuje s »naslednjih 20«.
 - **Postopek serije (za nadaljevanje):** izbira 20 enakomerno po še
   nenarejenih (oznake brez `popravki.json`, urejeno po (dolžina, oznaka),
   brez cryptoparty); `prepisi_popravki.py --pripravi <oznake>`; za vsako
