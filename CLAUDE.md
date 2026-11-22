@@ -152,6 +152,24 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   124 137 146 157 169 179 190 201 204-1). Povprečno 106 tisoč žetonov
   (69–124 tisoč), skupaj 2,1 milijona, 20 vzporedno v okoli 2,5 min.
   Skupaj 55 epizod, 2191 popravkov, vsi uporabljeni. Še 158 epizod.
+- **20.–22. 11.: četrta serija 20 epizod** (3 14 26 37 48 57 72 82 91 102
+  115 126 134 145 159 168 178 189 200 68b). Povprečno 111 tisoč žetonov
+  (92–137 tisoč), skupaj 2,2 milijona. Popravki številk so bili vsi prave
+  napake prepoznave (npr. »2.11« → »2011«), nobeden ni premaknjen.
+  Skupaj 75 epizod, 3087 popravkov, vsi uporabljeni.
+- **Postopek serije (za nadaljevanje):** izbira 20 enakomerno po še
+  nenarejenih (oznake brez `popravki.json`, urejeno po (dolžina, oznaka),
+  brez cryptoparty); `prepisi_popravki.py --pripravi <oznake>`; za vsako
+  oznako podagent Sonnet high s pozivom »Read and follow exactly the
+  instructions in skripte/popravki_navodila.md for episode <O> = X«, v
+  ozadju, vseh 20 hkrati; porabo (subagent_tokens iz obvestila) beleži v
+  scratchpad. Po koncu: izpiši popravke, ki spremenijo števke ali dodajo
+  »AI«; tiste, ki popravljajo dejstvo, premakni v `popravki-negotovo.json`;
+  shrani `splet/govorci-*.html` v `prepisi-preizkus/govorci-strani/`,
+  `prepisi.py --izvozi`, `zgradi_stran.py --prepisi --izhod
+  prepisi-preizkus/splet`, vrni manjkajoče strani govorcev,
+  `prepisi_popravki.py --preveri <vse z popravki.json>`; v poročilu mora
+  biti »neuporabljenih 0« povsod.
 - **18. 11.: govorci po stavkih** (`skripte/govorci_stavki.py <oznaka>`):
   obstoječe besedilo se poravna z zvokom (Whisper forced alignment), stavke,
   ki jih je stara delitev presekala, združi, vsak stavek ≥1,2 s in ≥3
