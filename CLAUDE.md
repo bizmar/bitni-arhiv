@@ -164,7 +164,14 @@ MP3) s Fireside na brezplačno statično gostovanje. Cilji po pomembnosti:
   177 »940« → »240«. »Marko« → »Marco« (povsod) pri 68a je pravilno
   (vedno Marco Arment). **Skupaj 95 epizod, 4079 popravkov, vsi
   uporabljeni. Ostane 118 epizod** (okoli 6 serij po 20, okoli 13
-  milijonov žetonov). Lastnik nadaljuje s »naslednjih 20«.
+  milijonov žetonov).
+- **24. 11.: šesta serija 20 epizod** (8 19 29 40 51 62 74 84 95 106
+  111 122 132 143 154 164 175 186 196 207). Povprečno 115 tisoč žetonov
+  (100–126 tisoč), skupaj 2,3 milijona, 20 vzporedno v okoli 3 min. Med
+  negotove premaknjena: 40 »preenacija 3 GHz« → »pri 1,3 GHz« (dejstvo)
+  in 122 »SP3« → »Shopi« (ugibanje). **Skupaj 115 epizod, 5032 popravkov,
+  vsi uporabljeni. Ostane 98 epizod** (okoli 5 serij). Lastnik nadaljuje
+  s »naslednjih 20«.
 - **Postopek serije (za nadaljevanje):** izbira 20 enakomerno po še
   nenarejenih (oznake brez `popravki.json`, urejeno po (dolžina, oznaka),
   brez cryptoparty); `prepisi_popravki.py --pripravi <oznake>`; za vsako
